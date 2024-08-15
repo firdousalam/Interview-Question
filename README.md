@@ -161,12 +161,13 @@ This is how Node manages concurrency.
 
 Source: codeforgeek.com
 
-Q13: What is Callback Hell? ☆☆
+# Q13: What is Callback Hell? ☆☆
 Answer: The asynchronous function requires callbacks as a return parameter. When multiple asynchronous functions are chained together then callback hell situation comes up.
 
 Source: codeforgeek.com
 
-Q14: Could we run an external process with Node.js? ☆☆
+# Q14: Could we run an external process with Node.js? ☆☆
+
 Answer: Yes. Child process module enables us to access operating system functionaries or other apps. Scalability is baked into Node and child processes are the key factors to scale our application. You can use child process to run system commands, read large files without blocking event loop, decompose the application into various “nodes” (That’s why it’s called Node).
 
 Child process module has following three major ways to create child processes –
@@ -176,17 +177,17 @@ exec - child_process.exec method runs a command in a shell/console and buffers t
 fork - The child_process.fork method is a special case of the spawn() to create child processes.
 Source: codeforgeek.com
 
-Q15: List out the differences between AngularJS and NodeJS? ☆☆
+# Q15: List out the differences between AngularJS and NodeJS? ☆☆
 Answer: AngularJS is a web application development framework. It’s a JavaScript and it is different from other web app frameworks written in JavaScript like jQuery. NodeJS is a runtime environment used for building server-side applications while AngularJS is a JavaScript framework mainly useful in building/developing client-side part of applications which run inside a web browser.
 
 Source: a4academics.com
 
-Q16: How you can monitor a file for modifications in Node.js ? ☆☆
+# Q16: How you can monitor a file for modifications in Node.js ? ☆☆
 Answer: We can take advantage of File System watch() function which watches the changes of the file.
 
 Source: codingdefined.com
 
-Q17: What are the core modules of Node,js? ☆☆
+# Q17: What are the core modules of Node,js? ☆☆
 Answer:
 
 EventEmitter
@@ -301,8 +302,10 @@ Every method in fs module has synchronous as well as asynchronous form. Asynchro
 
 Source: tutorialspoint.com
 
-Q29: What are streams? ☆☆☆
-Answer: Streams are objects that let you read data from a source or write data to a destination in continuous fashion. In Node.js, there are four types of streams.
+# Q29: What are streams? ☆☆☆
+Answer:
+The official Node.js documentation defines streams as “A stream is an abstract interface for working with streaming data in Node.js.” The stream module provides an API for implementing the stream interface. Examples of the stream object in Node.js can be a request to an HTTP server and process.stdout are both stream instances. In short, Streams are objects in Node.js that lets the user read data from a source or write data to a destination in a continuous manner.
+Streams are objects that let you read data from a source or write data to a destination in continuous fashion. In Node.js, there are four types of streams.
 
 Readable - Stream which is used for read operation.
 Writable - Stream which is used for write operation.
