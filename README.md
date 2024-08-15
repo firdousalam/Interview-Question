@@ -1,13 +1,14 @@
 # Nodejs Interview-Question
 
-Interview Questions
-Node.js
-Q1: What do you mean by Asynchronous API? ☆☆
+
+# Q1: What do you mean by Asynchronous API? 
+
 Answer: All APIs of Node.js library are aynchronous that is non-blocking. It essentially means a Node.js based server never waits for a API to return data. Server moves to next API after calling it and a notification mechanism of Events of Node.js helps server to get response from the previous API call.
 
 Source: tutorialspoint.com
 
-Q2: What are the benefits of using Node.js? ☆☆
+# Q2: What are the benefits of using Node.js? ☆☆
+
 Answer: Following are main benefits of using Node.js
 
 Aynchronous and Event Driven - All APIs of Node.js library are aynchronous that is non-blocking. It essentially means a Node.js based server never waits for a API to return data. Server moves to next API after calling it and a notification mechanism of Events of Node.js helps server to get response from the previous API call.
@@ -16,7 +17,8 @@ Single Threaded but highly Scalable - Node.js uses a single threaded model with 
 No Buffering - Node.js applications never buffer any data. These applications simply output the data in chunks.
 Source: tutorialspoint.com
 
-Q3: Is Node a single threaded application? ☆☆
+# Q3: Is Node a single threaded application? ☆☆
+
 Answer: Yes! Node uses a single threaded model with event looping.
 
 Source: tutorialspoint.com
