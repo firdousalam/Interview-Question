@@ -11,9 +11,14 @@ Source: tutorialspoint.com
 
 Answer: Following are main benefits of using Node.js
 
-Aynchronous and Event Driven - All APIs of Node.js library are aynchronous that is non-blocking. It essentially means a Node.js based server never waits for a API to return data. Server moves to next API after calling it and a notification mechanism of Events of Node.js helps server to get response from the previous API call.
+Aynchronous and Event Driven - All APIs of Node.js library are aynchronous that is non-blocking. 
+It essentially means a Node.js based server never waits for a API to return data. Server moves to next API after calling it and a notification mechanism of Events of Node.js helps server to get response from the previous API call.
+
 Very Fast - Being built on Google Chrome's V8 JavaScript Engine, Node.js library is very fast in code execution.
-Single Threaded but highly Scalable - Node.js uses a single threaded model with event looping. Event mechanism helps server to respond in a non-bloking ways and makes server highly scalable as opposed to traditional servers which create limited threads to handle requests. Node.js uses a single threaded program and same program can services much larger number of requests than traditional server like Apache HTTP Server.
+
+Single Threaded but highly Scalable - Node.js uses a single threaded model with event looping. Event mechanism helps server to respond in a non-bloking ways and makes server highly scalable as opposed to traditional servers which create limited threads to handle requests.
+Node.js uses a single threaded program and same program can services much larger number of requests than traditional server like Apache HTTP Server.
+
 No Buffering - Node.js applications never buffer any data. These applications simply output the data in chunks.
 Source: tutorialspoint.com
 
@@ -23,12 +28,15 @@ Answer: Yes! Node uses a single threaded model with event looping.
 
 Source: tutorialspoint.com
 
-Q4: What is global installation of dependencies? ☆☆
-Answer: Globally installed packages/dependencies are stored in /npm directory. Such dependencies can be used in CLI (Command Line Interface) function of any node.js but can not be imported using require() in Node application directly. To install a Node project globally use -g flag.
+#Q4: What is global installation of dependencies? ☆☆
+
+Answer: Globally installed packages/dependencies are stored in /npm directory. 
+Such dependencies can be used in CLI (Command Line Interface) function of any node.js but can not be imported using require() in Node application directly. To install a Node project globally use -g flag.
 
 Source: tutorialspoint.com
 
-Q5: What is an error-first callback? ☆☆
+#Q5: What is an error-first callback? ☆☆
+
 Answer: Error-first callbacks are used to pass errors and data. The first argument is always an error object that the programmer has to check if something went wrong. Additional arguments are used to pass data.
 
 fs.readFile(filePath, function(err, data) {
@@ -39,12 +47,14 @@ fs.readFile(filePath, function(err, data) {
 });
 Source: tutorialspoint.com
 
-Q6: What's the difference between operational and programmer errors? ☆☆
+#Q6: What's the difference between operational and programmer errors? ☆☆
+
 Answer: Operation errors are not bugs, but problems with the system, like request timeout or hardware failure. On the other hand programmer errors are actual bugs.
 
 Source: blog.risingstack.com
 
-Q7: What is the difference between Nodejs, AJAX, and jQuery? ☆☆
+#Q7: What is the difference between Nodejs, AJAX, and jQuery? ☆☆
+
 Answer: The one common trait between Node.js, AJAX, and jQuery is that all of them are the advanced implementation of JavaScript. However, they serve completely different purposes.
 
 Node.js –It is a server-side platform for developing client-server applications. For example, if we’ve to build an online employee management system, then we won’t do it using client-side JS. But the Node.js can certainly do it as it runs on a server similar to Apache, Django not in a browser.
@@ -55,7 +65,8 @@ jQuery –It is a famous JavaScript module which complements AJAX, DOM traversal
 
 Source: techbeamers.com
 
-Q8: How to make Post request in Node.js? ☆☆
+# Q8: How to make Post request in Node.js? ☆☆
+
 Answer: Following code snippet can be used to make a Post Request in Node.js.
 
 var request = require('request');
@@ -70,20 +81,29 @@ request.post('http://www.example.com/action', {
 });
 Source: techbeamers.com
 
-Q9: What are the key features of Node.js? ☆☆
+# Q9: What are the key features of Node.js? ☆☆
 Answer: Let’s look at some of the key features of Node.js.
 
 Asynchronous event driven IO helps concurrent request handling – All APIs of Node.js are asynchronous. This feature means that if a Node receives a request for some Input/Output operation, it will execute that operation in the background and continue with the processing of other requests. Thus it will not wait for the response from the previous requests.
-Fast in Code execution – Node.js uses the V8 JavaScript Runtime engine, the one which is used by Google Chrome. Node has a wrapper over the JavaScript engine which makes the runtime engine much faster and hence processing of requests within Node.js also become faster.
-Single Threaded but Highly Scalable – Node.js uses a single thread model for event looping. The response from these events may or may not reach the server immediately. However, this does not block other operations. Thus making Node.js highly scalable. Traditional servers create limited threads to handle requests while Node.js creates a single thread that provides service to much larger numbers of such requests.
-Node.js library uses JavaScript – This is another important aspect of Node.js from the developer’s point of view. The majority of developers are already well-versed in JavaScript. Hence, development in Node.js becomes easier for a developer who knows JavaScript.
+
+# Fast in Code execution – Node.js uses the V8 JavaScript Runtime engine, the one which is used by Google Chrome. Node has a wrapper over the JavaScript engine which makes the runtime engine much faster and hence processing of requests within Node.js also become faster.
+
+# Single Threaded but Highly Scalable – Node.js uses a single thread model for event looping. The response from these events may or may not reach the server immediately. However, this does not block other operations. Thus making Node.js highly scalable. Traditional servers create limited threads to handle requests while Node.js creates a single thread that provides service to much larger numbers of such requests.
+
+# Node.js library uses JavaScript – This is another important aspect of Node.js from the developer’s point of view. The majority of developers are already well-versed in JavaScript. Hence, development in Node.js becomes easier for a developer who knows JavaScript.
+
 There is an Active and vibrant community for the Node.js framework – The active community always keeps the framework updated with the latest trends in the web development.
-No Buffering – Node.js applications never buffer any data. They simply output the data in chunks.
+
+# No Buffering – Node.js applications never buffer any data. They simply output the data in chunks.
 Source: techbeamers.com
 
-Q10: What is control flow function? ☆☆
+# Q10: What is control flow function? ☆☆
+
 Answer: It is a generic piece of code which runs in between several asynchronous function calls is known as control flow function.
 
+Control flow determines the order in which statements and instructions are executed within a program. It involves making decisions, repeating code blocks, and reacting to events or conditions. In Node. js, control flow is crucial due to its non-blocking nature, where asynchronous operations are a common occurrence.
+
+example Callback,asynch await ,promise
 Source: lazyquestion.com
 
 Q11: What are Event Listeners? ☆☆
