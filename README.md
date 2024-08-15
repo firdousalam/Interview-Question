@@ -28,14 +28,14 @@ Answer: Yes! Node uses a single threaded model with event looping.
 
 Source: tutorialspoint.com
 
-#Q4: What is global installation of dependencies? ☆☆
+# Q4: What is global installation of dependencies? ☆☆
 
 Answer: Globally installed packages/dependencies are stored in /npm directory. 
 Such dependencies can be used in CLI (Command Line Interface) function of any node.js but can not be imported using require() in Node application directly. To install a Node project globally use -g flag.
 
 Source: tutorialspoint.com
 
-#Q5: What is an error-first callback? ☆☆
+# Q5: What is an error-first callback? ☆☆
 
 Answer: Error-first callbacks are used to pass errors and data. The first argument is always an error object that the programmer has to check if something went wrong. Additional arguments are used to pass data.
 
@@ -47,13 +47,13 @@ fs.readFile(filePath, function(err, data) {
 });
 Source: tutorialspoint.com
 
-#Q6: What's the difference between operational and programmer errors? ☆☆
+# Q6: What's the difference between operational and programmer errors? ☆☆
 
 Answer: Operation errors are not bugs, but problems with the system, like request timeout or hardware failure. On the other hand programmer errors are actual bugs.
 
 Source: blog.risingstack.com
 
-#Q7: What is the difference between Nodejs, AJAX, and jQuery? ☆☆
+# Q7: What is the difference between Nodejs, AJAX, and jQuery? ☆☆
 
 Answer: The one common trait between Node.js, AJAX, and jQuery is that all of them are the advanced implementation of JavaScript. However, they serve completely different purposes.
 
@@ -106,14 +106,53 @@ Control flow determines the order in which statements and instructions are execu
 example Callback,asynch await ,promise
 Source: lazyquestion.com
 
-Q11: What are Event Listeners? ☆☆
+# Q11: What are Event ? ☆☆
+
+Much of the Node.js core API is built around an idiomatic asynchronous event-driven architecture in which certain kinds of objects (called "emitters") emit named events that cause Function objects ("listeners") to be called.
+
+For instance: a net.Server object emits an event each time a peer connects to it; a fs.ReadStream emits an event when the file is opened; a stream emits an event whenever data is available to be read.
+
+All objects that emit events are instances of the EventEmitter class. These objects expose an eventEmitter.on() function that allows one or more functions to be attached to named events emitted by the object. Typically, event names are camel-cased strings but any valid JavaScript property key can be used.
+
+When the EventEmitter object emits an event, all of the functions attached to that specific event are called synchronously. Any values returned by the called listeners are ignored and discarded.
+
+The following example shows a simple EventEmitter instance with a single listener. The eventEmitter.on() method is used to register listeners, while the eventEmitter.emit() method is used to trigger the event.
+
+const EventEmitter = require('node:events');
+
+class MyEmitter extends EventEmitter {}
+
+const myEmitter = new MyEmitter();
+myEmitter.on('event', () => {
+  console.log('an event occurred!');
+});
+myEmitter.emit('event');
+Passing arguments and this to listeners#
+The eventEmitter.emit() method allows an arbitrary set of arguments to be passed to the listener functions. Keep in mind that when an ordinary listener function is called, the standard this keyword is intentionally set to reference the EventEmitter instance to which the listener is attached.
+
+const EventEmitter = require('node:events');
+class MyEmitter extends EventEmitter {}
+const myEmitter = new MyEmitter();
+myEmitter.on('event', function(a, b) {
+  console.log(a, b, this, this === myEmitter);
+  // Prints:
+  //   a b MyEmitter {
+  //     _events: [Object: null prototype] { event: [Function (anonymous)] },
+  //     _eventsCount: 1,
+  //     _maxListeners: undefined,
+  //     [Symbol(shapeMode)]: false,
+  //     [Symbol(kCapture)]: false
+  //   } true
+});
+myEmitter.emit('event', 'a', 'b');
 Answer: Event Listeners are similar to call back functions but are associated with some event. For example when a server listens to http request on a given port a event will be generated and to specify http server has received and will invoke corresponding event listener. Basically, Event listener's are also call backs for a corresponding event.
 
 Node.js has built in event's and built in event listeners. Node.js also provides functionality to create Custom events and Custom Event listeners.
 
 Source: lazyquestion.com
 
-Q12: If Node.js is single threaded then how it handles concurrency? ☆☆
+# Q12: If Node.js is single threaded then how it handles concurrency? ☆☆
+
 Answer: Node provides a single thread to programmers so that code can be written easily and without bottleneck. Node internally uses multiple POSIX threads for various I/O operations such as File, DNS, Network calls etc.
 
 When Node gets I/O request it creates or uses a thread to perform that I/O operation and once the operation is done, it pushes the result to the event queue. On each such event, event loop runs and checks the queue and if the execution stack of Node is empty then it adds the queue result to execution stack.
