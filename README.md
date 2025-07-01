@@ -1383,3 +1383,46 @@ async function addAsync(x) {
 addAsync(10).then((sum) => {
   console.log(sum);
 });
+
+
+
+##### AWS Practioneer Question ######
+
+# 1. A company needs to keep sensitive data in its own data center due to compliance but would still like to deploy resources using AWS. Which Cloud deployment model does this refer to?
+
+1.on-primise
+2. Private
+3. hybrid
+4. public
+
+ans 3 Hybrid
+
+# 2. A corporation would like to simplify access management to multiple AWS accounts as well as facilitate AWS Single Sign-On (AWS SSO) access to its AWS accounts. As a Cloud Practitioner, which AWS service would you use for this task?
+
+1. AWS identity and access management
+2. AWS Iam Identity center
+3. AWs Cognito
+4. aws cli
+
+ans 2 aws IAM identity center
+# 3. Question 3 Which Amazon Elastic Compute Cloud (Amazon EC2) Auto Scaling feature can help with fault tolerance?
+
+1. Distributing load to Amazon EC2 instances
+2. Lower cost by adjusting the number of Amazon EC2 instances
+3.Replacing unhealthy Amazon EC2 instances
+4. Having the right amount of computing capacity
+
+  ANS 3
+
+  
+
+
+
+
+
+
+
+
+
+
+
