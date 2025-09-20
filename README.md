@@ -302,6 +302,200 @@ function myPromiseAll(promises) {
   });
 }
 
+# 22 First Non-Repeating Character
+
+function firstUniqueChar(str) {
+
+  const freq = {};
+  for (let ch of str) freq[ch] = (freq[ch] || 0) + 1;
+  
+  for (let i = 0; i < str.length; i++) {
+  
+    if (freq[str[i]] === 1) return str[i];
+    
+  }
+  
+  return null;
+  
+}
+console.log(firstUniqueChar("swiss")); // "w"
+
+
+# 23. FizzBuzz
+
+function fizzBuzz(n) {
+  for (let i = 1; i <= n; i++) {
+    let out = "";
+    if (i % 3 === 0) out += "Fizz";
+    if (i % 5 === 0) out += "Buzz";
+    console.log(out || i);
+  }
+}
+fizzBuzz(15);
+
+# 24 . Factorial (Recursive)
+
+function factorial(n) {
+
+  if (n <= 1) return 1;
+  return n * factorial(n - 1);
+  
+}
+
+# 25 Prime Number Check
+
+function isPrime(n) {
+
+  if (n <= 1) return false;
+  
+  for (let i = 2; i * i <= n; i++) {
+  
+    if (n % i === 0) return false;
+  }
+  return true;
+}
+console.log(isPrime(29)); // true
+console.log(factorial(5)); // 120
+
+# 26 Fibonacci Sequence
+
+function fibonacci(n) {
+
+  const seq = [0, 1];
+  
+  for (let i = 2; i < n; i++) {
+  
+    seq.push(seq[i - 1] + seq[i - 2]);
+    
+  }
+  return seq.slice(0, n);
+}
+
+console.log(fibonacci(7)); // [0,1,1,2,3,5,8]
+
+# 27 . Sum of Digits
+
+function sumDigits(num) {
+
+  return num.toString().split("").reduce((s, d) => s + +d, 0);
+  
+}
+
+console.log(sumDigits(1234)); // 10
+
+# 28 11. Find Max Number
+
+function findMax(arr) {
+
+  return Math.max(...arr);
+  
+}
+
+console.log(findMax([1, 7, 3, 9])); // 9
+
+# 29 . Remove Duplicates
+
+function removeDuplicates(arr) {
+
+  return [...new Set(arr)];
+  
+}
+
+console.log(removeDuplicates([1, 2, 2, 3, 4, 4])); // [1,2,3,4]
+
+# 30 Find Missing Number
+function findMissing(arr) {
+  const n = arr.length + 1;
+  const sum = (n * (n + 1)) / 2;
+  return sum - arr.reduce((a, b) => a + b, 0);
+}
+console.log(findMissing([1, 2, 4, 5])); // 3
+
+# 31 Intersection of Two Arrays
+
+function intersect(arr1, arr2) {
+
+  return arr1.filter(x => arr2.includes(x));
+  
+}
+
+console.log(intersect([1,2,3], [2,3,4])); // [2,3]
+
+# 32 Rotate Array by K
+
+function rotateArray(arr, k) {
+
+  k = k % arr.length;
+  
+  return arr.slice(-k).concat(arr.slice(0, -k));
+  
+}
+
+console.log(rotateArray([1,2,3,4,5], 2)); // [4,5,1,2,3]
+
+# 33  Deep Clone an Object
+
+function deepClone(obj) {
+
+  return JSON.parse(JSON.stringify(obj));
+  
+}
+
+console.log(deepClone({a:1, b:{c:2}})); // {a:1, b:{c:2}}
+
+# 34 Merge Two Objects
+
+function mergeObjects(obj1, obj2) {
+
+  return {...obj1, ...obj2};
+  
+}
+
+console.log(mergeObjects({a:1}, {b:2})); // {a:1, b:2}
+
+# 35 Count Keys in Object
+
+function countKeys(obj) {
+
+  return Object.keys(obj).length;
+  
+}
+
+console.log(countKeys({a:1, b:2, c:3})); // 3
+
+# 36 Check if Object is Empty
+
+function isEmpty(obj) {
+
+  return Object.keys(obj).length === 0;
+  
+}
+
+console.log(isEmpty({})); // true
+
+# 37 Group By Property
+
+function groupBy(arr, key) {
+
+  return arr.reduce((res, obj) => {
+  
+    const val = obj[key];
+    
+    res[val] = res[val] || [];
+    res[val].push(obj);
+    return res;
+    
+  }, {});
+  
+}
+
+console.log(groupBy([{type:"fruit", name:"apple"}, {type:"fruit", name:"banana"}, {type:"veg", name:"carrot"}], "type"));
+
+// { fruit: [{...}, {...}], veg: [{...}] }
+
+
+
+
 # 🚀 20 Top HackerRank Coding Questions (with Solutions in JavaScript)
 1. Two Sum Problem
 
