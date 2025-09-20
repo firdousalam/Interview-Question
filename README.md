@@ -301,6 +301,256 @@ function myPromiseAll(promises) {
     });
   });
 }
+# 50 Problems → LeetCode Links + Hints (quick reference)
+
+Two Sum — https://leetcode.com/problems/two-sum/
+
+Hint: Hash map for complement → O(n) time, O(n) space.
+
+
+Reverse a String — https://leetcode.com/problems/reverse-string/
+
+Hint: Two-pointer swap or built-ins → O(n) time, O(1) extra.
+
+
+Valid Parentheses — https://leetcode.com/problems/valid-parentheses/
+
+Hint: Stack, mapping pairs → O(n) time, O(n) space.
+
+
+Merge Intervals — https://leetcode.com/problems/merge-intervals/
+
+Hint: Sort by start, merge overlapping → O(n log n) time.
+
+
+Maximum Subarray (Kadane) — https://leetcode.com/problems/maximum-subarray/
+
+Hint: Running max/current sum → O(n) time, O(1) space.
+
+
+Product of Array Except Self — https://leetcode.com/problems/product-of-array-except-self/
+
+Hint: Prefix & suffix products (no division) → O(n) time, O(1) extra.
+
+
+Rotate Image (matrix 90°) — https://leetcode.com/problems/rotate-image/
+
+Hint: Transpose + reverse rows → O(n²) time, O(1) space.
+
+
+Search in Rotated Sorted Array — https://leetcode.com/problems/search-in-rotated-sorted-array/
+
+Hint: Modified binary search with partition check → O(log n).
+
+
+Climbing Stairs — https://leetcode.com/problems/climbing-stairs/
+
+Hint: Fibonacci DP iterative → O(n) time, O(1) space.
+
+
+Longest Substring Without Repeating Characters — https://leetcode.com/problems/longest-substring-without-repeating-characters/
+
+Hint: Sliding window + set / map → O(n) time.
+
+
+Group Anagrams — https://leetcode.com/problems/group-anagrams/
+
+Hint: Sort string or char-count signature as key → O(n * k log k) or O(nk).
+
+
+Valid Anagram — https://leetcode.com/problems/valid-anagram/
+
+Hint: Frequency maps or sort → O(n) time.
+
+
+First Unique Character in a String — https://leetcode.com/problems/first-unique-character-in-a-string/
+
+Hint: Count freq then scan → O(n) time.
+
+
+Two Sum (Indices) — (same as #1) — https://leetcode.com/problems/two-sum/
+
+Hint: same as above.
+
+
+Subarray Sum Equals K — https://leetcode.com/problems/subarray-sum-equals-k/
+
+Hint: Prefix sum + hashmap of prefix counts → O(n) time.
+
+
+Longest Palindromic Substring — https://leetcode.com/problems/longest-palindromic-substring/
+
+Hint: Expand-around-center or Manacher’s → O(n²) or O(n).
+
+
+Word Break — https://leetcode.com/problems/word-break/
+
+Hint: DP on positions / reachable indices → O(n² * k) depending on dict.
+
+
+Word Break II — https://leetcode.com/problems/word-break-ii/
+
+Hint: DFS + memoization to build sentences → prune with DP reachable check.
+
+
+Minimum Window Substring — https://leetcode.com/problems/minimum-window-substring/
+
+Hint: Sliding window with need/have counters → O(n) average.
+
+
+Coin Change — https://leetcode.com/problems/coin-change/
+
+Hint: DP 1D min-coin count → O(amount * coins).
+
+
+Trapping Rain Water — https://leetcode.com/problems/trapping-rain-water/
+
+Hint: Two-pointer left/right maintaining leftMax/rightMax → O(n).
+
+
+Find Peak Element — https://leetcode.com/problems/find-peak-element/
+
+Hint: Binary search comparing mid & neighbors → O(log n).
+
+
+Search a 2D Matrix / Matrix search — https://leetcode.com/problems/search-a-2d-matrix/
+
+Hint: Flatten index math or binary search per row → O(log(mn)).
+
+
+Merge K Sorted Lists — https://leetcode.com/problems/merge-k-sorted-lists/
+
+Hint: Min-heap (priority queue) or divide & conquer → O(n log k).
+
+
+Serialize and Deserialize Binary Tree — https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
+
+Hint: BFS/DFS with null markers; use queue for BFS decode.
+
+
+Binary Tree Inorder Traversal — https://leetcode.com/problems/binary-tree-inorder-traversal/
+
+Hint: Stack iterative or recursion → O(n).
+
+
+Validate Binary Search Tree — https://leetcode.com/problems/validate-binary-search-tree/
+
+Hint: DFS with min/max bounds → O(n).
+
+
+Lowest Common Ancestor of BST — https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
+
+Hint: Use BST properties and traverse from root → O(h).
+
+
+LRU Cache (Design) — https://leetcode.com/problems/lru-cache/
+
+Hint: Doubly-linked list + hashmap for O(1) ops.
+
+
+N-Queens — https://leetcode.com/problems/n-queens/
+
+Hint: Backtracking with column/diag sets → prune aggressively.
+
+
+Kth Largest Element in an Array — https://leetcode.com/problems/kth-largest-element-in-an-array/
+
+Hint: Quickselect (avg O(n)) or heap (O(n log k)).
+
+
+Top K Frequent Elements — https://leetcode.com/problems/top-k-frequent-elements/
+
+Hint: Hashmap + bucket sort or heap → O(n).
+
+
+Minimum Path Sum (grid DP) — https://leetcode.com/problems/minimum-path-sum/
+
+Hint: DP accumulating min path per cell → O(mn).
+
+
+Number of Islands — https://leetcode.com/problems/number-of-islands/
+
+Hint: DFS/BFS flood-fill to count components → O(mn).
+
+
+Word Ladder — https://leetcode.com/problems/word-ladder/
+
+Hint: BFS from begin word; transform by single-letter variations → O(N * L²).
+
+
+Longest Increasing Subsequence (LIS) — https://leetcode.com/problems/longest-increasing-subsequence/
+
+Hint: DP O(n²) or patience sorting using binary search O(n log n).
+
+
+House Robber — https://leetcode.com/problems/house-robber/
+
+Hint: DP with two-state rolling variables → O(n).
+
+
+Best Time to Buy and Sell Stock — https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+
+Hint: Track min price so far and max profit → O(n).
+
+
+Find Duplicate Number (Floyd’s cycle detection) — https://leetcode.com/problems/find-the-duplicate-number/
+
+Hint: Treat indices as pointers → cycle detection O(n).
+
+
+Median of Two Sorted Arrays — https://leetcode.com/problems/median-of-two-sorted-arrays/
+
+Hint: Binary search partitioning → O(log min(m,n)).
+
+
+Implement Trie (Prefix Tree) — https://leetcode.com/problems/implement-trie-prefix-tree/
+
+Hint: Node children map + isWord flag; insert/search/triePrefix.
+
+
+Serialize and Deserialize Binary Search Tree — https://leetcode.com/problems/serialize-and-deserialize-bst/
+
+Hint: BST-specific serialization using preorder + bounds to reconstruct.
+
+
+Dutch National Flag / Sort Colors — https://leetcode.com/problems/sort-colors/
+
+Hint: Three-way partitioning (low, mid, high pointers) O(n).
+
+
+Flatten Nested List Iterator — https://leetcode.com/problems/flatten-nested-list-iterator/
+
+Hint: Stack-based lazy flattening or fully flatten list.
+
+
+Basic Calculator / Expression Evaluation — https://leetcode.com/problems/basic-calculator/
+
+Hint: Stack for numbers and signs, handle parentheses.
+
+
+Sliding Window Maximum — https://leetcode.com/problems/sliding-window-maximum/
+
+Hint: Deque (monotonic queue) → O(n).
+
+
+K Closest Points to Origin — https://leetcode.com/problems/k-closest-points-to-origin/
+
+Hint: Quickselect or heap → O(n) avg.
+
+
+Course Schedule (Detect cycle in directed graph) — https://leetcode.com/problems/course-schedule/
+
+Hint: Topological sort / DFS cycle detection → O(V+E).
+
+
+Minimum Number of Platforms (Train platform / intervals variant) — https://www.hackerrank.com/
+ (HackerRank has variants)
+Hint: Sort arrival & departure arrays separately, sweep to find max concurrent trains → O(n log n).
+
+
+Minimum Window Subsequence / Hard window variant — https://leetcode.com/problems/minimum-window-subsequence/
+ (related)
+Hint: DP or two-pass greedy expand+contract to track subsequence window → tricky O(n * m) naive.
 
 
 # Q1: What do you mean by Asynchronous API? 
