@@ -301,6 +301,273 @@ function myPromiseAll(promises) {
     });
   });
 }
+
+# 🚀 20 Top HackerRank Coding Questions (with Solutions in JavaScript)
+1. Two Sum Problem
+
+# Find indices of two numbers that add up to a target.
+
+function twoSum(nums, target) {
+  let map = {};
+  for (let i = 0; i < nums.length; i++) {
+    let diff = target - nums[i];
+    if (map[diff] !== undefined) return [map[diff], i];
+    map[nums[i]] = i;
+  }
+}
+console.log(twoSum([2,7,11,15], 9)); // [0,1]
+
+# 2. Reverse a Linked List
+function reverseList(head) {
+  let prev = null, curr = head;
+  while (curr) {
+    let next = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = next;
+  }
+  return prev;
+}
+
+# 3. Valid Parentheses
+function isValid(s) {
+  let stack = [];
+  let map = {')':'(', '}':'{', ']':'['};
+  for (let ch of s) {
+    if (!map[ch]) stack.push(ch);
+    else if (stack.pop() !== map[ch]) return false;
+  }
+  return stack.length === 0;
+}
+console.log(isValid("()[]{}")); // true
+
+# 4. Maximum Subarray Sum (Kadane’s Algorithm)
+function maxSubArray(nums) {
+  let max = nums[0], curr = nums[0];
+  for (let i = 1; i < nums.length; i++) {
+    curr = Math.max(nums[i], curr + nums[i]);
+    max = Math.max(max, curr);
+  }
+  return max;
+}
+console.log(maxSubArray([-2,1,-3,4,-1,2,1,-5,4])); // 6
+
+# 5. Climbing Stairs (DP Fibonacci)
+function climbStairs(n) {
+  let a = 1, b = 1;
+  for (let i = 2; i <= n; i++) {
+    [a, b] = [b, a + b];
+  }
+  return b;
+}
+console.log(climbStairs(5)); // 8
+
+# 6. Merge Intervals
+function merge(intervals) {
+  intervals.sort((a,b) => a[0]-b[0]);
+  let res = [intervals[0]];
+  for (let i = 1; i < intervals.length; i++) {
+    let last = res[res.length-1];
+    if (intervals[i][0] <= last[1]) {
+      last[1] = Math.max(last[1], intervals[i][1]);
+    } else {
+      res.push(intervals[i]);
+    }
+  }
+  return res;
+}
+
+# 7. Product of Array Except Self
+function productExceptSelf(nums) {
+  let n = nums.length;
+  let left = Array(n).fill(1), right = Array(n).fill(1), res = [];
+  for (let i = 1; i < n; i++) left[i] = left[i-1] * nums[i-1];
+  for (let i = n-2; i >= 0; i--) right[i] = right[i+1] * nums[i+1];
+  for (let i = 0; i < n; i++) res[i] = left[i] * right[i];
+  return res;
+}
+console.log(productExceptSelf([1,2,3,4])); // [24,12,8,6]
+
+# 8. Rotate Matrix 90°
+function rotate(matrix) {
+  let n = matrix.length;
+  for (let i = 0; i < n; i++) {
+    for (let j = i; j < n; j++) {
+      [matrix[i][j], matrix[j][i]] = [matrix[j][i], matrix[i][j]];
+    }
+  }
+  for (let row of matrix) row.reverse();
+  return matrix;
+}
+
+# 9. Search in Rotated Sorted Array
+function search(nums, target) {
+  let l = 0, r = nums.length-1;
+  while (l <= r) {
+    let mid = Math.floor((l+r)/2);
+    if (nums[mid] === target) return mid;
+    if (nums[l] <= nums[mid]) {
+      if (target >= nums[l] && target < nums[mid]) r = mid-1;
+      else l = mid+1;
+    } else {
+      if (target > nums[mid] && target <= nums[r]) l = mid+1;
+      else r = mid-1;
+    }
+  }
+  return -1;
+}
+
+# 10. Coin Change (DP)
+function coinChange(coins, amount) {
+  let dp = Array(amount+1).fill(Infinity);
+  dp[0] = 0;
+  for (let coin of coins) {
+    for (let i = coin; i <= amount; i++) {
+      dp[i] = Math.min(dp[i], dp[i-coin]+1);
+    }
+  }
+  return dp[amount] === Infinity ? -1 : dp[amount];
+}
+
+# 11. Trapping Rain Water
+function trap(height) {
+  let l = 0, r = height.length-1, leftMax = 0, rightMax = 0, water = 0;
+  while (l < r) {
+    if (height[l] < height[r]) {
+      leftMax = Math.max(leftMax, height[l]);
+      water += leftMax - height[l];
+      l++;
+    } else {
+      rightMax = Math.max(rightMax, height[r]);
+      water += rightMax - height[r];
+      r--;
+    }
+  }
+  return water;
+}
+
+# 12. Longest Palindromic Substring
+function longestPalindrome(s) {
+  let res = "";
+  function expand(l,r) {
+    while (l>=0 && r<s.length && s[l]===s[r]) {
+      if (r-l+1 > res.length) res = s.slice(l, r+1);
+      l--; r++;
+    }
+  }
+  for (let i=0; i<s.length; i++) {
+    expand(i,i); 
+    expand(i,i+1);
+  }
+  return res;
+}
+
+# 13. Maximum Profit from Stock Prices
+function maxProfit(prices) {
+  let minPrice = prices[0], profit = 0;
+  for (let p of prices) {
+    minPrice = Math.min(minPrice, p);
+    profit = Math.max(profit, p - minPrice);
+  }
+  return profit;
+}
+
+# 14. Find Duplicate Number (Cycle Detection)
+function findDuplicate(nums) {
+  let slow = nums[0], fast = nums[0];
+  do {
+    slow = nums[slow];
+    fast = nums[nums[fast]];
+  } while (slow !== fast);
+  slow = nums[0];
+  while (slow !== fast) {
+    slow = nums[slow];
+    fast = nums[fast];
+  }
+  return slow;
+}
+
+# 15. Longest Substring Without Repeating Characters
+function lengthOfLongestSubstring(s) {
+  let set = new Set(), l = 0, max = 0;
+  for (let r = 0; r < s.length; r++) {
+    while (set.has(s[r])) set.delete(s[l++]);
+    set.add(s[r]);
+    max = Math.max(max, r-l+1);
+  }
+  return max;
+}
+
+# 16. Minimum Window Substring
+function minWindow(s, t) {
+  let need = {}, have = {}, count = 0, start = 0, minLen = Infinity, res = "";
+  for (let ch of t) need[ch] = (need[ch]||0)+1;
+  for (let end = 0; end < s.length; end++) {
+    let ch = s[end];
+    have[ch] = (have[ch]||0)+1;
+    if (have[ch] <= need[ch]) count++;
+    while (count === t.length) {
+      if (end-start+1 < minLen) {
+        minLen = end-start+1;
+        res = s.slice(start,end+1);
+      }
+      have[s[start]]--;
+      if (have[s[start]] < need[s[start]]) count--;
+      start++;
+    }
+  }
+  return res;
+}
+
+# 17. Find Peak Element
+function findPeakElement(nums) {
+  let l=0, r=nums.length-1;
+  while (l<r) {
+    let mid = Math.floor((l+r)/2);
+    if (nums[mid] > nums[mid+1]) r=mid;
+    else l=mid+1;
+  }
+  return l;
+}
+
+# 18. Word Break (DP)
+function wordBreak(s, wordDict) {
+  let set = new Set(wordDict), dp = Array(s.length+1).fill(false);
+  dp[0] = true;
+  for (let i=1; i<=s.length; i++) {
+    for (let j=0; j<i; j++) {
+      if (dp[j] && set.has(s.slice(j,i))) {
+        dp[i] = true;
+        break;
+      }
+    }
+  }
+  return dp[s.length];
+}
+
+# 19. House Robber (DP)
+function rob(nums) {
+  let prev1 = 0, prev2 = 0;
+  for (let n of nums) {
+    let temp = prev1;
+    prev1 = Math.max(prev2+n, prev1);
+    prev2 = temp;
+  }
+  return prev1;
+}
+
+# 20. Median of Two Sorted Arrays
+function findMedianSortedArrays(a, b) {
+  let arr = [...a, ...b].sort((x,y)=>x-y);
+  let n = arr.length;
+  return n%2 ? arr[Math.floor(n/2)] : (arr[n/2-1]+arr[n/2])/2;
+}
+
+
+✅ These are 20 of the most common HackerRank questions that test algorithms, DP, strings, arrays, and math — the core interview prep set.
+
+
+Minimum Window Substring (sliding window hardest version)
 # 50 Problems → LeetCode Links + Hints (quick reference)
 
 Two Sum — https://leetcode.com/problems/two-sum/
