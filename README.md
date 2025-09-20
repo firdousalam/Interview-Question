@@ -1,5 +1,178 @@
 # Nodejs Interview-Question
 
+🚀 Top 20 JavaScript Coding Round Questions
+1. Reverse a String
+function reverseString(str) {
+  return str.split('').reverse().join('');
+}
+console.log(reverseString("hello")); // "olleh"
+
+2. Check if a String is a Palindrome
+function isPalindrome(str) {
+  return str === str.split('').reverse().join('');
+}
+console.log(isPalindrome("madam")); // true
+
+3. Find the Largest Number in an Array
+function findMax(arr) {
+  return Math.max(...arr);
+}
+console.log(findMax([1, 5, 2, 9])); // 9
+
+4. Find the Second Largest Number in an Array
+function secondLargest(arr) {
+  let unique = [...new Set(arr)];
+  unique.sort((a, b) => b - a);
+  return unique[1];
+}
+console.log(secondLargest([10, 20, 30, 20])); // 20
+
+5. Remove Duplicates from an Array
+function removeDuplicates(arr) {
+  return [...new Set(arr)];
+}
+console.log(removeDuplicates([1, 2, 2, 3, 4, 4])); // [1,2,3,4]
+
+6. Flatten a Nested Array
+function flatten(arr) {
+  return arr.flat(Infinity);
+}
+console.log(flatten([1, [2, [3, 4]], 5])); // [1,2,3,4,5]
+
+7. Find the Missing Number in an Array (1–n)
+function missingNumber(arr, n) {
+  let sum = (n * (n + 1)) / 2;
+  return sum - arr.reduce((a, b) => a + b, 0);
+}
+console.log(missingNumber([1, 2, 4, 5], 5)); // 3
+
+8. Find First Non-Repeating Character
+function firstUniqueChar(str) {
+  for (let char of str) {
+    if (str.indexOf(char) === str.lastIndexOf(char)) return char;
+  }
+  return null;
+}
+console.log(firstUniqueChar("swiss")); // w
+
+9. Count Character Frequency
+function charCount(str) {
+  let map = {};
+  for (let char of str) {
+    map[char] = (map[char] || 0) + 1;
+  }
+  return map;
+}
+console.log(charCount("hello")); // {h:1, e:1, l:2, o:1}
+
+10. Check for Anagrams
+function isAnagram(str1, str2) {
+  return str1.split('').sort().join('') === str2.split('').sort().join('');
+}
+console.log(isAnagram("listen", "silent")); // true
+
+11. Find Intersection of Two Arrays
+function intersection(arr1, arr2) {
+  return arr1.filter(num => arr2.includes(num));
+}
+console.log(intersection([1,2,3], [2,3,4])); // [2,3]
+
+12. Sum of All Pairs Equal to Target
+function twoSum(arr, target) {
+  let map = {};
+  for (let num of arr) {
+    let diff = target - num;
+    if (map[diff]) return [diff, num];
+    map[num] = true;
+  }
+}
+console.log(twoSum([2,7,11,15], 9)); // [2,7]
+
+13. Debounce Function
+function debounce(fn, delay) {
+  let timer;
+  return function(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
+
+14. Throttle Function
+function throttle(fn, delay) {
+  let last = 0;
+  return function(...args) {
+    let now = Date.now();
+    if (now - last >= delay) {
+      fn(...args);
+      last = now;
+    }
+  };
+}
+
+15. Deep Clone an Object
+function deepClone(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}
+console.log(deepClone({a:1, b:{c:2}}));
+
+16. Implement a Custom bind
+Function.prototype.myBind = function(context, ...args) {
+  let fn = this;
+  return function(...newArgs) {
+    return fn.apply(context, [...args, ...newArgs]);
+  };
+};
+
+17. Implement a Custom map
+Array.prototype.myMap = function(callback) {
+  let result = [];
+  for (let i = 0; i < this.length; i++) {
+    result.push(callback(this[i], i, this));
+  }
+  return result;
+};
+
+18. Find the Longest Substring Without Repeating Characters
+function longestSubstring(str) {
+  let set = new Set();
+  let left = 0, max = 0;
+  for (let right = 0; right < str.length; right++) {
+    while (set.has(str[right])) {
+      set.delete(str[left++]);
+    }
+    set.add(str[right]);
+    max = Math.max(max, right - left + 1);
+  }
+  return max;
+}
+console.log(longestSubstring("abcabcbb")); // 3
+
+19. Implement Memoization
+function memoize(fn) {
+  let cache = {};
+  return function(...args) {
+    let key = JSON.stringify(args);
+    if (cache[key]) return cache[key];
+    cache[key] = fn(...args);
+    return cache[key];
+  };
+}
+
+20. Promise All Polyfill
+function myPromiseAll(promises) {
+  return new Promise((resolve, reject) => {
+    let results = [];
+    let completed = 0;
+    promises.forEach((p, i) => {
+      Promise.resolve(p).then(res => {
+        results[i] = res;
+        completed++;
+        if (completed === promises.length) resolve(results);
+      }).catch(reject);
+    });
+  });
+}
+
 
 # Q1: What do you mean by Asynchronous API? 
 
