@@ -47,7 +47,7 @@ let arr = [1, 2, 3, 4];
 
 arr.map(x => x * 2);         // [2,4,6,8]
 arr.filter(x => x % 2 === 0); // [2,4]
-arr.reduce((a, b) => a + b); // 10
+arr.reduce((a, b) => a + b); // 10 ((((1+2)+3)+4)
 arr.reduceRight((a, b) => a - b); // -2  ( (((4-3)-2)-1) )
 
 🔹 6. Sorting & Reversing
