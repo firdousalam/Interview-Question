@@ -1,5 +1,429 @@
 # Nodejs Interview-Question
 
+JavaScript Array Methods (with Examples)
+
+🔹 1. Creation
+let arr1 = [1, 2, 3];                 // Literal
+let arr2 = new Array(3);              // [empty × 3]
+let arr3 = Array.of(1, 2, 3);         // [1, 2, 3]
+let arr4 = Array.from("hello");       // ['h','e','l','l','o']
+
+🔹 2. Adding & Removing Elements
+let arr = [1, 2, 3];
+
+arr.push(4);          // [1,2,3,4]   (add at end)
+arr.pop();            // [1,2,3]     (remove from end)
+
+arr.unshift(0);       // [0,1,2,3]   (add at start)
+arr.shift();          // [1,2,3]     (remove from start)
+
+arr.splice(1, 1, 99); // [1,99,3]    (remove/replace at index)
+arr.slice(0, 2);      // [1,99]      (copy portion, non-destructive)
+
+arr.concat([4, 5]);   // [1,99,3,4,5] (merge arrays)
+
+🔹 3. Searching & Checking
+let arr = [10, 20, 30, 40];
+
+arr.indexOf(20);      // 1
+arr.lastIndexOf(30);  // 2
+arr.includes(40);     // true
+arr.find(x => x > 25); // 30 (first match)
+arr.findIndex(x => x > 25); // 2
+arr.some(x => x > 35); // true (at least one)
+arr.every(x => x > 5); // true (all satisfy)
+
+🔹 4. Iterating
+let arr = [1, 2, 3];
+
+arr.forEach(x => console.log(x)); 
+// 1 2 3
+
+for (let x of arr) console.log(x); 
+// 1 2 3
+
+🔹 5. Transforming
+let arr = [1, 2, 3, 4];
+
+arr.map(x => x * 2);         // [2,4,6,8]
+arr.filter(x => x % 2 === 0); // [2,4]
+arr.reduce((a, b) => a + b); // 10
+arr.reduceRight((a, b) => a - b); // -2  ( (((4-3)-2)-1) )
+
+🔹 6. Sorting & Reversing
+let arr = [3, 1, 4, 2];
+
+arr.sort();              // [1,2,3,4] (string-based!)
+arr.sort((a,b)=>b-a);    // [4,3,2,1] (numeric sort)
+arr.reverse();           // [2,4,1,3]
+
+🔹 7. Joining & Converting
+let arr = ["a", "b", "c"];
+
+arr.join("-");    // "a-b-c"
+arr.toString();   // "a,b,c"
+JSON.stringify(arr); // "[\"a\",\"b\",\"c\"]"
+
+🔹 8. Filling & Copying
+let arr = [1, 2, 3, 4];
+
+arr.fill(0);             // [0,0,0,0]
+arr.fill(9, 1, 3);       // [0,9,9,0] (from index 1 to 2)
+
+arr.copyWithin(2, 0, 2); // [0,9,0,9]
+
+🔹 9. Flat & FlatMap
+let arr = [1, [2, [3, 4]]];
+
+arr.flat();           // [1,2,[3,4]]  (1 level)
+arr.flat(2);          // [1,2,3,4]    (2 levels)
+arr.flat(Infinity);   // [1,2,3,4]    (all levels)
+
+[1, 2, 3].flatMap(x => [x, x*2]); 
+// [1,2,2,4,3,6]
+
+🔹 10. Keys, Values, Entries
+let arr = ["a", "b"];
+
+for (let i of arr.keys()) console.log(i); 
+// 0 1
+
+for (let v of arr.values()) console.log(v); 
+// "a" "b"
+
+for (let [i, v] of arr.entries()) console.log(i, v);
+// 0 "a" ; 1 "b"
+
+🔹 11. ES2023+ Methods
+let arr = [1, 2, 3, 4, 5];
+
+arr.at(-1);     // 5 (last element, negative index support)
+arr.findLast(x => x % 2 === 0); // 4
+arr.findLastIndex(x => x % 2 === 0); // 3
+
+🔹 12. Type Checking
+Array.isArray([1,2,3]);  // true
+Array.isArray("abc");    // false
+
+
+Mutating methods: push, pop, shift, unshift, splice, sort, reverse, fill, copyWithin
+
+Non-mutating methods: slice, concat, map, filter, reduce, flat, flatMap
+
+Searching/checking: find, findIndex, some, every, includes
+
+Iterating: forEach, entries, keys, values
+
+
+Let’s cover all major JavaScript String methods with examples.
+
+I’ll group them by category so you can quickly find what you need.
+
+📚 JavaScript String Methods (with Examples)
+🔹 1. Creation
+let str1 = "Hello";            // String literal
+let str2 = 'World';            // Single quotes
+let str3 = `Hi ${str1}`;       // Template literal → "Hi Hello"
+let str4 = new String("JS");   // String object (not recommended)
+
+🔹 2. Character Access
+let str = "JavaScript";
+
+str.charAt(0);     // "J"
+str[1];            // "a" (modern way)
+str.charCodeAt(0); // 74 (Unicode code of 'J')
+str.at(-1);        // "t" (ES2022, negative index support)
+
+🔹 3. Searching
+let str = "Hello World";
+
+str.indexOf("o");       // 4 (first match)
+str.lastIndexOf("o");   // 7 (last match)
+str.includes("World");  // true
+str.startsWith("He");   // true
+str.endsWith("ld");     // true
+
+🔹 4. Extracting
+let str = "JavaScript";
+
+str.slice(0, 4);    // "Java"  (from 0 to 3)
+str.slice(-6);      // "Script"
+
+str.substring(0, 4); // "Java" (similar to slice but no negatives)
+str.substr(4, 6);    // "Script" (⚠️ deprecated, but still works)
+
+🔹 5. Modifying / Transforming
+let str = "  hello world  ";
+
+str.toUpperCase();  // "  HELLO WORLD  "
+str.toLowerCase();  // "  hello world  "
+str.trim();         // "hello world"
+str.trimStart();    // "hello world  "
+str.trimEnd();      // "  hello world"
+
+🔹 6. Replacing
+let str = "I love JavaScript";
+
+str.replace("love", "like"); 
+// "I like JavaScript"
+
+str.replace(/a/g, "A"); 
+// "I love JAvAScript" (regex global replace)
+
+str.replaceAll("a", "A"); 
+// "I love JAvAScript"
+
+🔹 7. Splitting & Joining
+let str = "a,b,c";
+
+str.split(",");   // ["a", "b", "c"]
+str.split("");    // ["a","b",",","c"]
+["a","b","c"].join("-"); // "a-b-c"
+
+🔹 8. Repeating & Padding
+let str = "Hi";
+
+str.repeat(3);         // "HiHiHi"
+"5".padStart(3, "0");  // "005"
+"5".padEnd(3, "*");    // "5**"
+
+🔹 9. Searching with Regex
+let str = "abc123xyz";
+
+str.match(/\d+/);      // ["123"]
+str.matchAll(/[a-z]/g); // Iterator for all letters
+
+str.search(/\d/);      // 3 (first digit at index 3)
+
+🔹 10. Iteration
+let str = "JS";
+
+for (let ch of str) {
+  console.log(ch); // "J" "S"
+}
+
+[..."Hello"]; 
+// ["H","e","l","l","o"] (spread into characters)
+
+🔹 11. Newer (ES2021+)
+let str = "hello";
+
+str.replaceAll("l", "L"); // "heLLo"
+str.at(-1);               // "o" (last character)
+
+✅ Quick Summary (Cheat Sheet)
+
+Method	What it does	Example → Result
+charAt(i)	Get char at index	"Hi".charAt(1) → "i"
+at(-1)	Negative index access (new)	"Hi".at(-1) → "i"
+indexOf()	Find index of substring	"abc".indexOf("b") → 1
+includes()	Check if substring exists	"abc".includes("a") → true
+startsWith()	Check prefix	"hello".startsWith("he") → true
+endsWith()	Check suffix	"hello".endsWith("lo") → true
+slice()	Extract part	"hello".slice(1,3) → "el"
+substring()	Extract part (no negatives)	"hello".substring(1,3) → "el"
+replace()	Replace first match	"hi hi".replace("hi","bye") → "bye hi"
+replaceAll()	Replace all matches	"hi hi".replaceAll("hi","bye") → "bye bye"
+split()	Convert to array	"a,b".split(",") → ["a","b"]
+trim()	Remove whitespace	" hi ".trim() → "hi"
+toUpperCase()	Uppercase	"hi".toUpperCase() → "HI"
+toLowerCase()	Lowercase	"HI".toLowerCase() → "hi"
+repeat(n)	Repeat string	"ha".repeat(3) → "hahaha"
+padStart(n, pad)	Pad start	"7".padStart(3,"0") → "007"
+padEnd(n, pad)	Pad end	"7".padEnd(3,"*") → "7**"
+
+JavaScript Number Functions
+🔹 1. Creating Numbers
+let n1 = 42;              // number literal
+let n2 = 3.14;            // floating point
+let n3 = new Number(100); // Number object (not recommended)
+
+🔹 2. Number Object Properties
+console.log(Number.MAX_VALUE);      // Largest possible number
+console.log(Number.MIN_VALUE);      // Smallest positive number
+console.log(Number.MAX_SAFE_INTEGER); // 9007199254740991
+console.log(Number.MIN_SAFE_INTEGER); // -9007199254740991
+console.log(Number.POSITIVE_INFINITY); // Infinity
+console.log(Number.NEGATIVE_INFINITY); // -Infinity
+console.log(Number.NaN);            // NaN
+
+🔹 3. Number Methods
+let num = 123.456;
+
+num.toString();        // "123.456"
+num.toFixed(2);        // "123.46"  (round with fixed decimals)
+num.toPrecision(4);    // "123.5"   (significant digits)
+num.toExponential(2);  // "1.23e+2"
+
+Number.isFinite(123);      // true
+Number.isFinite(Infinity); // false
+
+Number.isInteger(10);      // true
+Number.isInteger(10.5);    // false
+
+Number.isNaN(NaN);         // true
+Number.isNaN("hello");     // false
+
+Number.parseInt("42");     // 42
+Number.parseFloat("3.14"); // 3.14
+
+🔹 4. Math Object (Useful with Numbers)
+Math.abs(-5);       // 5
+Math.round(4.7);    // 5
+Math.floor(4.7);    // 4
+Math.ceil(4.1);     // 5
+Math.trunc(4.9);    // 4 (just drop decimals)
+
+Math.pow(2, 3);     // 8
+2 ** 3;             // 8 (same, modern way)
+Math.sqrt(16);      // 4
+Math.cbrt(27);      // 3
+
+Math.max(1, 2, 3);  // 3
+Math.min(1, 2, 3);  // 1
+
+Math.random();      // 0 <= random < 1
+
+🔹 5. Advanced Math Functions
+Math.sign(-10);     // -1 (negative), 0 (zero), 1 (positive)
+Math.log(10);       // Natural log
+Math.log10(1000);   // 3 (log base 10)
+Math.log2(8);       // 3 (log base 2)
+
+Math.sin(Math.PI/2); // 1
+Math.cos(0);         // 1
+Math.tan(Math.PI/4); // 1
+
+🔹 6. BigInt (for really large numbers)
+let big = 123456789012345678901234567890n; // BigInt
+console.log(big + 10n); // Works with "n" suffix only
+
+✅ Quick Summary (Cheat Sheet)
+Category	Function	Example → Result
+Conversion	Number("42")	42
+Formatting	num.toFixed(2)	123.46
+Checking	Number.isInteger(10.5)	false
+Parsing	Number.parseInt("100px")	100
+Math rounding	Math.round(4.6)	5
+Power/root	Math.pow(2,3)	8
+Random	Math.random()	0.123...
+Trigonometry	Math.sin(Math.PI/2)	1
+
+
+Special Functions on Arrays of Objects
+
+Suppose we have this array:
+
+const users = [
+  { id: 1, name: "Alice", age: 25, city: "Delhi" },
+  { id: 2, name: "Bob", age: 30, city: "Mumbai" },
+  { id: 3, name: "Charlie", age: 25, city: "Delhi" },
+  { id: 4, name: "David", age: 35, city: "Bangalore" }
+];
+
+🔹 1. map() → transform objects
+
+Extract just names:
+
+const names = users.map(u => u.name);
+console.log(names); // ["Alice","Bob","Charlie","David"]
+
+🔹 2. filter() → filter objects
+
+Get users from Delhi:
+
+const delhiUsers = users.filter(u => u.city === "Delhi");
+console.log(delhiUsers);
+// [ {id:1,name:"Alice",...}, {id:3,name:"Charlie",...} ]
+
+🔹 3. find() → first match
+
+Find user with age 30:
+
+const bob = users.find(u => u.age === 30);
+console.log(bob); // {id:2, name:"Bob", age:30, city:"Mumbai"}
+
+🔹 4. some() / every()
+
+Check if any user is from Bangalore:
+
+users.some(u => u.city === "Bangalore"); // true
+
+
+Check if all users are 18+:
+
+users.every(u => u.age >= 18); // true
+
+🔹 5. reduce() → aggregate values
+
+Sum of ages:
+
+const totalAge = users.reduce((sum, u) => sum + u.age, 0);
+console.log(totalAge); // 115
+
+
+Group by city:
+
+const grouped = users.reduce((acc, u) => {
+  (acc[u.city] = acc[u.city] || []).push(u);
+  return acc;
+}, {});
+console.log(grouped);
+// { Delhi: [...], Mumbai: [...], Bangalore: [...] }
+
+🔹 6. sort()
+
+Sort users by age:
+
+const sorted = [...users].sort((a, b) => a.age - b.age);
+console.log(sorted.map(u => u.name)); 
+// ["Alice","Charlie","Bob","David"]
+
+🔹 7. findIndex()
+
+Find index of user named "Charlie":
+
+const index = users.findIndex(u => u.name === "Charlie");
+console.log(index); // 2
+
+🔹 8. flatMap()
+
+Extract all cities (with duplicates):
+
+const cities = users.flatMap(u => [u.city]);
+console.log(cities); // ["Delhi","Mumbai","Delhi","Bangalore"]
+
+🔹 9. Set + map → unique values
+
+Unique cities:
+
+const uniqueCities = [...new Set(users.map(u => u.city))];
+console.log(uniqueCities); // ["Delhi","Mumbai","Bangalore"]
+
+🔹 10. Object utilities with arrays
+
+Convert to lookup by id:
+
+const byId = Object.fromEntries(users.map(u => [u.id, u]));
+console.log(byId[2]); 
+// { id: 2, name: "Bob", age: 30, city: "Mumbai" }
+
+✅ Quick Summary (Cheat Sheet)
+Function	Use Case
+.map()	Extract/transform fields
+.filter()	Filter objects based on condition
+.find()	Get first matching object
+.findIndex()	Get index of first match
+.some()	Check if any object matches
+.every()	Check if all match
+.reduce()	Aggregate (sum, group, count)
+.sort()	Sort objects by property
+.flatMap()	Flatten + map
+Set + map	Unique values of a property
+Object.fromEntries()	Convert to dictionary lookup
+
+
+
 🚀 Top 20 JavaScript Coding Round Questions
 # 1. Reverse a String
 
