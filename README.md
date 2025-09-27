@@ -2821,6 +2821,423 @@ addAsync(10).then((sum) => {
   console.log(sum);
 });
 
+# React Js Interview Question #
+
+# 1. What are the main features of React?
+
+Component-based architecture → UI split into reusable components.
+
+Virtual DOM → React creates a virtual copy of DOM and efficiently updates only changed parts.
+
+One-way data binding → Data flows parent → child (unidirectional).
+
+Declarative UI → You describe what UI should look like, React handles the rendering.
+
+JSX → Combines JavaScript and HTML-like syntax.
+
+Hooks → Enable state and side-effects in functional components.
+
+# 2. What is JSX? How is it different from HTML?
+
+JSX = JavaScript XML, looks like HTML but is actually syntactic sugar.
+
+It gets compiled by Babel into React.createElement.
+
+Example:
+
+const element = <h1>Hello</h1>;
+// Compiled to:
+const element = React.createElement("h1", null, "Hello");
+
+
+Difference from HTML:
+
+Attributes use camelCase (className, onClick).
+
+You can embed JS expressions inside {}.
+
+# 3. Explain Virtual DOM.
+
+Virtual DOM is a lightweight, in-memory representation of the real DOM.
+
+React keeps a copy of the old VDOM → when state changes, React diffs (reconciliation) → only updates the parts that changed.
+
+Advantage: avoids costly direct DOM operations → better performance.
+
+# 4. What are React components? Difference between functional and class components.
+
+Components = building blocks of UI, return JSX.
+
+Functional components:
+
+function Button() { return <button>Click</button>; }
+
+
+Stateless (before hooks) but now can use hooks.
+
+Class components:
+
+class Button extends React.Component {
+  render() { return <button>Click</button>; }
+}
+
+
+Have lifecycle methods (componentDidMount).
+
+Functional components are preferred since React 16.8 (hooks).
+
+# 5. What are React hooks? Why introduced?
+
+Hooks are special functions (useState, useEffect, etc.).
+
+Introduced in React 16.8 to let functional components use state & lifecycle logic (previously only in class components).
+
+They reduce boilerplate, improve readability, and encourage reusable logic via custom hooks.
+
+# 6. Explain useState.
+
+useState declares a state variable.
+
+const [count, setCount] = useState(0);
+
+
+Initial value = 0.
+
+setCount triggers a re-render with updated value.
+
+# 7. How does useEffect work?
+
+useEffect handles side-effects (data fetching, subscriptions, DOM updates).
+
+Runs after render by default.
+
+useEffect(() => {
+  console.log("Runs after render");
+  return () => console.log("Cleanup"); // cleanup on unmount
+}, [dependencies]);
+
+
+Dependency array controls when it runs:
+
+[] → once on mount
+
+[state] → runs when state changes
+
+# 8. Difference: useRef vs useState.
+
+useState → triggers re-render when value changes.
+
+useRef → persists value across renders but does not cause re-render.
+
+Example:
+
+const count = useRef(0); // does not cause re-render
+const [state, setState] = useState(0); // triggers re-render
+
+# 9. Purpose of useContext.
+
+Used to avoid prop drilling (passing props through multiple levels).
+
+const ThemeContext = React.createContext("light");
+const value = useContext(ThemeContext);
+
+
+Shares state globally without passing props manually.
+
+# 10. Controlled vs Uncontrolled Components.
+
+Controlled: Form input controlled by React state.
+
+<input value={name} onChange={(e) => setName(e.target.value)} />
+
+
+Uncontrolled: Uses ref to directly access DOM element.
+
+<input ref={inputRef} />
+
+
+Controlled = React-driven, Uncontrolled = DOM-driven.
+
+# 11. What is reconciliation in React?
+
+Process of comparing new VDOM with old VDOM to determine minimal updates.
+
+Based on diffing algorithm → O(n) efficiency.
+
+# 12. How does diffing algorithm work?
+
+Compares elements by type and key:
+
+If type changes → remove old, add new.
+
+If keys differ in a list → re-create nodes.
+
+If same → re-use existing node.
+
+# 13. What are React keys?
+
+Keys identify list elements.
+
+Without keys, React may re-render unnecessarily.
+
+{items.map(item => <li key={item.id}>{item.name}</li>)}
+
+# 14. Memoization in React.
+
+React.memo: Prevents re-render if props unchanged.
+
+useMemo: Caches expensive calculation results.
+
+useCallback: Memoizes function reference.
+
+Example:
+
+const memoizedValue = useMemo(() => expensiveFn(a, b), [a, b]);
+
+# 15. How to optimize performance?
+
+Memoization (useMemo, useCallback)
+
+React.memo
+
+Code splitting & lazy loading
+
+Avoid unnecessary re-renders (pure components, keys)
+
+Virtualization for large lists
+
+# 16. useReducer vs useState.
+
+useState → simple state.
+
+useReducer → complex state with multiple transitions.
+
+function reducer(state, action) {
+  switch(action.type) { case "inc": return { count: state.count + 1 }; }
+}
+const [state, dispatch] = useReducer(reducer, { count: 0 });
+
+# 17. Custom Hook.
+
+Reusable logic built on top of hooks.
+
+function useFetch(url) {
+  const [data, setData] = useState(null);
+  useEffect(() => { fetch(url).then(r => r.json()).then(setData); }, [url]);
+  return data;
+}
+
+# 18. What is prop drilling?
+
+Passing props through multiple nested components unnecessarily.
+
+Solved by Context API, Redux, Zustand.
+
+# 19. Error Boundaries.
+
+Special class components that catch JS errors in children.
+
+class ErrorBoundary extends React.Component {
+  componentDidCatch(error, info) { console.log(error); }
+  render() { return this.props.children; }
+}
+
+# 20. Higher-Order Components (HOC).
+
+Function that takes a component → returns new component with extra props/logic.
+
+function withLogger(Wrapped) {
+  return function(props) { console.log("Props:", props); return <Wrapped {...props} />; }
+}
+
+# 21. React.Fragment vs <div>.
+
+<div> adds extra node in DOM.
+
+Fragment groups children without DOM wrapper:
+
+<Fragment><h1>A</h1><h2>B</h2></Fragment>
+
+# 22. React vs DOM events.
+
+React uses Synthetic Events (wrapper around native events).
+
+Cross-browser compatibility, event pooling.
+
+# 23. Portals.
+
+Allow rendering children into a DOM node outside parent hierarchy.
+
+ReactDOM.createPortal(<Modal />, document.getElementById("modal-root"))
+
+# 24. Code Splitting & Lazy Loading.
+
+Load parts of app on demand.
+
+const Component = React.lazy(() => import("./Component"));
+<Suspense fallback={<div>Loading...</div>}><Component /></Suspense>
+
+# 25. React Server Components.
+
+Introduced in React 18.
+
+Run on server, send serialized result to client.
+
+Benefits: smaller client bundle, better performance.
+
+# 26. Testing React Components.
+
+Jest + React Testing Library (RTL).
+
+render(<Button label="Click" />);
+fireEvent.click(screen.getByText("Click"));
+expect(mockFn).toHaveBeenCalled();
+
+# 27. Shallow vs Full Rendering.
+
+Shallow: only render the component (no children).
+
+Full: renders component + children (via Enzyme or RTL).
+
+# 28. PropTypes vs TypeScript props.
+
+PropTypes = runtime type checking.
+
+TypeScript = compile-time type checking, more robust.
+
+# 29. Debugging React app.
+
+Tools: React DevTools, console.log, error boundaries, Profiler.
+
+# 30. Redux vs Zustand vs Context API.
+
+Redux: predictable state container, strict pattern.
+
+Zustand: minimalistic global store.
+
+Context: simple global state, but causes re-renders.
+
+🔹 Next.js Interview Questions & Answers (20)
+# 31. What is Next.js?
+
+React framework with built-in SSR, SSG, routing, API routes, image optimization, and more.
+
+# 32. CSR vs SSR vs SSG vs ISR.
+
+CSR: rendered in browser (React default).
+
+SSR: rendered on server each request (getServerSideProps).
+
+SSG: pre-rendered at build (getStaticProps).
+
+ISR: pre-render with revalidation (regenerate after X seconds).
+
+# 33. File-based routing.
+
+Every file in pages/ = a route.
+
+Example: pages/about.tsx → /about.
+
+# 34. pages/ vs app/.
+
+pages/: legacy routing, SSR/SSG methods.
+
+app/: Next.js 13+ with layouts, server components.
+
+# 35. Dynamic routes.
+
+[id].tsx → /123
+
+[...slug].tsx → catch-all (/a/b/c).
+
+# 36. getStaticProps, getServerSideProps, getStaticPaths.
+
+getStaticProps: build-time data fetch.
+
+getServerSideProps: fetch at runtime (each request).
+
+getStaticPaths: define paths for SSG dynamic routes.
+
+# 37. getInitialProps.
+
+Old data fetching API (runs both server & client).
+
+Replaced by newer methods.
+
+# 38. fetch in Next.js vs React.
+
+In React: runs on client only.
+
+In Next.js: can run on server (no client bundle impact).
+
+# 39. Middleware in Next.js.
+
+Runs before request completes.
+
+Use cases: auth, redirects, geo-based routing.
+
+# 40. API routes.
+
+Create API endpoints inside pages/api/.
+
+export default function handler(req, res) { res.json({ msg: "Hello" }) }
+
+# 41. React Server Components in Next.js 13.
+
+Default in app/ directory.
+
+Fetch data on server, send serialized UI to client.
+
+# 42. TypeScript in Next.js.
+
+Install typescript + @types/react.
+
+Next auto-generates tsconfig.json.
+
+# 43. Client vs Server components.
+
+Server: default, faster, can fetch data.
+
+Client: add "use client" at top → can use hooks.
+
+# 44. Image optimization (next/image).
+
+Automatic resizing, lazy loading, WebP.
+
+import Image from "next/image";
+<Image src="/img.png" width={300} height={200} />
+
+# 45. Authentication.
+
+Use libraries like next-auth, or custom JWT with middleware.
+
+# 46. Environment variables.
+
+.env.local → process.env.MY_KEY.
+
+Client vars must start with NEXT_PUBLIC_.
+
+# 47. Static file serving.
+
+public/ folder → /file.png.
+
+# 48. Middleware vs Edge functions.
+
+Middleware: lightweight code before request.
+
+Edge functions: full serverless logic deployed at CDN edge.
+
+# 49. Internationalization (i18n).
+
+Next.js supports i18n via next.config.js.
+
+Define locales and default language.
+
+# 50. Deploying Next.js.
+
+Best with Vercel (official).
+
+Other: AWS, Netlify, Docker, custom Node server.
 
 
 # AWS Practioneer Question #
