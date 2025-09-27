@@ -2934,6 +2934,81 @@ Example:
 const count = useRef(0); // does not cause re-render
 const [state, setState] = useState(0); // triggers re-render
 
+🔹 useRef vs useState in React
+1. Purpose
+
+useState: Used when you want to store a value that affects rendering.
+
+useRef: Used when you want to store a value that persists across renders but does NOT trigger re-render.
+
+2. Behavior on Change
+
+useState
+
+Updating state triggers re-render of the component.
+
+The UI is updated to reflect new state.
+
+useRef
+
+Updating ref.current does NOT re-render the component.
+
+Useful for storing values you want to “remember” between renders (like instance variables in classes).
+
+3. Examples
+Example A: Counter with useState
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  console.log("Component re-rendered");
+
+  return (
+    <div>
+      <p>Count (re-renders when updated): {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+export default Counter;
+
+
+👉 Each click updates count → triggers re-render → UI updates.
+
+Example B: Counter with useRef
+import { useRef, useState } from "react";
+
+function RefCounter() {
+  const refCount = useRef(0);
+  const [display, setDisplay] = useState(0);
+
+  console.log("Component re-rendered");
+
+  const increment = () => {
+    refCount.current += 1;
+    console.log("Ref value:", refCount.current); // updates but no re-render
+  };
+
+  return (
+    <div>
+      <p>Display: {display}</p>
+      <button onClick={increment}>Increment Ref (no re-render)</button>
+      <button onClick={() => setDisplay(refCount.current)}>
+        Show Ref Value
+      </button>
+    </div>
+  );
+}
+
+export default RefCounter;
+
+
+👉 Clicking Increment Ref updates refCount.current, but UI does not re-render.
+👉 UI only updates when you call setDisplay.
+
+
 # 9. Purpose of useContext.
 
 Used to avoid prop drilling (passing props through multiple levels).
@@ -2957,6 +3032,77 @@ Uncontrolled: Uses ref to directly access DOM element.
 
 
 Controlled = React-driven, Uncontrolled = DOM-driven.
+
+Controlled vs Uncontrolled Components in React
+1. Controlled Component
+
+A component where form data is handled by React state.
+
+The input field’s value is always controlled by React via useState or props.
+
+Every keystroke triggers a re-render because React updates the state.
+
+👉 React is the “single source of truth”.
+
+✅ Controlled Example
+import { useState } from "react";
+
+function ControlledInput() {
+  const [value, setValue] = useState("");
+
+  return (
+    <div>
+      <h2>Controlled Component</h2>
+      <input
+        type="text"
+        value={value}              // controlled by React state
+        onChange={(e) => setValue(e.target.value)} // updates state
+      />
+      <p>Typed Value: {value}</p>
+    </div>
+  );
+}
+
+export default ControlledInput;
+
+
+✔️ React knows the current input value at all times.
+✔️ Easier to validate, reset, or conditionally modify values.
+
+2. Uncontrolled Component
+
+A component where form data is handled by the DOM directly, not React state.
+
+You use useRef to access values from the DOM when needed.
+
+React does not re-render on each keystroke.
+
+👉 The DOM is the “source of truth”.
+
+✅ Uncontrolled Example
+import { useRef } from "react";
+
+function UncontrolledInput() {
+  const inputRef = useRef();
+
+  const handleSubmit = () => {
+    alert(`Input Value: ${inputRef.current.value}`); // get value directly from DOM
+  };
+
+  return (
+    <div>
+      <h2>Uncontrolled Component</h2>
+      <input type="text" ref={inputRef} />  {/* DOM manages value */}
+      <button onClick={handleSubmit}>Submit</button>
+    </div>
+  );
+}
+
+export default UncontrolledInput;
+
+
+✔️ No state updates → fewer re-renders (better performance for huge forms).
+✔️ Simple to implement if you don’t need live validation.
 
 # 11. What is reconciliation in React?
 
@@ -2994,6 +3140,136 @@ Example:
 
 const memoizedValue = useMemo(() => expensiveFn(a, b), [a, b]);
 
+🔹 What is Memoization in React?
+
+Memoization is an optimization technique that stores ("remembers") the result of expensive function calls and returns the cached result when the same inputs occur again, instead of recalculating.
+
+👉 In React, memoization is mainly used to:
+
+Prevent unnecessary re-renders.
+
+Avoid recomputing expensive calculations.
+
+🔹 Memoization Tools in React
+
+React.memo → Memoize components (prevents re-render if props don’t change).
+
+useMemo → Memoize computed values (avoids recalculating).
+
+useCallback → Memoize functions (avoids function re-creation).
+
+1. React.memo Example
+import React, { useState } from "react";
+
+const Child = React.memo(({ value }: { value: number }) => {
+  console.log("Child re-rendered");
+  return <p>Child Value: {value}</p>;
+});
+
+function Parent() {
+  const [count, setCount] = useState(0);
+  const [other, setOther] = useState(0);
+
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Increment Count</button>
+      <button onClick={() => setOther(other + 1)}>Increment Other</button>
+
+      <Child value={count} />
+    </div>
+  );
+}
+
+export default Parent;
+
+
+👉 Without React.memo, Child would re-render every time Parent changes.
+👉 With React.memo, Child re-renders only if value changes.
+
+2. useMemo Example
+import { useMemo, useState } from "react";
+
+function ExpensiveCalculation(num: number) {
+  console.log("Calculating...");
+  let result = 0;
+  for (let i = 0; i < 1e7; i++) result += num;
+  return result;
+}
+
+function App() {
+  const [count, setCount] = useState(1);
+  const [other, setOther] = useState(0);
+
+  // Memoize the expensive calculation
+  const calculation = useMemo(() => ExpensiveCalculation(count), [count]);
+
+  return (
+    <div>
+      <p>Result: {calculation}</p>
+      <button onClick={() => setCount(count + 1)}>Increment Count</button>
+      <button onClick={() => setOther(other + 1)}>Increment Other</button>
+    </div>
+  );
+}
+
+export default App;
+
+
+👉 Without useMemo, ExpensiveCalculation runs on every render.
+👉 With useMemo, it only recalculates when count changes.
+
+3. useCallback Example
+import { useCallback, useState } from "react";
+
+const Child = React.memo(({ onClick }: { onClick: () => void }) => {
+  console.log("Child re-rendered");
+  return <button onClick={onClick}>Click Child</button>;
+});
+
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  // Without useCallback, a new function is created on each render
+  const handleClick = useCallback(() => {
+    console.log("Child clicked");
+  }, []);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <Child onClick={handleClick} />
+    </div>
+  );
+}
+
+export default Parent;
+
+
+👉 useCallback ensures the same function reference is passed to Child, so Child doesn’t re-render unnecessarily.
+
+🔹 When to Use Memoization?
+
+✅ Use when:
+
+A component re-renders often with same props.
+
+You have expensive calculations.
+
+Functions are passed as props to memoized child components.
+
+⚠️ Avoid when:
+
+The component is small/lightweight.
+
+Premature optimization may add unnecessary complexity.
+
+🔹 Interview Answer (short & precise)
+
+Memoization in React is an optimization technique to avoid unnecessary re-renders and expensive recalculations.
+React provides React.memo to memoize components, useMemo to memoize computed values, and useCallback to memoize functions.
+It improves performance by caching results until dependencies change.
+
 # 15. How to optimize performance?
 
 Memoization (useMemo, useCallback)
@@ -3027,6 +3303,164 @@ function useFetch(url) {
   return data;
 }
 
+What is a Custom Hook?
+
+A Custom Hook is simply a JavaScript function that:
+
+Starts with the word use (by convention).
+
+Allows you to reuse logic (stateful or side-effect logic) across multiple components.
+
+Can internally use React hooks (useState, useEffect, useRef, etc.).
+
+👉 Think of it as a way to extract component logic into reusable functions.
+
+🔹 Why Custom Hooks?
+
+✅ Code reusability (share logic across components).
+✅ Cleaner components (UI code separated from logic).
+✅ Encapsulation (hook manages its own state/effects).
+
+🔹 Example 1: useWindowSize Hook
+import { useState, useEffect } from "react";
+
+// Custom Hook
+function useWindowSize() {
+  const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize); // cleanup
+  }, []);
+
+  return size;
+}
+
+export default useWindowSize;
+
+Usage:
+import useWindowSize from "./useWindowSize";
+
+function App() {
+  const { width, height } = useWindowSize();
+
+  return (
+    <div>
+      <h2>Window Size</h2>
+      <p>Width: {width}px</p>
+      <p>Height: {height}px</p>
+    </div>
+  );
+}
+
+export default App;
+
+
+👉 Here, useWindowSize encapsulates the resize event logic and can be reused in many components.
+
+🔹 Example 2: useFetch Hook (API Calls)
+import { useState, useEffect } from "react";
+
+// Custom Hook
+function useFetch(url: string) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Failed to fetch");
+        const json = await res.json();
+        setData(json);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [url]);
+
+  return { data, loading, error };
+}
+
+export default useFetch;
+
+Usage:
+import useFetch from "./useFetch";
+
+function UserList() {
+  const { data, loading, error } = useFetch("https://jsonplaceholder.typicode.com/users");
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+  return (
+    <ul>
+      {data?.map((user: any) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+
+export default UserList;
+
+
+👉 Now you can reuse useFetch across multiple components to fetch different data.
+
+🔹 Example 3: useLocalStorage Hook
+import { useState } from "react";
+
+// Custom Hook
+function useLocalStorage(key: string, initialValue: any) {
+  const [value, setValue] = useState(() => {
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored) : initialValue;
+  });
+
+  const setStoredValue = (newValue: any) => {
+    setValue(newValue);
+    localStorage.setItem(key, JSON.stringify(newValue));
+  };
+
+  return [value, setStoredValue] as const;
+}
+
+export default useLocalStorage;
+
+Usage:
+import useLocalStorage from "./useLocalStorage";
+
+function ThemeToggle() {
+  const [theme, setTheme] = useLocalStorage("theme", "light");
+
+  return (
+    <div>
+      <p>Current Theme: {theme}</p>
+      <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+        Toggle Theme
+      </button>
+    </div>
+  );
+}
+
+export default ThemeToggle;
+
+🔹 Interview Answer (short version)
+
+A custom hook is a reusable function in React that starts with use and encapsulates stateful or side-effect logic.
+It allows code reusability and keeps components clean.
+For example, useFetch can handle API calls, useLocalStorage can sync state with local storage, and useWindowSize can track window resizing.
+
 # 18. What is prop drilling?
 
 Passing props through multiple nested components unnecessarily.
@@ -3049,6 +3483,143 @@ Function that takes a component → returns new component with extra props/logic
 function withLogger(Wrapped) {
   return function(props) { console.log("Props:", props); return <Wrapped {...props} />; }
 }
+What is a Higher-Order Component (HOC)?
+
+A Higher-Order Component (HOC) is a function that takes a component as input and returns a new component with additional props, logic, or behavior.
+
+👉 In short: HOC = Component enhancer.
+
+Formula:
+const EnhancedComponent = HOC(WrappedComponent);
+
+🔹 Real-Life Analogy
+
+Think of a car 🚗:
+
+Base car (WrappedComponent).
+
+You take it to a workshop (HOC).
+
+They add features like AC, music system, sunroof.
+
+You get a new enhanced car (EnhancedComponent).
+
+🔹 Example 1: Basic HOC (Logging Props)
+import React from "react";
+
+// HOC: Logs props every time component renders
+function withLogger(WrappedComponent) {
+  return function EnhancedComponent(props) {
+    console.log("Props passed:", props);
+    return <WrappedComponent {...props} />;
+  };
+}
+
+// Simple component
+function Hello({ name }: { name: string }) {
+  return <h2>Hello, {name}!</h2>;
+}
+
+// Wrap component
+const HelloWithLogger = withLogger(Hello);
+
+export default function App() {
+  return <HelloWithLogger name="Firdous" />;
+}
+
+
+✅ Now every time HelloWithLogger renders, props are logged.
+
+🔹 Example 2: Authentication HOC
+import React from "react";
+
+function withAuth(WrappedComponent) {
+  return function AuthComponent(props) {
+    const isLoggedIn = localStorage.getItem("token");
+
+    if (!isLoggedIn) {
+      return <p>Please login to continue.</p>;
+    }
+
+    return <WrappedComponent {...props} />;
+  };
+}
+
+// Protected Page
+function Dashboard() {
+  return <h2>Welcome to Dashboard</h2>;
+}
+
+export default withAuth(Dashboard);
+
+
+✅ Here, withAuth adds authentication logic to any component.
+
+🔹 Example 3: Data Fetching HOC
+import React, { useEffect, useState } from "react";
+
+function withData(WrappedComponent, url: string) {
+  return function DataComponent() {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+          setData(data);
+          setLoading(false);
+        });
+    }, []);
+
+    if (loading) return <p>Loading...</p>;
+    return <WrappedComponent data={data} />;
+  };
+}
+
+// Usage
+function UserList({ data }: { data: any[] }) {
+  return (
+    <ul>
+      {data.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+
+export default withData(UserList, "https://jsonplaceholder.typicode.com/users");
+
+
+✅ Now UserList automatically fetches data.
+
+🔹 Key Points About HOCs
+
+Pure Functions → HOCs should not modify the original component, they should return a new component.
+
+Props Forwarding → Always pass {...props} to keep WrappedComponent flexible.
+
+Reusability → Same HOC can enhance multiple components.
+
+Alternative in Modern React → Hooks (like useAuth, useFetch) often replace HOCs, but HOCs are still seen in many codebases (especially older ones and libraries like react-redux).
+
+🔹 Common Use Cases of HOCs
+
+Authentication (withAuth)
+
+Logging / Debugging (withLogger)
+
+Data fetching (withData)
+
+Permission control (withRole)
+
+State management (withRedux, connect in react-redux)
+
+🔹 Interview-Ready Answer
+
+A Higher-Order Component (HOC) in React is a function that takes a component as input and returns a new component with added functionality.
+HOCs are used for code reusability, logic sharing, and cross-cutting concerns like authentication, logging, and data fetching.
+For example, withAuth can wrap a Dashboard component to restrict access unless the user is logged in.
 
 # 21. React.Fragment vs <div>.
 
