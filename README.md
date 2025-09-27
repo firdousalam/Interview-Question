@@ -1934,6 +1934,7 @@ Answer: Run the application on any port above 1024, then put a reverse proxy lik
 
 Source: blog.risingstack.com
 
+
 # Q5: What tools can be used to assure consistent code style? ☆☆☆☆
 Answer: You have plenty of options to do so:
 
@@ -2113,7 +2114,7 @@ Answer: Run the application on any port above 1024, then put a reverse proxy lik
 
 Source: blog.risingstack.com
 
-Q5: What tools can be used to assure consistent code style? ☆☆☆☆
+# Q5: What tools can be used to assure consistent code style? ☆☆☆☆
 Answer: You have plenty of options to do so:
 
 JSLint by Douglas Crockford
@@ -2124,7 +2125,7 @@ These tools are really helpful when developing code in teams, to enforce a given
 
 Source: blog.risingstack.com
 
-Q6: What's a stub? Name a use case. ☆☆☆☆
+# Q6: What's a stub? Name a use case. ☆☆☆☆
 Answer: Stubs are functions/programs that simulate the behaviours of components/modules. Stubs provide canned answers to function calls made during test cases. Also, you can assert on with what these stubs were called.
 
 A use-case can be a file read, when you do not want to read an actual file:
@@ -2139,14 +2140,14 @@ expect(readFileStub).to.be.called;
 readFileStub.restore();
 Source: blog.risingstack.com
 
-Q7: Does Node.js support multi-core platforms? And is it capable of utilizing all the cores? ☆☆☆☆
+# Q7: Does Node.js support multi-core platforms? And is it capable of utilizing all the cores? ☆☆☆☆
 Answer: Yes, Node.js would run on a multi-core system without any issue. But it is by default a single-threaded application, so it can’t completely utilize the multi-core system.
 
 However, Node.js can facilitate deployment on multi-core systems where it does use the additional hardware. It packages with a Cluster module which is capable of starting multiple Node.js worker processes that will share the same port.
 
 Source: techbeamers.com
 
-Q8: Is Node.js entirely based on a single-thread? ☆☆☆☆
+# Q8: Is Node.js entirely based on a single-thread? ☆☆☆☆
 Answer: Yes, it’s true that Node.js processes all requests on a single thread. But it’s just a part of the theory behind Node.js design. In fact, more than the single thread mechanism, it makes use of events and callbacks to handle a large no. of requests asynchronously.
 
 Moreover, Node.js has an optimized design which utilizes both JavaScript and C++ to guarantee maximum performance. JavaScript executes at the server-side by Google Chrome v8 engine. And the C++ lib UV library takes care of the non-sequential I/O via background workers.
@@ -2155,7 +2156,7 @@ To explain it practically, let’s assume there are 100s of requests lined up in
 
 Source: techbeamers.com
 
-Q9: Is Node.js entirely based on a single-thread? ☆☆☆☆
+# Q9: Is Node.js entirely based on a single-thread? ☆☆☆☆
 Answer: Yes, it’s true that Node.js processes all requests on a single thread. But it’s just a part of the theory behind Node.js design. In fact, more than the single thread mechanism, it makes use of events and callbacks to handle a large no. of requests asynchronously.
 
 Moreover, Node.js has an optimized design which utilizes both JavaScript and C++ to guarantee maximum performance. JavaScript executes at the server-side by Google Chrome v8 engine. And the C++ lib UV library takes care of the non-sequential I/O via background workers.
@@ -2164,22 +2165,22 @@ To explain it practically, let’s assume there are 100s of requests lined up in
 
 Source: techbeamers.com
 
-Q10: When to not use Node.js? ☆☆☆☆
+# Q10: When to not use Node.js? ☆☆☆☆
 Answer: We can use Node.js for a variety of applications. But it is a single threaded framework, so we should not use it for cases where the application requires long processing time. If the server is doing some calculation, it won’t be able to process any other requests. Hence, Node.js is best when processing needs less dedicated CPU time.
 
 Source: techbeamers.com
 
-Q11: Why to use Buffers instead of binary strings to handle binary data ? ☆☆☆☆
+# Q11: Why to use Buffers instead of binary strings to handle binary data ? ☆☆☆☆
 Answer: Pure JavaScript does not able to handle straight binary data very well. Since Node.js servers have to deal with TCP streams for reading and writing of data, binary strings will become problematic to work with as it is very slow and has a tendency to break. That's why it is always advisable to use Buffers instead of binary strings to handle binary data.
 
 Source: codingdefined.com
 
-Q12: How to gracefully Shutdown Node.js Server? ☆☆☆☆
+# Q12: How to gracefully Shutdown Node.js Server? ☆☆☆☆
 Answer: We can gracefully shutdown Node.js server by using the generic signal called SIGTERM or SIGINT which is used for program termination. We need to call SIGTERM or SIGINT which will terminate the program and clean up the resources utilized by the program.
 
 Source: codingdefined.com
 
-Q13: What are the timing features of Node.js? ☆☆☆☆
+# Q13: What are the timing features of Node.js? ☆☆☆☆
 Answer: The Timers module in Node.js contains functions that execute code after a set period of time.
 
 setTimeout/clearTimeout - can be used to schedule code execution after a designated amount of milliseconds
@@ -2197,7 +2198,7 @@ Processed in the first iteration
 Processed in next iteration
 Source: github.com/jimuyouyou
 
-Q14: Explain usage of NODE_ENV ☆☆☆☆
+# Q14: Explain usage of NODE_ENV ☆☆☆☆
 Answer: Node encourages the convention of using a variable called NODE_ENV to flag whether we’re in production right now. This determination allows components to provide better diagnostics during development, for example by disabling caching or emitting verbose log statements. Setting NODE_ENV to production makes your application 3 times faster.
 
 // Setting environment variables in bash before starting the node process
@@ -2209,14 +2210,14 @@ if (process.env.NODE_ENV === “production”)
     useCaching = true;
 Source: github.com/i0natan/nodebestpractices
 
-Q15: What is LTS releases of Node.js why should you care? ☆☆☆☆
+# Q15: What is LTS releases of Node.js why should you care? ☆☆☆☆
 Answer: An LTS(Long Term Support) version of Node.js receives all the critical bug fixes, security updates and performance improvements.
 
 LTS versions of Node.js are supported for at least 18 months and are indicated by even version numbers (e.g. 4, 6, 8). They're best for production since the LTS release line is focussed on stability and security, whereas the Current release line has a shorter lifespan and more frequent updates to the code. Changes to LTS versions are limited to bug fixes for stability, security updates, possible npm updates, documentation updates and certain performance improvements that can be demonstrated to not break existing applications.
 
 Source: github.com/i0natan/nodebestpractices
 
-Q16: Provide some example of config file separation for dev and prod environments ☆☆☆☆
+# Q16: Provide some example of config file separation for dev and prod environments ☆☆☆☆
 Answer: A perfect and flawless configuration setup should ensure:
 
 keys can be read from file AND from environment variable
@@ -2246,7 +2247,7 @@ const config = require('./config/config.js').get(process.env.NODE_ENV);
 const dbconn = mongoose.createConnection(config.mongo.billing);
 Source: github.com/i0natan/nodebestpractices
 
-Q17: How would you handle errors for async code in Node.js? ☆☆☆☆
+# Q17: How would you handle errors for async code in Node.js? ☆☆☆☆
 Answer: Handling async errors in callback style (error-first approach) is probably the fastest way to hell (a.k.a the pyramid of doom). It's better to use a reputable promise library or async-await instead which enables a much more compact and familiar code syntax like try-catch.
 
 Consider promises to catch errors:
@@ -2270,7 +2271,7 @@ async function check(req, res) {
 }
 Source: github.com/i0natan/nodebestpractices
 
-Q18: What's the difference between dependencies, devDependencies and peerDependencies in npm package.json file? ☆☆☆☆
+# Q18: What's the difference between dependencies, devDependencies and peerDependencies in npm package.json file? ☆☆☆☆
 Answer:
 
 dependencies - Dependencies that your project needs to run, like a library that provides functions that you call from your code. They are installed transitively (if A depends on B depends on C, npm install on A will install B and C).
@@ -2281,7 +2282,7 @@ peerDependencies - Dependencies that your project hooks into, or modifies, in th
 
 Source: stackoverflow.com
 
-Q19: How do you convert an existing callback API to promises? ☆☆☆☆
+# Q19: How do you convert an existing callback API to promises? ☆☆☆☆
 Details: How to convert this callback code to Promise? Provide some examples.
 
 function divisionAPI (number, divider, successCallback, errorCallback) {
@@ -2327,7 +2328,7 @@ readfile('/some/file')
     });
 Source: stackoverflow.com
 
-Q20: What are async functions in Node? Provide some examples. ☆☆☆☆
+# Q20: What are async functions in Node? Provide some examples. ☆☆☆☆
 Answer: With the release of Node.js 8, the long awaited async functions have landed in Node.js as well. ES 2017 introduced Asynchronous functions. Async functions are essentially a cleaner way to work with asynchronous code in JavaScript.
 
 Async/Await is:
@@ -2356,30 +2357,30 @@ In Node.js, however, declaring any variable outside of any function’s scope bi
 
 Source: toptal.com
 
-Q2: Can Node.js use other engines than V8? ☆☆☆☆☆
+# Q2: Can Node.js use other engines than V8? ☆☆☆☆☆
 Answer: Yes. Microsoft Chakra is another JavaScript engine which can be used with Node.js. It’s not officially declared yet.
 
 Source: codeforgeek.com
 
-Q3: How would you scale Node application? ☆☆☆☆☆
+# Q3: How would you scale Node application? ☆☆☆☆☆
 Answer: We can scale Node application in following ways:
 
 cloning using Cluster module.
 decomposing the application into smaller services – i.e micro services.
 Source: codeforgeek.com
 
-Q4: What is the difference between process.nextTick() and setImmediate() ? ☆☆☆☆☆
+# Q4: What is the difference between process.nextTick() and setImmediate() ? ☆☆☆☆☆
 Answer: The difference between process.nextTick() and setImmediate() is that process.nextTick() defers the execution of an action till the next pass around the event loop or it simply calls the callback function once the ongoing execution of the event loop is finished whereas setImmediate() executes a callback on the next cycle of the event loop and it gives back to the event loop for executing any I/O operations.
 
 Source: codingdefined.com
 
-Q5: How to solve "Process out of Memory Exception" in Node.js ? ☆☆☆☆☆
+# Q5: How to solve "Process out of Memory Exception" in Node.js ? ☆☆☆☆☆
 Answer: To solve the process out of memory exception in Node.js we need to increase the max-old-space-size. By default the max size of max-old-space-size is 512 mb which you can increase by the command:
 
 node --max-old-space-size=1024 file.js
 Source: codingdefined.com
 
-Q6: Explain what is Reactor Pattern in Node.js? ☆☆☆☆☆
+# Q6: Explain what is Reactor Pattern in Node.js? ☆☆☆☆☆
 Answer: Reactor Pattern is an idea of non-blocking I/O operations in Node.js. This pattern provides a handler(in case of Node.js, a callback function) that is associated with each I/O operation. When an I/O request is generated, it is submitted to a demultiplexer.
 
 This demultiplexer is a notification interface that is used to handle concurrency in non-blocking I/O mode and collects every request in form of an event and queues each event in a queue. Thus, the demultiplexer provides the Event Queue.
@@ -2388,7 +2389,7 @@ At the same time, there is an Event Loop which iterates over the items in the Ev
 
 Source: hackernoon.com
 
-Q7: Explain some Error Handling approaches in Node.js you know about. Which one will you use? ☆☆☆☆☆
+# Q7: Explain some Error Handling approaches in Node.js you know about. Which one will you use? ☆☆☆☆☆
 Answer: Error handling in an asynchronous language works in a unique way and presents many challenges, some unexpected. There are four main error handling patterns in node:
 
 Error return value - doesn't work asynchronously
@@ -2467,7 +2468,7 @@ async function main(callback) {
 }
 Source: gist.github.com
 
-Q8: Why should you separate Express 'app' and 'server'? ☆☆☆☆☆
+# Q8: Why should you separate Express 'app' and 'server'? ☆☆☆☆☆
 Answer: Keeping the API declaration separated from the network related configuration (port, protocol, etc) allows testing the API in-process, without performing network calls, with all the benefits that it brings to the table: fast testing execution and getting coverage metrics of the code. It also allows deploying the same API under flexible and different network conditions. Bonus: better separation of concerns and cleaner code.
 
 API declaration, should reside in app.js:
@@ -2495,7 +2496,7 @@ app.set('port', port);
 var server = http.createServer(app);
 Source: github.com/i0natan/nodebestpractices
 
-Q9: Rewrite the code sample without try/catch block ☆☆☆☆☆
+# Q9: Rewrite the code sample without try/catch block ☆☆☆☆☆
 Details: Consider the code:
 
 async function check(req, res) {
@@ -2546,33 +2547,33 @@ async function loginController() {
 }
 Source: medium.com
 
-Q10: How many threads does Node actually create? ☆☆☆☆☆
+# Q10: How many threads does Node actually create? ☆☆☆☆☆
 Answer: 4 extra threads are for use by V8. V8 uses these threads to perform various tasks, such as GC-related background tasks and optimizing compiler tasks.
 
 Source: stackoverflow.com
 
-Q11: Can Node.js work without V8? ☆☆☆☆
+# Q11: Can Node.js work without V8? ☆☆☆☆
 Answer: No. The current node.js binary cannot work without V8. It would have no Javascript engine and thus no ability to run code which would obviously render it non-functional. Node.js was not designed to run with any other Javascript engine and, in fact, all the native code bindings that come with node.js (such as the fs module or the net module) all rely on the specific V8 interface between C++ and Javascript.
 
 There is an effort by Microsoft to allow the Chakra Javascript engine (that's the engine in Edge) to be used with node.js. Node.js can actually function to some extent without V8, through use of the node-chakracore project. There is ongoing work to reduce the tight coupling between V8 and Node, so that different JavaScript engines can be used in-place.
 
 Source: stackoverflow.com
 
-Q12: How the V8 engine works? ☆☆☆☆
+# Q12: How the V8 engine works? ☆☆☆☆
 Answer: V8 is a JavaScript engine built at the google development center, in Germany. It is open source and written in C++. It is used for both client side (Google Chrome) and server side (node.js) JavaScript applications.
 
 V8 was first designed to increase the performance of the JavaScript execution inside web browsers. In order to obtain speed, V8 translates JavaScript code into more efficient machine code instead of using an interpreter. It compiles JavaScript code into machine code at execution by implementing a JIT (Just-In-Time) compiler like a lot of modern JavaScript engines such as SpiderMonkey or Rhino (Mozilla) are doing. The main difference with V8 is that it doesn’t produce bytecode or any intermediate code.
 
 Source: nodejs.org
 
-Q13: What is the purpose of using hidden classes in V8? ☆☆☆☆☆
+# Q13: What is the purpose of using hidden classes in V8? ☆☆☆☆☆
 Answer: JavaScript is a prototype-based language: there are no classes and objects are created by using a cloning process. JavaScript is also dynamically typed: types and type informations are not explicit and properties can be added to and deleted from objects on the fly.
 
 Accessing types and properties effectively makes a first big challenge for V8. Instead of using a dictionary-like data structure for storing object properties and doing a dynamic lookup to resolve the property location (like most JavaScript engines do), V8 creates** hidden classes**, at runtime, in order to have an internal representation of the type system and to improve the property access time.
 
 Source: thibaultlaurens.github.io
 
-Q14: How V8 compiles JavaScript code? ☆☆☆☆☆
+# Q14: How V8 compiles JavaScript code? ☆☆☆☆☆
 Answer: V8 has two compilers:
 
 A “Full” Compiler that can generate good code for any JavaScript: good but not great JIT code. The goal of this compiler is to generate code quickly. To achieve its goal, it doesn’t do any type analysis and doesn’t know anything about types. Instead, it uses an Inline Caches or “IC” strategy to refine knowledge about types while the program runs. IC is very efficient and brings about 20 times speed improvment.
@@ -2583,7 +2584,7 @@ V8 also supports de-optimization: the optimizing compiler makes optimistic assum
 
 Source: thibaultlaurens.github.io
 
-Q15: How does libuv work under the hood? ☆☆☆☆☆
+# Q15: How does libuv work under the hood? ☆☆☆☆☆
 Answer: There is only one thread that executes JavaScript code and this is the thread where the event loop is running provided by libuv. The execution of callbacks (know that every userland code in a running Node.js application is a callback) is done by the event loop.
 
 Libuv by default creates a thread pool with four threads to offload asynchronous work to. Today’s operating systems already provide asynchronous interfaces for many I/O tasks (e.g. AIO on Linux). Whenever possible, libuv will use those asynchronous interfaces, avoiding usage of the thread pool.
@@ -2599,7 +2600,7 @@ close callbacks: some close callbacks, e.g. socket.on('close', ...).
 
 Source: nodejs.org
 
-Q16: How does the cluster module work? What’s the difference between it and a load balancer? ☆☆☆☆
+# Q16: How does the cluster module work? What’s the difference between it and a load balancer? ☆☆☆☆
 Answer: The cluster module performs fork from your server (at that moment it is already an OS process), thus creating several slave processes. The cluster module supports two methods of distributing incoming connections.
 
 The first one (and the default one on all platforms except Windows), is the round-robin approach, where the master process listens on a port, accepts new connections and distributes them across the workers in a round-robin fashion, with some built-in smarts to avoid overloading a worker process.
@@ -2610,7 +2611,7 @@ The difference between a cluster module and a load balancer is that instead of d
 
 Source: imasters.com
 
-Q17: What is V8 Templates? ☆☆☆☆☆
+# Q17: What is V8 Templates? ☆☆☆☆☆
 Answer: A template is a blueprint for JavaScript functions and objects. You can use a template to wrap C++ functions and data structures within JavaScript objects. V8 has two types of templates: Function Templates and Object Templates.
 
 Function Template is the blueprint for a single function. You create a JavaScript instance of template by calling the template’s GetFunction method from within the context in which you wish to instantiate the JavaScript function. You can also associate a C++ callback with a function template which is called when the JavaScript function instance is invoked.
@@ -2619,7 +2620,7 @@ Object Template is used to configure objects created with function template as t
 
 Source: blog.ghaiklor.com
 
-Q18: Why do we need C++ Addons in Node.js? ☆☆☆☆☆
+# Q18: Why do we need C++ Addons in Node.js? ☆☆☆☆☆
 Answer: Node.js Addons are dynamically-linked shared objects, written in C++, that can be loaded into Node.js using the require() function, and used just as if they were an ordinary Node.js module. They are used primarily to provide an interface between JavaScript running in Node.js and C/C++ libraries.
 
 There can be many reasons to write nodejs addons:
@@ -2631,7 +2632,7 @@ N-API (pronounced N as in the letter, followed by API) is an API for building na
 
 Source: nodejs.org
 
-Q19: Is it possible to use "Class" in Node.js? ☆☆☆☆
+# Q19: Is it possible to use "Class" in Node.js? ☆☆☆☆
 Answer: With ES6, you are able to make "actual" classes just like this:
 
 class Animal {
@@ -2667,7 +2668,7 @@ Modules and dependency injection are orthogonal: if you need dependency injectio
 
 Source: reddit.com
 
-Q1: Explain the result of this code execution ☆☆☆☆☆
+# Q1: Explain the result of this code execution ☆☆☆☆☆
 Details: Explain the result of that code execution:
 
 var EventEmitter = require("events");
@@ -2712,7 +2713,7 @@ RangeError: Maximum call stack size exceeded
     at EventEmitter.emit (events.js:182:13)
 Source: codementor.io
 
-Q2: Explain the result of this code execution ☆☆☆☆☆
+# Q2: Explain the result of this code execution ☆☆☆☆☆
 Details: Explain the result of this code execution
 
 var EventEmitter = require('events');
@@ -2746,7 +2747,7 @@ Answer: Shortly - the app will be run infinitely. Any function passed as the set
 
 Source: codementor.io
 
-Q3: What will happen when that code will be executed? ☆☆☆☆☆
+# Q3: What will happen when that code will be executed? ☆☆☆☆☆
 Details:
 
 What will happen when that code will be executed?
