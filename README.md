@@ -1868,6 +1868,17 @@ Source: tutorialspoint.com
 # Q29: What are streams? ☆☆☆
 
 Answer:
+A stream is a continuous flow of data.
+
+Instead of reading/writing all data at once, streams process it in chunks, which is memory-efficient.
+
+Useful for:
+
+Reading/writing large files.
+
+Handling HTTP requests/responses.
+
+Processing video/audio in real time.
 The official Node.js documentation defines streams as “A stream is an abstract interface for working with streaming data in Node.js.” The stream module provides an API for implementing the stream interface. Examples of the stream object in Node.js can be a request to an HTTP server and process.stdout are both stream instances. In short, Streams are objects in Node.js that lets the user read data from a source or write data to a destination in a continuous manner.
 Streams are objects that let you read data from a source or write data to a destination in continuous fashion. In Node.js, there are four types of streams.
 
@@ -1974,7 +1985,19 @@ Domains provide a way to handle multiple different I/O operations as a single gr
 Source: lazyquestion.com
 
 # Q39: What is stream and what are types of streams available in Node.js? ☆☆☆
-Answer: Streams are a collection of data that might not be available all at once and don’t have to fit in memory. Streams provide chunks of data in a continuous manner. It is useful to read a large set of data and process it.
+Answer: 
+A stream is a continuous flow of data.
+
+Instead of reading/writing all data at once, streams process it in chunks, which is memory-efficient.
+
+Useful for:
+
+Reading/writing large files.
+
+Handling HTTP requests/responses.
+
+Processing video/audio in real time.
+Streams are a collection of data that might not be available all at once and don’t have to fit in memory. Streams provide chunks of data in a continuous manner. It is useful to read a large set of data and process it.
 
 There is four fundamental type of streams:
 
