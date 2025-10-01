@@ -1542,9 +1542,26 @@ Source: techbeamers.com
 
 Answer: It is a generic piece of code which runs in between several asynchronous function calls is known as control flow function.
 
-Control flow determines the order in which statements and instructions are executed within a program. It involves making decisions, repeating code blocks, and reacting to events or conditions. In Node. js, control flow is crucial due to its non-blocking nature, where asynchronous operations are a common occurrence.
+In JavaScript, a control flow function isn’t a special keyword or reserved term in the language — instead, it refers to a pattern of handling asynchronous operations in a structured way.
 
-example Callback,asynch await ,promise
+👉 In simple words: a control flow function helps you manage the order in which multiple async functions (callbacks, promises, async/await) execute, and how their results/errors are handled.
+
+✅ Why do we need control flow functions?
+
+JavaScript is non-blocking and uses an event loop.
+When you have multiple asynchronous tasks (like DB queries, API calls, file reads), you often need to:
+
+Run them in sequence (one after the other).
+
+Run them in parallel (all at once).
+
+Run until a condition is met.
+
+Handle errors properly.
+
+If you just nest callbacks → you get callback hell.
+Control flow functions (or libraries like async.js, or using Promise.all, async/await) help solve this.
+
 Source: lazyquestion.com
 
 # Q11: What are Event ? ☆☆
