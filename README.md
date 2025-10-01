@@ -1878,6 +1878,94 @@ Reading/writing large files.
 
 Handling HTTP requests/responses.
 
+🔹 Example 1: Reading a File (Readable Stream)
+const fs = require("fs");
+
+// Create a readable stream
+const readable = fs.createReadStream("example.txt", { encoding: "utf8" });
+
+// Read data in chunks
+readable.on("data", (chunk) => {
+  console.log("Received chunk:", chunk);
+});
+
+readable.on("end", () => {
+  console.log("Finished reading file.");
+});
+
+
+✅ Output:
+Data will appear chunk by chunk, not all at once — very memory-efficient for large files.
+
+🔹 Example 2: Writing to a File (Writable Stream)
+const fs = require("fs");
+
+const writable = fs.createWriteStream("output.txt");
+
+writable.write("Hello, ");
+writable.write("World!\n");
+writable.end("Finished writing.\n");
+
+writable.on("finish", () => {
+  console.log("All data written successfully.");
+});
+
+🔹 Example 3: Piping Streams
+
+Streams can be piped together — data flows automatically from readable → writable.
+
+const fs = require("fs");
+
+// Pipe file data to another file
+const readable = fs.createReadStream("example.txt");
+const writable = fs.createWriteStream("copy.txt");
+
+readable.pipe(writable);
+
+writable.on("finish", () => {
+  console.log("File copied using streams.");
+});
+
+🔹 Example 4: Transform Stream
+
+Modify data while reading/writing.
+
+const { Transform } = require("stream");
+
+const upperCase = new Transform({
+  transform(chunk, encoding, callback) {
+    // Convert data to uppercase
+    this.push(chunk.toString().toUpperCase());
+    callback();
+  }
+});
+
+const fs = require("fs");
+
+fs.createReadStream("example.txt")
+  .pipe(upperCase)
+  .pipe(fs.createWriteStream("upper.txt"));
+
+console.log("File transformed to uppercase.");
+
+🔹 Key Points for Interviews
+
+Streams reduce memory usage by processing data in chunks.
+
+They are EventEmitters → events: data, end, error, finish.
+
+Pipe() allows chaining multiple streams.
+
+Use Transform streams for modifying data on the fly.
+
+Common use cases:
+
+File upload/download.
+
+HTTP responses (big JSON, video streaming).
+
+Real-time data processing.
+
 Processing video/audio in real time.
 The official Node.js documentation defines streams as “A stream is an abstract interface for working with streaming data in Node.js.” The stream module provides an API for implementing the stream interface. Examples of the stream object in Node.js can be a request to an HTTP server and process.stdout are both stream instances. In short, Streams are objects in Node.js that lets the user read data from a source or write data to a destination in a continuous manner.
 Streams are objects that let you read data from a source or write data to a destination in continuous fashion. In Node.js, there are four types of streams.
