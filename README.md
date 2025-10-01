@@ -1576,50 +1576,25 @@ Emitter → raises an event.
 
 Listener → reacts to the event.
 
-This is the backbone of Node.js’s asynchronous and non-blocking architecture (e.g., http server request, streams, sockets).
+🔹 Simple Example
+Step 1: Import EventEmitter
+const EventEmitter = require("events");
 
-Much of the Node.js core API is built around an idiomatic asynchronous event-driven architecture in which certain kinds of objects (called "emitters") emit named events that cause Function objects ("listeners") to be called.
+// Create an instance
+const eventEmitter = new EventEmitter();
 
-For instance: a net.Server object emits an event each time a peer connects to it; a fs.ReadStream emits an event when the file is opened; a stream emits an event whenever data is available to be read.
-
-All objects that emit events are instances of the EventEmitter class. These objects expose an eventEmitter.on() function that allows one or more functions to be attached to named events emitted by the object. Typically, event names are camel-cased strings but any valid JavaScript property key can be used.
-
-When the EventEmitter object emits an event, all of the functions attached to that specific event are called synchronously. Any values returned by the called listeners are ignored and discarded.
-
-The following example shows a simple EventEmitter instance with a single listener. The eventEmitter.on() method is used to register listeners, while the eventEmitter.emit() method is used to trigger the event.
-
-const EventEmitter = require('node:events');
-
-class MyEmitter extends EventEmitter {}
-
-const myEmitter = new MyEmitter();
-myEmitter.on('event', () => {
-  console.log('an event occurred!');
+Step 2: Register an Event Listener
+// Listen for a custom event called 'greet'
+eventEmitter.on("greet", (name) => {
+  console.log(`Hello, ${name}!`);
 });
-myEmitter.emit('event');
-Passing arguments and this to listeners#
-The eventEmitter.emit() method allows an arbitrary set of arguments to be passed to the listener functions. Keep in mind that when an ordinary listener function is called, the standard this keyword is intentionally set to reference the EventEmitter instance to which the listener is attached.
 
-const EventEmitter = require('node:events');
-class MyEmitter extends EventEmitter {}
-const myEmitter = new MyEmitter();
-myEmitter.on('event', function(a, b) {
-  console.log(a, b, this, this === myEmitter);
-  // Prints:
-  //   a b MyEmitter {
-  //     _events: [Object: null prototype] { event: [Function (anonymous)] },
-  //     _eventsCount: 1,
-  //     _maxListeners: undefined,
-  //     [Symbol(shapeMode)]: false,
-  //     [Symbol(kCapture)]: false
-  //   } true
-});
-myEmitter.emit('event', 'a', 'b');
-Answer: Event Listeners are similar to call back functions but are associated with some event. For example when a server listens to http request on a given port a event will be generated and to specify http server has received and will invoke corresponding event listener. Basically, Event listener's are also call backs for a corresponding event.
+Step 3: Emit the Event
+// Emit (trigger) the 'greet' event
+eventEmitter.emit("greet", "Firdous");
 
-Node.js has built in event's and built in event listeners. Node.js also provides functionality to create Custom events and Custom Event listeners.
-
-Source: lazyquestion.com
+✅ Output:
+Hello, Firdous!
 
 # Q12: If Node.js is single threaded then how it handles concurrency? ☆☆
 
