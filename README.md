@@ -1979,6 +1979,72 @@ Source: tutorialspoint.com
 # Q30: What is Chaining in Node? ☆☆☆
 Answer: Chanining is a mechanism to connect output of one stream to another stream and create a chain of multiple stream operations. It is normally used with piping operations.
 
+Chaining in Node.js is a programming pattern where multiple methods are called in a single statement, one after another, because each method returns an object (often the same object).
+
+It makes code concise, readable, and fluent.
+
+Commonly used with:
+
+Streams (readable.pipe().pipe())
+
+Promises (.then().catch())
+
+Some libraries like Express, Mongoose, Lodash
+
+🔹 Why Use Chaining?
+
+Avoid repetitive variable assignments.
+
+Makes sequential operations clear.
+
+Reduces boilerplate code.
+
+🔹 Example 1: Chaining with Streams
+const fs = require("fs");
+const { Transform } = require("stream");
+
+// Transform stream: convert text to uppercase
+const upperCase = new Transform({
+  transform(chunk, encoding, callback) {
+    this.push(chunk.toString().toUpperCase());
+    callback();
+  }
+});
+
+// Chaining readable -> transform -> writable
+fs.createReadStream("example.txt")
+  .pipe(upperCase)
+  .pipe(fs.createWriteStream("output.txt"));
+
+console.log("File transformed using stream chaining!");
+
+Chaining in Express.js
+const express = require("express");
+const app = express();
+
+app.get("/users/:id", 
+  (req, res, next) => {
+    console.log("Middleware 1");
+    next();
+  }, 
+  (req, res, next) => {
+    console.log("Middleware 2");
+    next();
+  }, 
+  (req, res) => {
+    res.send("Final Response");
+  }
+);
+
+app.listen(3000, () => console.log("Server running on port 3000"));
+
+
+✅ Explanation:
+
+Middleware functions are chained using next().
+
+Each function executes in sequence until the final response is sent.
+
 Source: tutorialspoint.com
 
 # Q31: What is the purpose of setTimeout function? ☆☆☆
