@@ -1488,6 +1488,28 @@ Source: tutorialspoint.com
 
 Answer: Operation errors are not bugs, but problems with the system, like request timeout or hardware failure. On the other hand programmer errors are actual bugs.
 
+
+Global Error Handling
+
+For uncaught exceptions or unhandled promise rejections, use process-level handlers:
+
+process.on('uncaughtException', (err) => {
+console.error("Uncaught Exception:", err.message);
+});
+
+process.on('unhandledRejection', (reason) => {
+console.error("Unhandled Rejection:", reason);
+});
+Copy
+Key Considerations
+
+Always handle errors at the appropriate level.
+
+Avoid using process.on('uncaughtException') as the primary error-handling mechanism; it should be a last resort.
+
+Use tools like PM2 or Forever to restart the application gracefully in case of crashes.
+
+
 Source: blog.risingstack.com
 
 # Q7: What is the difference between Nodejs, AJAX, and jQuery? ☆☆
