@@ -107,15 +107,15 @@ let r1 = "hello world";
 console.log("reverse string",r1.split("").reverse().join(""));
 
 console.error("palindrome",r1 === r1.split("").reverse().join(""));
-r2 = "madam"
+let r2 = "madam"
 
 console.log("palindrome",r2 === r2.split("").reverse().join(""));
 
 function lstr(data){
-    let left=0;max=0;maxData = [];
+    let left=0,max=0,maxData = [];
     let oldmax = 0;
     let set = new Set();
-   for(right=0;right<data.length;right++){
+   for(let right=0;right<data.length;right++){
 
     if(set.has(data[right]))
     {
@@ -177,4 +177,11 @@ function intersection(arr1, arr2) {
 }
 
 console.log(intersection([1,2,3], [2,3,4])); // [2,3]
+
+
+ //const EventEmitter = require("events");
+ import {EventEmitter} from "events"
+ const eventEmitter = new EventEmitter();
+ eventEmitter.on("greet", (name) => { console.log("Hello", name); });
+ eventEmitter.emit("greet", "Firdous");
 

@@ -1749,7 +1749,86 @@ Source: tutorialspoint.com
 
 # Q27: What is purpose of Buffer class in Node? ☆☆☆
 
-Answer: Buffer class is a global class and can be accessed in application without importing buffer module. A Buffer is a kind of an array of integers and corresponds to a raw memory allocation outside the V8 heap. A Buffer cannot be resized.
+Answer: 
+In Node.js, a Buffer is a special object used to handle binary data (raw bytes).
+
+Unlike regular JavaScript strings (which are UTF-16 encoded and immutable), Buffers let you work directly with raw memory.
+
+Useful when dealing with:
+
+File system (reading/writing files).
+
+Network packets (TCP/UDP sockets).
+
+Streams (audio, video, images).
+
+Working with binary formats (e.g., encryption, compression).
+
+🔹 Why Do We Need Buffers?
+
+JavaScript was originally designed for browsers and didn’t have direct support for binary data.
+But in Node.js:
+
+Files, sockets, and streams all deal with raw bytes.
+
+The Buffer class was introduced to make it possible to read/write this kind of data.
+
+🔹 Example 1: Creating a Buffer
+// Create a buffer from a string
+const buf = Buffer.from("Hello", "utf-8");
+
+console.log(buf);          // <Buffer 48 65 6c 6c 6f>
+console.log(buf.toString()); // Hello
+
+
+✅ Output shows the raw byte values (48 65 6c 6c 6f = ASCII for "Hello").
+
+🔹 Example 2: Allocating a Buffer
+// Allocate 5 bytes of buffer
+const buf = Buffer.alloc(5);
+console.log(buf); // <Buffer 00 00 00 00 00>
+
+🔹 Example 3: Writing into a Buffer
+const buf = Buffer.alloc(10);
+buf.write("Hi");
+console.log(buf);          // <Buffer 48 69 00 00 00 00 00 00 00 00>
+console.log(buf.toString()); // Hi
+
+🔹 Example 4: Reading File Data with Buffer
+const fs = require("fs");
+
+fs.readFile("example.txt", (err, data) => {
+  if (err) throw err;
+  console.log(data);            // Raw Buffer data
+  console.log(data.toString()); // Convert buffer to string
+});
+
+🔹 Example 5: Concatenating Buffers
+const buf1 = Buffer.from("Hello ");
+const buf2 = Buffer.from("World");
+const buf3 = Buffer.concat([buf1, buf2]);
+
+console.log(buf3.toString()); // Hello World
+
+🔹 Key Notes for Interviews
+
+Buffers are like raw byte arrays in C/C++.
+
+They are allocated outside V8’s heap for efficiency.
+
+Common methods:
+
+Buffer.from(string, encoding)
+
+Buffer.alloc(size)
+
+buf.toString(encoding)
+
+Buffer.concat([buf1, buf2])
+
+Default encoding = UTF-8.
+
+Buffer class is a global class and can be accessed in application without importing buffer module. A Buffer is a kind of an array of integers and corresponds to a raw memory allocation outside the V8 heap. A Buffer cannot be resized.
 If you’re a JavaScript developer who is new to Node.js, you might have come across the term “Buffer” and wondered what it means. In this article, we’ll explain what Buffers are, why they’re important, and how you can use them in your Node.js applications.
 
 So, what exactly is a Buffer? Simply put, a Buffer is a way to store and manipulate binary data in Node.js. Binary data refers to data that consists of binary values, as opposed to text data, which consists of characters and symbols. Examples of binary data include images, audio and video files, and raw data from a network.
@@ -2041,7 +2120,7 @@ setTimeout(fn, 0) → schedules on the next event loop tick (but after I/O).
 
 Architect tip: Overusing nextTick() may starve the event loop.
 
-# Q49. How do you secure a Node.js application?
+# Q49. How do you secure a Node.js application? explain JWT
 
 Answer:
 
@@ -2056,6 +2135,134 @@ Avoid eval() / unsafe regex.
 Dependency scanning (npm audit, Snyk).
 
 Architect-level: Enforce Zero Trust security model and OWASP best practices.
+
+JWT (JSON Web Token) is a must-know for senior Node.js developers and system design interviews. Let’s break it down step by step.
+
+🔹 What is JWT?
+
+JWT (JSON Web Token) is a compact, URL-safe way of securely transmitting information between parties as a JSON object.
+
+Commonly used for authentication and authorization in APIs.
+
+Instead of storing sessions on the server, the client holds the token and sends it with every request.
+
+🔹 Structure of a JWT
+
+A JWT has 3 parts (separated by .):
+
+header.payload.signature
+
+1. Header (metadata)
+
+Defines algorithm (e.g., HS256, RS256).
+
+Example:
+
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+
+2. Payload (claims)
+
+Contains data (user info, permissions, expiry).
+
+Example:
+
+{
+  "sub": "1234567890",
+  "name": "Firdous",
+  "role": "admin",
+  "exp": 1714828800
+}
+
+3. Signature
+
+Ensures token integrity (not tampered).
+
+Created by encoding header + payload and signing with a secret/private key.
+
+HMACSHA256(
+  base64UrlEncode(header) + "." + base64UrlEncode(payload),
+  secret
+)
+
+🔹 How JWT Works (Step-by-Step)
+✅ 1. User Login
+
+User logs in with username + password.
+
+Server verifies credentials.
+
+✅ 2. Server Issues JWT
+
+Server creates a JWT with user data (id, role) + expiry (exp).
+
+Signs it with a secret key.
+
+Returns token to client.
+
+✅ 3. Client Stores Token
+
+Client stores JWT (usually in localStorage, sessionStorage, or HTTP-only cookies).
+
+✅ 4. Sending Requests
+
+Client sends JWT with each API request (commonly in Authorization header).
+
+Authorization: Bearer <JWT_TOKEN>
+
+✅ 5. Server Verifies Token
+
+Server verifies:
+
+Signature (ensures token not tampered).
+
+Expiry (exp) (checks validity).
+
+If valid → process request.
+
+If invalid/expired → reject with 401 Unauthorized.
+
+🔹 Example in Node.js (Express + jsonwebtoken)
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const app = express();
+
+const SECRET_KEY = "mysecretkey";
+
+// Generate JWT
+app.post("/login", (req, res) => {
+  const user = { id: 1, name: "Firdous" };
+  const token = jwt.sign(user, SECRET_KEY, { expiresIn: "1h" });
+  res.json({ token });
+});
+
+// Protected Route
+app.get("/profile", (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    if (err) return res.sendStatus(403);
+    res.json({ message: "Profile accessed", user: decoded });
+  });
+});
+
+app.listen(3000, () => console.log("Server running on port 3000"));
+
+🔹 Benefits of JWT
+
+✅ Stateless (no server memory needed for sessions).
+✅ Compact & portable (can be sent in headers, cookies).
+✅ Secure (if signed with strong secret/private key).
+✅ Cross-platform (works in web, mobile, microservices).
+
+🔹 Limitations of JWT
+
+⚠️ If a JWT is stolen, attacker can impersonate until expiry.
+⚠️ Cannot be revoked easily (unless using a blacklist or short expiry + refresh tokens).
+⚠️ Payload is only base64 encoded, not encrypted (anyone can read it, so never store sensitive data like passwords).
 
 # Q50. How do you manage environment configuration in Node.js apps?
 
