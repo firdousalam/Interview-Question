@@ -2102,6 +2102,200 @@ Generators are lightweight routines, they make a function wait and resume via th
 Source: techbeamers.com
 
 # Q35: Explain how does Node.js work? ☆☆☆
+
+🔹 What is Node.js?
+
+Node.js is a JavaScript runtime built on Chrome’s V8 engine.
+
+It allows JavaScript to run outside the browser, primarily on the server-side.
+
+Designed for non-blocking, event-driven I/O, making it highly scalable for real-time applications.
+
+Key features:
+
+Single-threaded (handles multiple requests using the event loop).
+
+Non-blocking I/O (asynchronous operations).
+
+Built on V8 engine (fast JS compilation).
+
+Uses libuv for asynchronous I/O under the hood.
+
+🔹 Node.js Architecture
+
+Node.js is composed of several layers:
+
+V8 Engine
+
+Compiles JS code to machine code.
+
+Executes JavaScript.
+
+Supports modern ES6+ features.
+
+libuv
+
+Provides event loop, async I/O, thread pool.
+
+Handles:
+
+File system operations
+
+Network sockets
+
+DNS lookups
+
+Async tasks in general
+
+Event Loop
+
+Core of Node.js, allows single-threaded async concurrency.
+
+Executes callbacks for events.
+
+Node.js APIs
+
+File system, HTTP, Streams, Events, Child Processes, Buffer, etc.
+
+C++ Bindings
+
+Node.js core modules (like fs, net) have C++ bindings for system-level operations.
+
+🔹 How Node.js Handles Requests
+
+Node.js starts a single main thread to execute JS code.
+
+Incoming requests (HTTP, TCP) are delegated to libuv.
+
+libuv handles I/O asynchronously, possibly using a thread pool for blocking operations.
+
+When the operation completes, a callback is pushed to the event loop queue.
+
+The event loop executes callbacks sequentially on the main thread.
+
+🔹 Event Loop in Depth
+
+The event loop has multiple phases:
+
+Phase	Description
+Timers	Executes callbacks from setTimeout and setInterval.
+Pending Callbacks	Executes I/O callbacks deferred to the next loop iteration.
+Idle, Prepare	Internal use.
+Poll	Retrieves new I/O events, executes I/O callbacks.
+Check	Executes setImmediate() callbacks.
+Close Callbacks	Executes socket.on('close') events.
+
+Microtasks queue:
+
+process.nextTick() and Promises are executed before moving to the next phase, giving them higher priority.
+
+Visual Flow:
+
+Timers -> I/O Callbacks -> Idle/Prepare -> Poll -> Check -> Close
+      ^ Microtasks (process.nextTick, Promises) run here
+
+🔹 Handling Blocking vs Non-Blocking
+
+Blocking: CPU-heavy tasks (loops, encryption, compression) can block the event loop.
+
+Non-blocking: File system, DB queries, network calls are asynchronous via callbacks/promises/async-await.
+
+Example: Non-blocking
+
+const fs = require('fs');
+fs.readFile('file.txt', (err, data) => {
+  if(err) throw err;
+  console.log(data.toString());
+});
+console.log("Reading file...");
+
+
+Output:
+
+Reading file...
+<file content>
+
+
+Node.js continues running the main thread while waiting for I/O.
+
+🔹 Node.js Threading Model
+
+Single-threaded JS execution (main thread).
+
+libuv thread pool (default 4 threads) handles:
+
+File system
+
+DNS
+
+Crypto
+
+Compression
+
+Worker Threads can be used for CPU-intensive tasks.
+
+🔹 Streams, Buffers, and Efficient Data Handling
+
+Node.js uses streams for handling large files/data efficiently without loading everything into memory.
+
+Buffer allows working with raw binary data.
+
+Stream + Buffer + Event Loop = highly efficient data processing.
+
+🔹 Modules and NPM
+
+Node.js has a module system (CommonJS / ES Modules).
+
+require() imports modules.
+
+NPM provides a vast ecosystem of packages for almost anything (HTTP, DB, caching, etc.).
+
+🔹 Real-World Flow Example
+
+Scenario: HTTP request for reading a file
+
+Browser sends GET request.
+
+Node.js receives request (single thread).
+
+File read is delegated to libuv thread pool.
+
+Node.js continues handling other requests.
+
+File read completes → callback is added to event loop queue.
+
+Callback executes → response sent to client.
+
+✅ Node.js can handle thousands of concurrent requests without spawning multiple threads for each connection.
+
+🔹 Advantages of Node.js
+
+High scalability (event-driven, non-blocking I/O).
+
+Single language (JS) for front-end and back-end.
+
+Real-time applications (chat, streaming, gaming).
+
+Large ecosystem via NPM.
+
+🔹 Limitations
+
+Not suitable for CPU-intensive tasks (blocking main thread).
+
+Callback hell if not handled properly (mitigated by Promises/async-await).
+
+🔹 Summary
+
+Node.js = V8 + libuv + JS APIs → single-threaded, async, event-driven.
+
+Event Loop = core mechanism for async concurrency.
+
+Non-blocking I/O allows high-performance network apps.
+
+Streams & Buffers handle large data efficiently.
+
+Use Worker Threads / child processes for CPU-heavy tasks.
+
 Answer: A Node.js application creates a single thread on its invocation. Whenever Node.js receives a request, it first completes its processing before moving on to the next request.
 
 Node.js works asynchronously by using the event loop and callback functions, to handle multiple requests coming in parallel. An Event Loop is a functionality which handles and processes all your external events and just converts them to a callback function. It invokes all the event handlers at a proper time. Thus, lots of work is done on the back-end, while processing a single request, so that the new incoming request doesn’t have to wait if the processing is not complete.
