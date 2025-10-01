@@ -1566,6 +1566,18 @@ Source: lazyquestion.com
 
 # Q11: What are Event ? ☆☆
 
+Events in Node.js are just like real-world signals (e.g., "door opened", "message received").
+
+Node.js uses the EventEmitter class from the events module to create, listen to, and fire (emit) events.
+
+It follows the Observer pattern:
+
+Emitter → raises an event.
+
+Listener → reacts to the event.
+
+This is the backbone of Node.js’s asynchronous and non-blocking architecture (e.g., http server request, streams, sockets).
+
 Much of the Node.js core API is built around an idiomatic asynchronous event-driven architecture in which certain kinds of objects (called "emitters") emit named events that cause Function objects ("listeners") to be called.
 
 For instance: a net.Server object emits an event each time a peer connects to it; a fs.ReadStream emits an event when the file is opened; a stream emits an event whenever data is available to be read.
