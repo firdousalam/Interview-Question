@@ -10,7 +10,7 @@ function decimalToBinary(decimal) {
 }
 
 // Example usage:
-let decimalInput = 25;
+let decimalInput = 24;
 let binaryOutput = decimalToBinary(decimalInput);
 
 console.log("Binary equivalent of " + decimalInput + " is: " + binaryOutput);
