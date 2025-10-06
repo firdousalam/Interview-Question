@@ -4638,6 +4638,1435 @@ AWS Trusted Advisor - AWS Trusted Advisor is an online resource to help you redu
 
 
 
+Q1. Write a program to swap two numbers.
+Answer: Here is a Python program to swap two numbers:
+
+a = int(input("Enter the first number: "))
+b = int(input("Enter the second number: "))
+
+print(f"\nBefore swap:\na = {a}, b = {b}")
+
+# Swap using tuple unpacking (no need for a temp variable)
+a, b = b, a
+
+print(f"After swap (using tuple unpacking):\na = {a}, b = {b}\n")
+
+// Output
+Enter the first number: 5
+Enter the second number: 10
+
+Before swap:
+a = 5, b = 10
+After swap (using tuple unpacking):
+a = 10, b = 5
+Q2. Write a program to convert a decimal number to a binary number.
+Answer: Here is a simple Python program to convert a decimal number to a binary number:
+
+def decimal_to_binary(n: int) -> str:
+    """Convert decimal to binary without using built-in functions."""
+    if n == 0:
+        return "0"
+    bits = []
+    while n > 0:
+        bits.append(str(n % 2))
+        n //= 2
+    return ''.join(reversed(bits))
+
+def main():
+    num = int(input("Enter a non-negative integer: "))
+    if num < 0:
+        print("Please enter a non-negative integer.")
+        return
+
+    binary = decimal_to_binary(num)
+    print(f"Binary: {binary}")
+
+if __name__ == "__main__":
+    main()
+
+// Output
+Enter a non-negative integer: 12
+Binary: 1100
+Q3. Given the head of a singly linked list, reverse the list and return the new head.
+Answer: Here is a clean and efficient C++ solution to reverse a singly linked list:
+
+#include <iostream>
+using namespace std;
+
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+ListNode* reverseList(ListNode* head) {
+    ListNode* prev = nullptr;
+    ListNode* curr = head;
+    
+    while (curr) {
+        ListNode* next = curr->next; // Store next node
+        curr->next = prev;           // Reverse current node's pointer
+        prev = curr;                 // Move prev one step forward
+        curr = next;                 // Move curr one step forward
+    }
+    
+    return prev; // New head of the reversed list
+}
+
+void printList(ListNode* head) {
+    ListNode* curr = head;
+    while (curr) {
+        cout << curr->val << " -> ";
+        curr = curr->next;
+    }
+    cout << "null" << endl;
+}
+
+int main() {
+    // Create a simple linked list: 1 -> 2 -> 3 -> 4 -> null
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    head->next->next->next = new ListNode(4);
+    
+    cout << "Original List: ";
+    printList(head);
+
+    ListNode* reversedHead = reverseList(head);
+
+    cout << "Reversed List: ";
+    printList(reversedHead);
+
+    return 0;
+}
+
+//Output
+Original List: 1 -> 2 -> 3 -> 4 -> null
+Reversed List: 4 -> 3 -> 2 -> 1 -> null
+Pro Tip: Strengthen your programming skills by exploring C++ interview questions and answers. Enhance your coding skills and excel in Power Programmer interview questions at Infosys.
+
+Q4. Write a program to convert a decimal number to an octal number.
+Answer: Here is a solution in C++ that manually converts a decimal number to an octal number:
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    int num;
+    cout << "Enter a decimal number: ";
+    cin >> num;
+
+    // Special case for zero
+    if (num == 0) {
+        cout << "Octal: 0" << endl;
+        return 0;
+    }
+
+    vector<int> octalDigits;
+    int n = num;
+
+    // Convert to octal by repeatedly dividing by 8 and storing remainders
+    while (n > 0) {
+        octalDigits.push_back(n % 8);
+        n /= 8;
+    }
+
+    // The digits are collected in reverse order, so reverse them
+    reverse(octalDigits.begin(), octalDigits.end());
+
+    // Display the octal number
+    cout << "Octal: ";
+    for (int digit : octalDigits) {
+        cout << digit;
+    }
+    cout << endl;
+
+    return 0;
+}
+Q5. Check if a Number is Prime
+Answer: Below is a Python function that checks whether a number is prime by testing divisibility from 2 up to √n:
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    if n == 2:
+        return True
+    if n % 2 == 0:
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):  # Only check odd numbers
+        if n % i == 0:
+            return False
+    return True
+#Example usage and Output
+# Test cases
+print(is_prime(2))    # Output: True, since 2 is a prime number
+print(is_prime(11))   # Output: True, since 11 is a prime number
+print(is_prime(15))   # Output: False, since 15 is not a prime number
+print(is_prime(18))   # Output: False, since 18 is not a prime number
+print(is_prime(29))   # Output: True, since 29 is a prime number
+print(is_prime(97))   # Output: True, since 97 is a prime number
+print(is_prime(100))  # Output: False, since 100 is not a prime number
+Q6. Given the head of a singly linked list, reverse the list by changing the next pointers of the nodes, and return the new head of the reversed list.
+Answer: Here is a concise, in-place Python implementation that reverses a singly linked list by updating each node’s next pointer:
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def reverse_list(head: ListNode) -> ListNode:
+    prev, curr = None, head
+    while curr:
+        nxt = curr.next      # save next node
+        curr.next = prev     # reverse the link
+        prev, curr = curr, nxt  # advance pointers
+    return prev
+
+# Helper function to print a linked list
+def print_list(head):
+    while head:
+        print(head.val, end=" -> " if head.next else "\n")
+        head = head.next
+
+# Example usage
+# Creating the linked list: 1 -> 2 -> 3 -> 4 -> 5
+head = ListNode(1)
+head.next = ListNode(2)
+head.next.next = ListNode(3)
+head.next.next.next = ListNode(4)
+head.next.next.next.next = ListNode(5)
+
+print("Original list:")
+print_list(head)
+
+# Reverse the linked list
+reversed_head = reverse_list(head)
+
+print("Reversed list:")
+print_list(reversed_head)
+
+//Output
+Original list:
+1 -> 2 -> 3 -> 4 -> 5
+Reversed list:
+5 -> 4 -> 3 -> 2 -> 1
+Q7. Given a directed graph with V vertices numbered 0 to V−1 and an edge list, determine whether the graph contains a cycle.
+Answer: Here is the solution in a JavaScript program that uses depth-first search with a recursion stack to detect if a directed graph contains a cycle:
+
+function hasCycle(V, edges) {
+    const adj = Array.from({ length: V }, () => []);
+    for (const [u, v] of edges) {
+        adj[u].push(v);
+    }
+
+    const visited = new Array(V).fill(false);
+    const inStack = new Array(V).fill(false);
+
+    function dfs(u) {
+        visited[u] = inStack[u] = true;
+        for (const v of adj[u]) {
+            if (!visited[v] && dfs(v)) return true;
+            if (inStack[v]) return true;
+        }
+        inStack[u] = false;
+        return false;
+    }
+
+    for (let i = 0; i < V; i++) {
+        if (!visited[i] && dfs(i)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+# Example usage
+const V1 = 4;
+const edges1 = [[0, 1], [1, 2], [2, 0], [2, 3]];
+console.log(hasCycle(V1, edges1)); // Output: true (Cycle exists)
+
+const V2 = 4;
+const edges2 = [[0, 1], [1, 2], [2, 3]];
+console.log(hasCycle(V2, edges2)); // Output: false (No cycle)
+Q8. Given two strings s1 and s2, return the length of their longest common subsequence (a subsequence appears in both strings in the same relative order).
+Answer: Below is a Java implementation using a dynamic-programming table to compute the length of the longest common subsequence between two strings:
+
+public class LCS {
+    public int longestCommonSubsequence(String s1, String s2) {
+        int m = s1.length(), n = s2.length();
+        int[][] dp = new int[m + 1][n + 1];
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (s1.charAt(i - 1) == s2.charAt(j - 1))
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                else
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+        return dp[m][n];
+    }
+
+    public static void main(String[] args) {
+        LCS lcs = new LCS();
+
+        String s1 = "abcde";
+        String s2 = "ace";
+        int result = lcs.longestCommonSubsequence(s1, s2);
+        System.out.println("Length of LCS: " + result);
+    }
+}
+
+//Output
+Length of LCS: 3
+Q9. Given an array heights[] representing bar heights in a histogram, find the area of the largest rectangle that can be formed.
+Answer: Here is the solution in a Python program, in which we use a stack to keep track of the indices of the bars. We iterate through each bar and calculate the area, considering the current bar as the smallest bar in the rectangle.
+
+def largestRectangleArea(heights):
+    stack = []
+    max_area = 0
+    heights.append(0)  # Append a zero to pop all remaining bars in stack
+
+    for i, h in enumerate(heights):
+        while stack and heights[stack[-1]] > h:
+            height = heights[stack.pop()]
+            width = i if not stack else i - stack[-1] - 1
+            max_area = max(max_area, height * width)
+        stack.append(i)
+
+    return max_area
+
+# Example usage
+heights = [2, 1, 5, 6, 2, 3]
+result = largestRectangleArea(heights)
+print("Largest Rectangle Area:", result)
+Q10. Given an array of distinct integers arr[], return the minimum number of swaps needed to sort it in ascending order.
+Answer: Here is a solution in a JavaScript program with minimum number of swaps needed to sort the array in ascending order:
+
+function minSwaps(arr) {
+    const n = arr.length;
+    const pairs = arr.map((v, i) => [v, i]).sort((a, b) => a[0] - b[0]);
+    const visited = Array(n).fill(false);
+    let swaps = 0;
+
+    for (let i = 0; i < n; i++) {
+        if (visited[i] || pairs[i][1] === i) continue;
+        let cycleSize = 0, j = i;
+        while (!visited[j]) {
+            visited[j] = true;
+            j = pairs[j][1];
+            cycleSize++;
+        }
+        swaps += cycleSize - 1;
+    }
+    return swaps;
+}
+
+// Example usage
+const arr = [4, 3, 2, 1];
+const result = minSwaps(arr);
+console.log("Minimum number of swaps:", result);
+Q11. Write a function that takes a string and returns the string in reverse order.
+Answer: Here is a JavaScript function that reverses a given string by splitting it into an array of characters, reversing the array, and then joining it back into a string:
+
+function reverseString(str) {
+  return str.split('').reverse().join('');
+}
+
+# Example usage
+console.log(reverseString("hello")); // Output: "olleh"
+Q12. Write a function that returns the factorial of a non-negative integer n (i.e., n!).
+Answer: Here is a C++ function that returns the factorial of a non-negative integer n (i.e., n!):
+
+int factorial(int n) {
+    if (n < 0)
+        throw std::invalid_argument("Input must be a non-negative integer");
+    if (n <= 1)
+        return 1;
+    return n * factorial(n - 1);
+}
+Q13. Write a function that takes a string s and returns true if it reads the same forwards and backwards, otherwise false. 
+Answer: Below is a JavaScript approach that checks if a string is a palindrome by reversing it and comparing it to the original:
+
+function isPalindrome(s) {
+  const reversed = s.split('').reverse().join('');
+  return s === reversed;
+}
+
+// Example usage
+console.log(isPalindrome("racecar")); // Output: true
+console.log(isPalindrome("hello"));   // Output: false
+Q14. Write a function that takes a list of integers arr and returns the maximum element.
+Answer: Here is a Python approach that finds the maximum element in a list by iterating through the list and updating the maximum value encountered so far:
+
+fdef find_max(arr):
+    return max(arr)
+
+# Example usage
+print(find_max([3, 7, 2, 9, 5]))  # Output: 9
+Q15. Write a function that takes an integer n and returns true if it’s even and false otherwise. 
+Answer: Here is a Python approach that finds the maximum element in a list by iterating through the list and updating the maximum value encountered so far:
+
+def is_even(n):
+    return n % 2 == 0
+
+# Example usage
+print(is_even(4))  # Output: True
+print(is_even(7))  # Output: False
+Pro Tip: Boost your algorithm-based interview prep by checking out our Infosys coding interview questions and answers blog. Strengthen problem-solving skills and excel in the Power Programmer interview at Infosys.
+
+Infosys Power Programmer Interview Coding Questions and Answers on Data Structure
+In this section, we explore the most commonly asked Infosys Power Programmer coding questions focused on data structures. These questions are designed to assess your understanding of fundamental data structures, including arrays, linked lists, trees, graphs, and hash tables. By reviewing these key concepts and practicing the corresponding problems, you can strengthen your ability to tackle data structure-related challenges during the interview process.
+
+Q16. How do you reverse a singly linked list in-place?
+Answer: Below is an in-place Python solution to reverse a singly linked list by updating the following pointers of each node:
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val  = val
+        self.next = next
+
+def reverseList(head: ListNode) -> ListNode:
+    prev = None
+    curr = head
+    while curr:
+        # 1. Remember the next node
+        next_node = curr.next
+        
+        # 2. Reverse the pointer on the current node
+        curr.next = prev
+        
+        # 3. Advance prev and curr one step forward
+        prev = curr
+        curr = next_node
+
+    # At the end, prev points to the new head of the reversed list
+    return prev
+Q17. How do you detect a cycle in a singly linked list?
+Answer: Here is a JavaScript function that detects a cycle in a singly linked list using Floyd’s Cycle Detection Algorithm:
+
+function detectCycle(head) {
+    if (!head || !head.next) {
+        return false; // No cycle if the list is empty or has only one element
+    }
+
+    let slow = head; // Tortoise
+    let fast = head; // Hare
+
+    while (fast !== null && fast.next !== null) {
+        slow = slow.next;         // Move slow by 1 step
+        fast = fast.next.next;    // Move fast by 2 steps
+
+        if (slow === fast) {
+            return true; // Cycle detected
+        }
+    }
+
+    return false; // No cycle found
+}
+Q18. How do you implement a queue using two stacks?
+Answer: Here is a C++ implementation of a queue using two stacks. The enqueue operation transfers elements between stacks to maintain the correct order, while dequeue simply pops from the main stack:
+
+#include <iostream>
+#include <stack>
+using namespace std;
+
+class QueueUsingTwoStacks {
+private:
+    stack<int> stack1, stack2;
+
+public:
+    // Enqueue operation: push to stack1
+    void enqueue(int x) {
+        stack1.push(x);
+    }
+
+    // Dequeue operation: transfer elements from stack1 to stack2, then pop from stack2
+    int dequeue() {
+        if (stack2.empty()) {
+            // Transfer elements from stack1 to stack2 if stack2 is empty
+            while (!stack1.empty()) {
+                stack2.push(stack1.top());
+                stack1.pop();
+            }
+        }
+
+        if (stack2.empty()) {
+            cout << "Queue is empty!" << endl;
+            return -1; // Return an error code
+        }
+
+        int front = stack2.top();
+        stack2.pop();
+        return front;
+    }
+
+    // Check if the queue is empty
+    bool isEmpty() {
+        return stack1.empty() && stack2.empty();
+    }
+};
+
+int main() {
+    QueueUsingTwoStacks q;
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+
+    cout << "Dequeued: " << q.dequeue() << endl; // 10
+    cout << "Dequeued: " << q.dequeue() << endl; // 20
+    cout << "Dequeued: " << q.dequeue() << endl; // 30
+
+    cout << "Dequeued: " << q.dequeue() << endl; // Queue is empty!
+
+    return 0;
+}
+Q19. How do you convert an infix expression to postfix notation?
+Answer: Below is a Python implementation that converts an infix expression to postfix (Reverse Polish Notation) using a stack to manage operator precedence and parentheses:
+
+def precedence(op):
+    if op == '+' or op == '-':
+        return 1
+    if op == '*' or op == '/':
+        return 2
+    return 0
+
+def infixToPostfix(expression):
+    stack = []  # To store operators and parentheses
+    output = []  # To store the final postfix expression
+    
+    for char in expression:
+        # If the character is an operand (number or variable), add it to the output
+        if char.isalnum():  # This checks if the character is an operand (number or variable)
+            output.append(char)
+        
+        # If the character is '(', push it to the stack
+        elif char == '(':
+            stack.append(char)
+        
+        # If the character is ')', pop from the stack to the output until '(' is found
+        elif char == ')':
+            while stack and stack[-1] != '(':
+                output.append(stack.pop())
+            stack.pop()  # Pop the '(' from the stack
+        
+        # If the character is an operator, pop operators from the stack to the output
+        # based on precedence, then push the current operator to the stack
+        elif char in '+-*/':
+            while stack and precedence(stack[-1]) >= precedence(char):
+                output.append(stack.pop())
+            stack.append(char)
+    
+    # Pop all the remaining operators from the stack to the output
+    while stack:
+        output.append(stack.pop())
+    
+    return ''.join(output)
+
+# Example usage
+expression = "A+(B*C-(D/E^F)*G)*H"
+print("Infix Expression: ", expression)
+print("Postfix Expression: ", infixToPostfix(expression))
+Q20. How do you perform a level-order traversal (breadth-first) of a binary tree?
+Answer: Here is a JavaScript implementation of level order traversal (breadth-first traversal) of a binary tree using a queue to process nodes level by level:
+
+function levelOrder(root) {
+    const res = [];
+    if (!root) return res;
+
+    const q = [root]; // Initialize the queue with the root node
+    while (q.length) {
+        const level = []; // Array to store the nodes at the current level
+        const size = q.length; // Number of nodes at the current level
+
+        for (let i = 0; i < size; i++) {
+            const node = q.shift(); // Dequeue the front node from the queue
+            level.push(node.val);   // Add the node's value to the level array
+
+            if (node.left)  q.push(node.left);  // Enqueue left child if exists
+            if (node.right) q.push(node.right); // Enqueue right child if exists
+        }
+
+        res.push(level); // Add the current level's nodes to the result
+    }
+
+    return res; // Return the result after all levels are processed
+}
+Q21. How do you implement a Trie (prefix tree) with insert and search operations?
+Answer: Here is a C++ implementation of a Trie (prefix tree) that supports insert, search, and starts with operations using an array of child pointers for each lowercase English letter:
+
+struct TrieNode {
+    bool isEnd;
+    TrieNode* children[26];
+
+    TrieNode() : isEnd(false) {
+        for (auto &c : children) c = nullptr;
+    }
+};
+
+class Trie {
+private:
+    TrieNode* root;
+
+public:
+    Trie() {
+        root = new TrieNode();
+    }
+
+    // Inserts a word into the Trie
+    void insert(const string &word) {
+        TrieNode* node = root;
+        for (char c : word) {
+            int idx = c - 'a';
+            if (!node->children[idx]) 
+                node->children[idx] = new TrieNode();
+            node = node->children[idx];
+        }
+        node->isEnd = true;
+    }
+
+    // Searches for a word in the Trie
+    bool search(const string &word) {
+        TrieNode* node = root;
+        for (char c : word) {
+            int idx = c - 'a';
+            if (!node->children[idx]) return false;
+            node = node->children[idx];
+        }
+        return node->isEnd;
+    }
+
+    // Checks if any word in the Trie starts with the given prefix
+    bool startsWith(const string &prefix) {
+        TrieNode* node = root;
+        for (char c : prefix) {
+            int idx = c - 'a';
+            if (!node->children[idx]) return false;
+            node = node->children[idx];
+        }
+        return true;
+    }
+};
+Q22. How do you find the top K frequent elements in an array?
+Answer: Here is a Python solution to find the top K most frequent elements in an array using a counter and a max-heap (via heapq.nlargest):
+
+from collections import Counter
+import heapq
+
+def topKFrequent(nums, k):
+    # Count the frequency of each element in the array
+    count = Counter(nums)
+    
+    # Use heapq.nlargest to find the K most frequent elements
+    # The key argument ensures we are sorting by frequency (the second element of the tuple)
+    return [item[0] for item in heapq.nlargest(k, count.items(), key=lambda x: x[1])]
+
+# Example usage:
+nums = [1,1,1,2,2,3]
+k = 2
+print(topKFrequent(nums, k))  # Output: [1, 2]
+Q23. How do you design a HashMap without using built-in libraries?
+Answer: Here is a JavaScript implementation of a basic HashMap without using any built-in Map or Set libraries. It uses an array of buckets and simple modular hashing to store key-value pairs:
+
+class MyHashMap {
+    constructor() {
+        this.SIZE = 1000;
+        this.data = Array.from({ length: this.SIZE }, () => []);
+    }
+
+    // Hash function to map the key to an index
+    _hash(key) {
+        return key % this.SIZE;
+    }
+
+    // Put a key-value pair into the map
+    put(key, value) {
+        const h = this._hash(key);
+        for (const pair of this.data[h]) {
+            if (pair[0] === key) {
+                pair[1] = value;
+                return;
+            }
+        }
+        this.data[h].push([key, value]);
+    }
+
+    // Get the value for a given key
+    get(key) {
+        const h = this._hash(key);
+        for (const [k, v] of this.data[h]) {
+            if (k === key) return v;
+        }
+        return -1;  // Return -1 if the key is not found
+    }
+
+    // Remove a key-value pair from the map
+    remove(key) {
+        const h = this._hash(key);
+        for (let i = 0; i < this.data[h].length; i++) {
+            if (this.data[h][i][0] === key) {
+                this.data[h].splice(i, 1);
+                return;
+            }
+        }
+    }
+}
+
+// Example usage:
+const map = new MyHashMap();
+map.put(1, "one");
+map.put(2, "two");
+map.put(1001, "one thousand one");
+
+console.log(map.get(1));  // Output: "one"
+console.log(map.get(2));  // Output: "two"
+console.log(map.get(1001));  // Output: "one thousand one"
+console.log(map.get(3));  // Output: -1 (key not found)
+
+map.remove(2);
+console.log(map.get(2));  // Output: -1 (key removed)
+Q24.  How do you check if the parentheses in a string are balanced?
+Answer: Here is a C++ function that checks whether the parentheses in a string are balanced using a stack:
+
+#include <iostream>
+#include <stack>
+#include <string>
+
+bool areParenthesesBalanced(const std::string& expression) {
+    std::stack<char> s;
+
+    for (char ch : expression) {
+        if (ch == '(') {
+            s.push(ch); // Push opening parenthesis onto stack
+        } else if (ch == ')') {
+            if (s.empty()) return false; // Stack is empty, no matching opening parenthesis
+            s.pop(); // Pop the matching opening parenthesis
+        }
+    }
+
+    return s.empty(); // If stack is empty, parentheses are balanced
+}
+
+int main() {
+    std::cout << (areParenthesesBalanced("(())") ? "Balanced" : "Unbalanced") << std::endl; // Balanced
+    std::cout << (areParenthesesBalanced("(()") ? "Balanced" : "Unbalanced") << std::endl;  // Unbalanced
+    std::cout << (areParenthesesBalanced("())(") ? "Balanced" : "Unbalanced") << std::endl; // Unbalanced
+
+    return 0;
+}
+Q25. Find the middle element of a singly linked list.
+Answer: Here is a simple C++ function that finds the middle element of a singly linked list. The approach uses the two-pointer technique (also known as the slow and fast pointer approach) to find the middle element in one pass.
+
+#include <iostream>
+using namespace std;
+
+// Define the structure for the node
+struct Node {
+    int data;
+    Node* next;
+    Node(int x) : data(x), next(NULL) {}
+};
+
+// Function to find the middle element of the linked list
+Node* findMiddle(Node* head) {
+    if (head == NULL) return NULL;
+
+    Node* slow = head;  // Slow pointer
+    Node* fast = head;  // Fast pointer
+
+    // Move fast pointer by two steps and slow pointer by one step
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;      // Move slow pointer one step
+        fast = fast->next->next; // Move fast pointer two steps
+    }
+
+    return slow; // Slow pointer is now at the middle element
+}
+
+// Function to insert a new node at the end of the list
+void insert(Node*& head, int data) {
+    Node* newNode = new Node(data);
+    if (head == NULL) {
+        head = newNode;
+        return;
+    }
+    Node* temp = head;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+}
+
+// Function to print the linked list
+void printList(Node* head) {
+    while (head != NULL) {
+        cout << head->data << " -> ";
+        head = head->next;
+    }
+    cout << "NULL" << endl;
+}
+
+int main() {
+    Node* head = NULL;
+
+    // Insert some values into the linked list
+    insert(head, 1);
+    insert(head, 2);
+    insert(head, 3);
+    insert(head, 4);
+    insert(head, 5);
+
+    // Print the linked list
+    cout << "Linked List: ";
+    printList(head);
+
+    // Find and print the middle element
+    Node* middle = findMiddle(head);
+    if (middle != NULL) {
+        cout << "Middle element: " << middle->data << endl;
+    } else {
+        cout << "List is empty." << endl;
+    }
+
+    return 0;
+}
+Q26. Merge two sorted linked lists.
+Answer. Here is a JavaScript function that merges two sorted linked lists into one sorted list by comparing node values iteratively:
+
+function mergeTwoLists(l1, l2) {
+    let dummy = new ListNode(0), tail = dummy;
+    while (l1 && l2) {
+        if (l1.val < l2.val) { 
+            tail.next = l1; 
+            l1 = l1.next; 
+        } else { 
+            tail.next = l2; 
+            l2 = l2.next; 
+        }
+        tail = tail.next;
+    }
+    tail.next = l1 || l2;
+    return dummy.next;
+}
+Q27. Design a stack that supports getMin() in O(1) time.
+Answer: Here is the design of a stack that supports  getMin() in O(1) time, in a Python program:
+
+class MinStack:
+    def __init__(self):
+        self.stack = []  # main stack to store elements
+        self.min_stack = []  # auxiliary stack to store minimum elements
+
+    def push(self, x: int) -> None:
+        # Push the element onto the main stack
+        self.stack.append(x)
+        
+        # Push the minimum element onto the min_stack
+        if not self.min_stack or x <= self.min_stack[-1]:
+            self.min_stack.append(x)
+
+    def pop(self) -> None:
+        # Pop the top element from the main stack
+        if self.stack:
+            popped_value = self.stack.pop()
+            # If the popped element is the same as the top of the min_stack, pop it from min_stack as well
+            if popped_value == self.min_stack[-1]:
+                self.min_stack.pop()
+
+    def top(self) -> int:
+        # Return the top element of the main stack
+        if self.stack:
+            return self.stack[-1]
+
+    def getMin(self) -> int:
+        # Return the top element of the min_stack, which is the minimum element in the stack
+        if self.min_stack:
+            return self.min_stack[-1]
+
+# Example Usage
+min_stack = MinStack()
+min_stack.push(5)
+min_stack.push(3)
+min_stack.push(8)
+print(min_stack.getMin())  # Output: 3
+min_stack.pop()
+print(min_stack.getMin())  # Output: 3
+min_stack.pop()
+print(min_stack.getMin())  # Output: 5
+Q28. Perform a binary search on a sorted array.
+Answer: Here is a C++ function that performs binary search on a sorted array to find the index of a target element:
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int binarySearch(vector<int>& a, int target) {
+    int lo = 0, hi = a.size() - 1;
+    while (lo <= hi) {
+        int mid = lo + (hi - lo) / 2;
+        if (a[mid] == target) return mid;
+        else if (a[mid] < target) lo = mid + 1;
+        else hi = mid - 1;
+    }
+    return -1;
+}
+
+int main() {
+    vector<int> arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int target = 7;
+    int index = binarySearch(arr, target);
+    if (index != -1) {
+        cout << "Target found at index: " << index << endl;
+    } else {
+        cout << "Target not found" << endl;
+    }
+    return 0;
+}
+Q29. Implement Disjoint Set Union (Union-Find) with path compression and rank.
+Answer: Here is a Python implementation of Disjoint Set Union (Union-Find) with path compression and union by rank:
+
+class DSU:
+    def __init__(self, n):
+        self.p = list(range(n))  # Parent array
+        self.r = [0] * n         # Rank array
+
+    def find(self, x):
+        if self.p[x] != x:
+            self.p[x] = self.find(self.p[x])  # Path compression
+        return self.p[x]
+
+    def union(self, x, y):
+        x, y = self.find(x), self.find(y)
+        if x == y:
+            return False  # x and y are already in the same set
+        if self.r[x] < self.r[y]:
+            x, y = y, x  # Ensure the tree with greater rank is the root
+        self.p[y] = x
+        if self.r[x] == self.r[y]:  # Increment rank only when ranks are equal
+            self.r[x] += 1
+        return True
+
+# Example usage
+dsu = DSU(5)  # Create DSU for 5 elements: 0, 1, 2, 3, 4
+
+# Union some sets
+print(dsu.union(0, 1))  # True, 0 and 1 are now in the same set
+print(dsu.union(2, 3))  # True, 2 and 3 are now in the same set
+print(dsu.union(1, 2))  # True, 0-1 and 2-3 are now united
+
+# Find the representative of each element
+for i in range(5):
+    print(f"Find({i}) = {dsu.find(i)}")
+
+// Output
+True
+True
+True
+Find(0) = 0
+Find(1) = 0
+Find(2) = 0
+Find(3) = 0
+Find(4) = 4
+Q30. Find the maximum subarray sum (Kadane’s algorithm).
+Answer: Here is a Python implementation of Kadane’s Algorithm to find the maximum subarray sum:
+
+def maxSubArray(nums):
+    if not nums:            # optional guard for empty list
+        return 0
+    max_end = max_so = nums[0]
+    for x in nums[1:]:
+        max_end = max(x, max_end + x)   # extend or start new subarray
+        max_so  = max(max_so, max_end)  # update max so far
+    return max_so
+
+# Test cases
+print(maxSubArray([-2,1,-3,4,-1,2,1,-5,4]))  # 6   (subarray [4,-1,2,1])
+print(maxSubArray([1,2,3,4]))                # 10  (entire array)
+print(maxSubArray([-1,-2,-3,-4]))            # -1  (the largest element)
+print(maxSubArray([5, -2, 5, -1, 2]))        # 9   (subarray [5, -2, 5, -1, 2])
+print(maxSubArray([]))                       # 0   (with the empty-guard)
+‘Pro -Tip’: For a comprehensive interview preparation, practice Infosys HR interview questions focusing on behavioral and situational scenarios. Strengthen your communication skills, build confidence, and ensure your responses reflect Infosys’ core values to leave a lasting impression!
+
+Infosys Power Programmer Interview  Coding Questions on String Manipulation
+This section focuses on Infosys power programmer coding questions related to string manipulation. String-related problems are a common feature in coding interviews, testing your ability to efficiently handle operations such as searching, sorting, reversing, and pattern matching. Mastering these fundamental string operations will help you excel in the interview and demonstrate your problem-solving skills. Here are some questions you can practice:
+
+Q31. Given a string s, return a new string that is the reverse of s (e.g., “hello” → “olleh”).
+Answer: The function used takes a string s and returns a new string that is its reverse by swapping characters from both ends. Here’s the code using C++:
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Returns a new string that is the reverse of s
+string reverseString(const string &s) {
+    return string(s.rbegin(), s.rend());
+}
+
+int main() {
+    // Example inputs
+    string inputs[] = {"hello", "racecar", "", "A"};
+    
+    for (const auto &str : inputs) {
+        cout << "Original: \"" << str << "\"  →  Reversed: \"" 
+             << reverseString(str) << "\"\n";
+    }
+    
+    return 0;
+}
+
+// Output
+Original: "hello"  →  Reversed: "olleh"
+Original: "racecar"  →  Reversed: "racecar"
+Original: ""  →  Reversed: ""
+Original: "A"  →  Reversed: "A"
+Q32. Determine whether a given string reads the same forwards and backwards, ignoring non-alphanumeric characters and case (e.g., “A man, a plan, a canal: Panama” → true).
+Answer: This function determines whether a given string is a palindrome by removing all non-alphanumeric characters and comparing the cleaned string to its reverse, case-insensitively.
+
+#include <iostream>
+#include <cctype>
+#include <string>
+using namespace std;
+
+bool isPalindrome(string s) {
+    int left = 0, right = s.length() - 1;
+    
+    while (left < right) {
+        // Skip non-alphanumeric characters on the left
+        if (!isalnum(s[left])) {
+            left++;
+        }
+        // Skip non-alphanumeric characters on the right
+        else if (!isalnum(s[right])) {
+            right--;
+        }
+        // Compare characters (case-insensitive)
+        else if (tolower(s[left]) != tolower(s[right])) {
+            return false; // Not a palindrome
+        } else {
+            left++;
+            right--;
+        }
+    }
+    
+    return true; // It is a palindrome
+}
+
+int main() {
+    string str = "A man, a plan, a canal: Panama";
+    if (isPalindrome(str)) {
+        cout << "The string is a palindrome." << endl;
+    } else {
+        cout << "The string is not a palindrome." << endl;
+    }
+
+    return 0;
+}
+
+// Output
+The string is a palindrome.
+Q33. Given two strings s and t, determine if t is an anagram of s (i.e., they contain the same characters in any order). 
+Answer: Here is the solution in a JavaScript program determining if t is an anagram of s:
+
+function isAnagram(s, t) {
+    if (s.length !== t.length) return false;
+    const count = {};
+    for (let c of s) count[c] = (count[c] || 0) + 1;
+    for (let c of t) {
+        if (!count[c]) return false;
+        count[c]--;
+    }
+    return true;
+}
+
+// Example usage and expected output:
+console.log(isAnagram("anagram", "nagaram")); // true
+console.log(isAnagram("rat",     "car"));     // false
+console.log(isAnagram("aacc",    "ccac"));    // false
+console.log(isAnagram("",        ""));        // true
+Q34. Find the first character in a string that does not repeat (e.g., “leetcode” → ‘l’).
+Answer: Here is a solution in a C++ program to find the first character in a string that does not repeat:
+
+#include <iostream>
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+char firstUniqChar(const string &s) {
+    unordered_map<char, int> count;
+
+    // Count the frequency of each character
+    for (char c : s) {
+        count[c]++;
+    }
+
+    // Find the first character with a frequency of 1
+    for (char c : s) {
+        if (count[c] == 1) {
+            return c;
+        }
+    }
+
+    // If no unique character is found
+    return ' '; // return a space if no unique character exists
+}
+
+int main() {
+    string s = "leetcode";
+    char result = firstUniqChar(s);
+
+    if (result != ' ') {
+        cout << "Input: \"" << s << "\"" << endl;
+        cout << "Output: The first non-repeating character is: " << result << endl;
+    } else {
+        cout << "Input: \"" << s << "\"" << endl;
+        cout << "Output: No unique character found." << endl;
+    }
+
+    return 0;
+}
+
+// Output
+string s = "leetcode";
+Q35. Implement atoi, converting a string to a 32-bit signed integer with proper overflow handling. 
+Answer: Here is the solution in a Python program implementing atoi, converting a string to a 32-bit signed integer with proper overflow handling:
+
+def my_atoi(s: str) -> int:
+    s = s.lstrip()  # Remove leading spaces
+    if not s: 
+        return 0  # Empty string or only spaces
+
+    sign, i = 1, 0
+    # Check for optional sign at the start
+    if s[0] in '+-':
+        sign = -1 if s[0] == '-' else 1
+        i = 1
+
+    num = 0
+    # Parse digits
+    while i < len(s) and s[i].isdigit():
+        num = num * 10 + int(s[i])
+        i += 1
+    
+    # Apply sign
+    num *= sign
+    
+    # Handle overflow
+    return max(-2**31, min(num, 2**31 - 1))
+
+# Example usage:
+print(my_atoi("42"))  # 42
+print(my_atoi("   -42"))  # -42
+print(my_atoi("4193 with words"))  # 4193
+print(my_atoi("words and 987"))  # 0
+print(my_atoi("-91283472332"))  # -2147483648
+print(my_atoi("2147483648"))  # 2147483647
+print(my_atoi("-2147483649"))  # -2147483648
+Q36. Given a string s, find the length of the longest substring without repeating characters (e.g., “abcabcbb” → 3).
+Answer: Here is the solution in a JavaScript program finding the longest substring without repeating characters:
+
+function lengthOfLongestSubstring(s) {
+    let map = new Map(); // To store characters and their most recent index
+    let left = 0; // Left pointer of the sliding window
+    let maxLength = 0; // To store the length of the longest substring
+
+    // Loop through each character in the string using a right pointer
+    for (let right = 0; right < s.length; right++) {
+        // If the character is already in the map and is within the window
+        if (map.has(s[right]) && map.get(s[right]) >= left) {
+            // Move the left pointer to the right of the last occurrence of s[right]
+            left = map.get(s[right]) + 1;
+        }
+
+        // Update the map with the current character's index
+        map.set(s[right], right);
+
+        // Calculate the length of the current substring and update maxLength if it's larger
+        maxLength = Math.max(maxLength, right - left + 1);
+    }
+
+    return maxLength;
+}
+
+// Example usage
+let s = "abcabcbb";
+console.log(lengthOfLongestSubstring(s));  // Output: 3
+Q37. Return the index of the first occurrence of needle in haystack, or -1 if not found (e.g., “hello”, “ll” → 2). 
+Answer: Here is the solution in a C++ program returning the index of the first occurrence of needle in haystack, or -1 if not found :
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int strStr(string haystack, string needle) {
+    // Check if needle is empty, return 0
+    if (needle.empty()) return 0;
+    
+    // Loop through the haystack, checking for the first occurrence of needle
+    for (int i = 0; i <= haystack.length() - needle.length(); i++) {
+        if (haystack.substr(i, needle.length()) == needle) {
+            return i;
+        }
+    }
+    // Return -1 if needle is not found
+    return -1;
+}
+
+int main() {
+    string haystack = "hello";
+    string needle = "ll";
+    
+    // Test the function and print the result
+    cout << "Index of first occurrence: " << strStr(haystack, needle) << endl;  // Output: 2
+    return 0;
+}
+Q38. Given two non-negative integer strings num1 and num2, return their sum as a string (e.g., “123” + “77” → “200”). 
+Answer: Here is the sum of two non-negative integer strings in a Python program:
+
+def addStrings(num1, num2):
+    # Initialize two pointers for both strings and a carry variable
+    i, j, carry, result = len(num1) - 1, len(num2) - 1, 0, []
+    
+    # Loop until we've processed all digits or there's no carry left
+    while i >= 0 or j >= 0 or carry:
+        # Get current digits or 0 if we've run out of digits
+        digit1 = int(num1[i]) if i >= 0 else 0
+        digit2 = int(num2[j]) if j >= 0 else 0
+        
+        # Calculate the sum of the current digits plus carry
+        total = digit1 + digit2 + carry
+        
+        # Update carry for the next step
+        carry = total // 10
+        
+        # Append the current digit to the result (total % 10 gives the last digit)
+        result.append(str(total % 10))
+        
+        # Move the pointers to the left
+        i -= 1
+        j -= 1
+    
+    # Since we've added digits in reverse order, reverse the result and return it
+    return ''.join(result[::-1])
+
+# Example usage
+num1 = "123"
+num2 = "77"
+print(addStrings(num1, num2))  # Output: "200"
+Q39. Given strings s and t, find the smallest substring in s that contains all characters of t (e.g., s = “ADOBECODEBANC”, t = “ABC” → “BANC”).
+Answer: Here is the solution in a C++ program to find the smallest substring:
+
+#include <iostream>
+#include <string>
+#include <unordered_map>
+#include <climits>
+using namespace std;
+
+string minWindow(string s, string t) {
+    unordered_map<char,int> need, window;
+    for (char c : t) need[c]++;
+    int have = 0, required = need.size(), left = 0, minLen = INT_MAX, start = 0;
+    for (int right = 0; right < s.size(); right++) {
+        char c = s[right];
+        if (++window[c] == need[c]) have++;
+        while (have == required) {
+            if (right - left + 1 < minLen) {
+                minLen = right - left + 1;
+                start = left;
+            }
+            if (--window[s[left]] < need[s[left]]) have--;
+            left++;
+        }
+    }
+    return (minLen == INT_MAX) ? "" : s.substr(start, minLen);
+}
+
+int main() {
+    string s = "ADOBECODEBANC";
+    string t = "ABC";
+    
+    cout << "Smallest substring: " << minWindow(s, t) << endl;  // Output: "BANC"
+    
+    return 0;
+}
+Q40. Determine if s2 is a rotation of s1 using a single substring check (e.g., “waterbottle” is a rotation of “erbottlewat”). 
+Answer: Here is the solution in a JavaScript program to determine if s2 is a rotation of s1:
+
+function isRotation(s1, s2) {
+    if (s1.length !== s2.length || s1.length === 0) {
+        return false;
+    }
+    const combined = s1 + s1;
+    return combined.includes(s2);
+}
+
+// Example usage
+console.log(isRotation("waterbottle", "erbottlewat")); // Output: true
+console.log(isRotation("hello", "llohe"));             // Output: true
+console.log(isRotation("hello", "olelh"));             // Output: false
+Q41. Given an array of strings, group the anagrams together.
+Answer: Here’s how to group anagrams in a C++ program:
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
+
+vector<vector<string>> groupAnagrams(vector<string>& strs) {
+    unordered_map<string, vector<string>> anagramMap;
+
+    for (string word : strs) {
+        string sortedWord = word;
+        sort(sortedWord.begin(), sortedWord.end());
+        anagramMap[sortedWord].push_back(word);
+    }
+
+    vector<vector<string>> result;
+    for (auto& pair : anagramMap) {
+        result.push_back(pair.second);
+    }
+
+    return result;
+}
+
+int main() {
+    vector<string> words = {"eat", "tea", "tan", "ate", "nat", "bat"};
+    vector<vector<string>> groups = groupAnagrams(words);
+
+    for (const auto& group : groups) {
+        for (const auto& word : group) {
+            cout << word << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
+
+//Output
+eat tea ate 
+tan nat 
+bat 
+Q42. Given a string s, return the longest palindromic substring in s.
+Answer: Here is the code in a Python program to return the longest palindromic substring in s:
+
+def longest_palindrome(s):
+    if not s or len(s) < 1:
+        return ""
+
+    def expand_around_center(left, right):
+        while left >= 0 and right < len(s) and s[left] == s[right]:
+            left -= 1
+            right += 1
+        return s[left + 1:right]
+
+    longest = ""
+    for i in range(len(s)):
+        # Odd length palindrome
+        temp1 = expand_around_center(i, i)
+        # Even length palindrome
+        temp2 = expand_around_center(i, i + 1)
+
+        # Update the longest palindrome found so far
+        if len(temp1) > len(longest):
+            longest = temp1
+        if len(temp2) > len(longest):
+            longest = temp2
+
+    return longest
+
+// Example usage:
+input_str = "babad"
+print(longest_palindrome(input_str))  # Output: "bab" or "aba"
+Q43. Given two strings s and t, determine if they are isomorphic.
+Answer: Here is a code in a JavaScript program to determine if s and t are isomorphic:
+
+ffunction isIsomorphic(s, t) {
+    if (s.length !== t.length) return false;
+
+    const mapST = new Map();
+    const mapTS = new Map();
+
+    for (let i = 0; i < s.length; i++) {
+        const charS = s[i];
+        const charT = t[i];
+
+        if (mapST.has(charS)) {
+            if (mapST.get(charS) !== charT) return false;
+        } else {
+            mapST.set(charS, charT);
+        }
+
+        if (mapTS.has(charT)) {
+            if (mapTS.get(charT) !== charS) return false;
+        } else {
+            mapTS.set(charT, charS);
+        }
+    }
+
+    return true;
+}
+
+// Example usage:
+console.log(isIsomorphic("egg", "add"));  // Output: true
+console.log(isIsomorphic("foo", "bar"));  // Output: false
+console.log(isIsomorphic("paper", "title"));  // Output: true
+Q44. Given a string containing just the characters ‘(‘, ‘)’, ‘{‘, ‘}’, ‘[‘, and ‘]’, determine if the input string is valid. An input string is valid if:
+Open brackets are closed by the same type of brackets.
+Open brackets are closed in the correct order.
+Answer: Here is a Python program to determine whether the input string is valid or not:
+
+def is_valid(s):
+    stack = []
+    bracket_map = {')': '(', '}': '{', ']': '['}
+
+    for char in s:
+        if char in bracket_map.values():  # opening brackets
+            stack.append(char)
+        elif char in bracket_map:  # closing brackets
+            if not stack or stack[-1] != bracket_map[char]:
+                return False
+            stack.pop()
+        else:
+            # Ignore any characters that are not brackets (optional)
+            return False
+
+    return len(stack) == 0
+
+// Example usage:
+input_str = "({[]})"
+print(is_valid(input_str))  # Output: True
+Q45. Write a function to find the longest common prefix string amongst an array of strings. If there is no common prefix, return an empty string “”.
+Answer: Here is the function to find the longest common prefix string among an array of strings in a C++ program:
+
+#include <vector>
+#include <string>
+using namespace std;
+
+string longestCommonPrefix(vector<string>& strs) {
+    if (strs.empty()) return "";
+    
+    for (int i = 0; i < strs[0].size(); ++i) {
+        char c = strs[0][i];
+        for (int j = 1; j < strs.size(); ++j) {
+            if (i >= strs[j].size() || strs[j][i] != c) {
+                return strs[0].substr(0, i);
+            }
+        }
+    }
+    return strs[0];
+}
+
+
+// Example usage:
+vector<string> words = {"flower", "flow", "flight"};
+cout << longestCommonPrefix(words);  // Output: "fl"
+
+
+
+
 
 
 
