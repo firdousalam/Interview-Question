@@ -1,3 +1,145 @@
+we are dealing with 10 tricky Javacript questions.
+
+1. What will “typeof NaN return and why?
+The typeof NaN will return number. This is tricky and somewhat counterintuitive, because NaN stands for “Not a number”. However, in Javascript, NaN is considered a special number and therefore its type is number.
+
+2. Can you explain closures with an example?
+A closure is a function that has access to its own scope, the scope of the outer function and the global scope. This often confuses people who are new to JavaScript because it behaves differently than other programming languages in this respect.
+
+function outer() {
+  let outerVar = "I am from outer function!";
+  
+  function inner() {
+    let innerVar = "I am from inner function!";
+    console.log(outerVar);  // I can access outerVar!
+    console.log(innerVar);  // I can access innerVar!
+  }
+  
+  return inner;
+}
+
+const myClosure = outer();
+myClosure();  // Outputs: "I am from outer function!" and "I am from inner function!"
+Here, inner() is a closure that encompasses its own scope, the scope of outer() and the global scope.
+
+3. What does the .bind() method do?
+The .bind() method creates a new function that, when called, has its this keyword set to the provided value, with a given sequence of arguments preceding any provided when the new function is called. This is tricky because it involves understanding how the this keyword works and how it can be explicitly set.
+
+const obj = {
+  x: 42,
+  getX: function() {
+    return this.x;
+  }
+};
+
+const unboundGetX = obj.getX;
+console.log(unboundGetX());  // Output: undefined
+
+const boundGetX = unboundGetX.bind(obj);
+console.log(boundGetX());  // Output: 42
+4. What will [2] == [2] return and why?
+This expression will return false. This is because, in Javascript, arrays are objects and objects are compared by reference, not by value. Each array literal creates a new reference, so they are not equal, even if their contents are the same.
+
+5. What does 0.1 + 0.2 === 0.3 evaluate to and why?
+This expression evaluates to false in JavaScript. This can be quite puzzling for those new to the language or even to some seasoned developers. The reason lies in the way floating-point numbers are represented in binary, as per the IEEE 754 standard. Both 0.1 and 0.2 cannot be exactly represented in binary, and the rounding errors from the approximations lead to a sum that is not exactly equal to 0.3. Therefore, 0–1 + 0.2 ends up being a number very close to but not exactly 0.3, making the expression false.
+
+6. What will ‘5’ + 3 and ‘5’ — 3 return?
+‘5’ + 3 returns the string ‘53’. This is because when you try to use the “+” operator with a string and a number, JS performs type coertion, converting the number to a string and concatenating it with the original string.
+‘5’ — 3 returns the number 2. Interestingly, the “—” operator does not perform string concatenation. Instead, it coerces both operands to numbers and performs the substraction.
+7. What are different ways to create an object in JavaScript?
+You can create objects in JavaScript in several ways:
+
+Object literals
+const obj1 = { key: "value" };
+Constructor function
+function Person(name) {
+  this.name = name;
+}
+const obj2 = new Person("Alice");
+Object.create method
+const obj3 = Object.create({ key: "value" });
+“new Object()” syntax
+const obj4 = new Object();
+ES6 “class” syntax
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+}
+const obj5 = new Animal("Dog");
+8. What does the instanceof operator do?
+The instanceof operator tests whether the prototype property of a constructor appears anywhere in the prototype chain of an object. The operator returns a Boolean value that indicates whether the object inherits from a certain class or not.
+
+const arr = [1, 2, 3];
+
+console.log(arr instanceof Array);  // Output: true
+console.log(arr instanceof Object);  // Output: true
+console.log(arr instanceof Number);  // Output: false
+This can be tricky because instanceof looks at the prototype chain, so an object may be an instance of multiple constructors/objects that appear in its prototype chain.
+
+9. What is a prototype in JavaScript?
+In JavaScript, a prototype is an object from which other objects inherit properties and methods. The prototype system is a key part of JavaScript’s object-oriented programming (OOP) model and it serves as a mechanism for code reuse and inheritance.
+
+Prototype Chain
+Each object in JavaScript has an internal link to another object, its “prototype,” from which it can inherit properties and methods. This link forms a chain known as the “prototype chain.” When you attempt to access a property or method on an object, JavaScript will first look for that property or method on the object itself. If it doesn’t find it there, it will look at the object’s prototype, and so on, up the prototype chain, until it either finds the requested property/method or reaches an object with a null prototype (usually the Object.prototype), indicating the end of the chain.
+
+function Person(name) {
+  this.name = name;
+}
+
+// Add a method to the Person prototype
+Person.prototype.sayHello = function() {
+  console.log(`Hello, my name is ${this.name}`);
+};
+
+const alice = new Person('Alice');
+
+// Use the sayHello method from the Person prototype
+alice.sayHello();  // Output: "Hello, my name is Alice"
+Here, we define a Person constructor function. We then add a sayHello method to the Person prototype. When we create a new object alice using new Person(‘Alice’), alice will have access to all properties and methods defined on Person.prototype.
+
+10. What is the difference between null and undefinded?
+Both null and undefined are special values in JavaScript that indicate the absence of a value or a "hole" in an object or an array. However, they are used in slightly different contexts:
+
+undefinded:
+
+A variable that is declared but not initialized is automatically assigned the value undefined:
+
+let x;
+console.log(x);  // Output: undefined
+If a function parameter is not provided, its value becomes undefined inside the function.
+
+function greet(name) {
+  console.log(`Hello, ${name}!`);
+}
+greet();  // Output: Hello, undefined!
+Accessing a non-existent property of an object returns undefined.
+
+const obj = {};
+console.log(obj.someProp);  // Output: undefined
+Sparse arrays have undefined for the missing elements.
+
+const arr = [1,,3];
+console.log(arr[1]);  // Output: undefined
+null:
+
+null is used to indicate the intentional absence of any value or object.
+
+const x = null;
+When you want to “empty” a variable that may have previously held a value, null is often used.
+
+let x = 'some value';
+x = null;  // Explicitly setting it to null
+Return Value: Some built-in JavaScript methods and functions return null to indicate that the object you were trying to fetch doesn’t exist. For example, document.getElementById() returns null when the element is not found.
+
+Thats it. We’ve done it. If you dont want to miss any new article like this, consider following me :)
+
+
+
+
+
+
+
 # Nodejs Interview-Question
 
 JavaScript Array Methods (with Examples)
