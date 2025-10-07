@@ -1484,33 +1484,105 @@ fs.readFile(filePath, function(err, data) {
 });
 Source: tutorialspoint.com
 
-# Q6: What's the difference between operational and programmer errors? ☆☆
+# Q6: Difference between  Promises and Async/Await
+In JavaScript, Promises and Async/Await are two approaches for handling asynchronous operations. Both are built to simplify asynchronous programming, but they differ in syntax, readability, and use cases.
 
-Answer: Operation errors are not bugs, but problems with the system, like request timeout or hardware failure. On the other hand programmer errors are actual bugs.
+Promises
 
+A Promise represents a value that may be available now, in the future, or never. It provides a cleaner way to handle asynchronous operations compared to callbacks, avoiding "callback hell."
 
-Global Error Handling
+Key Features:
 
-For uncaught exceptions or unhandled promise rejections, use process-level handlers:
+States: A Promise can be in one of three states: pending, fulfilled, or rejected.
 
-process.on('uncaughtException', (err) => {
-console.error("Uncaught Exception:", err.message);
+Methods: .then() handles successful outcomes. .catch() handles errors. .finally() executes code regardless of the outcome.
+
+Example:
+
+const fetchData = () => {
+return new Promise((resolve, reject) => {
+setTimeout(() => {
+resolve("Data fetched successfully!");
+}, 1000);
 });
+};
 
-process.on('unhandledRejection', (reason) => {
-console.error("Unhandled Rejection:", reason);
-});
+fetchData()
+.then(data => console.log(data))
+.catch(error => console.error(error));
 Copy
-Key Considerations
+Use Cases:
 
-Always handle errors at the appropriate level.
+Useful for chaining multiple asynchronous operations.
 
-Avoid using process.on('uncaughtException') as the primary error-handling mechanism; it should be a last resort.
+Works well with APIs or libraries that return Promises.
 
-Use tools like PM2 or Forever to restart the application gracefully in case of crashes.
+Limitations:
+
+Complex chains can become hard to read and debug.
+
+Error handling requires chaining .catch() at appropriate points.
+
+Async/Await
+
+Async/Await is syntactic sugar built on top of Promises, introduced in ES2017. It allows asynchronous code to be written in a synchronous-like manner, improving readability.
+
+Key Features:
+
+Async Functions: Declared with the async keyword, they always return a Promise.
+
+Await: Pauses the execution of an async function until the Promise resolves or rejects.
+
+Error Handling: Uses try/catch blocks, similar to synchronous code.
+
+Example:
+
+const fetchData = async () => {
+try {
+const data = await new Promise((resolve, reject) => {
+setTimeout(() => resolve("Data fetched successfully!"), 1000);
+});
+console.log(data);
+} catch (error) {
+console.error(error);
+}
+};
+
+fetchData();
+Copy
+Use Cases:
+
+Ideal for sequential operations where each step depends on the previous one.
+
+Simplifies error handling with try/catch.
+
+Improves code readability for complex workflows.
+
+Limitations:
+
+Cannot be used outside async functions.
+
+Slightly less flexible for chaining compared to Promises.
+
+Comparison
+
+Readability: Async/Await is more readable and resembles synchronous code, making it easier to understand.
+
+Error Handling: Async/Await uses try/catch, which is more intuitive than .catch() in Promises.
+
+Chaining: Promises are better suited for chaining multiple independent operations.
+
+Performance: Both are built on the same underlying mechanism, so performance differences are negligible.
+
+When to Use
+
+Promises: When working with APIs or libraries that return Promises, or when chaining multiple independent operations.
+
+Async/Await: For new codebases, sequential operations, or when readability and maintainability are priorities.
+
+Both approaches are essential tools in modern JavaScript development. Async/Await is generally preferred for its simplicity and readability, but understanding Promises is crucial since Async/Await is built on top of them.
 
 
-Source: blog.risingstack.com
 
 # Q7: What is the difference between Nodejs, AJAX, and jQuery? ☆☆
 
@@ -1686,7 +1758,7 @@ It provides mechanisms to handle file system, DNS, network, child processes, pip
 
 Source: nodejs.org
 
-Q20: What is the difference between returning a callback and just calling a callback? ☆☆
+# Q20: What is the difference between returning a callback and just calling a callback? ☆☆
 Answer:
 
 return callback();
@@ -1999,6 +2071,7 @@ Transform - A type of duplex stream where the output is computed based on input.
 Source: tutorialspoint.com
 
 # Q30: What is Chaining in Node? ☆☆☆
+
 Answer: Chanining is a mechanism to connect output of one stream to another stream and create a chain of multiple stream operations. It is normally used with piping operations.
 
 Chaining in Node.js is a programming pattern where multiple methods are called in a single statement, one after another, because each method returns an object (often the same object).
@@ -3607,6 +3680,7 @@ function Counter() {
     <div>
       <p>Count (re-renders when updated): {count}</p>
       <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={()=> setCount(count-1)}> Decrement </button>
     </div>
   );
 }
@@ -4448,6 +4522,172 @@ Define locales and default language.
 Best with Vercel (official).
 
 Other: AWS, Netlify, Docker, custom Node server.
+
+Mock React Senior Developer Interview
+# 51. What happens under the hood when a React component re-renders?
+
+Expected Answer:
+
+When a component’s state or props change, React re-runs the render function to produce a new Virtual DOM tree. It then compares it (via the reconciliation algorithm) with the previous Virtual DOM snapshot. Only the changed nodes are updated in the real DOM through efficient diffing.
+
+In React 18, updates are batched automatically — even across async operations — to reduce unnecessary renders. React Fiber coordinates these updates with prioritization, making the UI responsive even with heavy workloads.
+
+# 52. Explain the difference between useMemo, useCallback, and React.memo.
+
+Expected Answer:
+
+useMemo: Memoizes a computed value (e.g. results of expensive calculations).
+
+useCallback: Memoizes a function reference to prevent re-creation on every render.
+
+React.memo: Wraps a component to skip re-rendering if props haven’t changed.
+
+They often work together:
+React.memo prevents child re-renders, useCallback stabilizes handler references, and useMemo avoids recomputing derived data.
+
+# 53. How would you optimize performance in a large React application?
+
+Expected Answer:
+
+Multiple strategies:
+
+Code-splitting with React.lazy & Suspense.
+
+Memoization (useMemo, useCallback, React.memo).
+
+Virtualization (e.g., react-window) for long lists.
+
+Debouncing/throttling input updates.
+
+Avoid unnecessary context re-renders — split contexts or use selectors.
+
+Server-side rendering or static generation for faster initial load.
+
+Use performance tools like React Profiler or Chrome DevTools to find bottlenecks.
+
+# 54. What are Suspense and Concurrent Rendering in React 18?
+
+Expected Answer:
+
+Suspense lets you declaratively wait for something (like data or code) before showing part of the UI.
+
+Concurrent Rendering allows React to prepare multiple UI states in memory and render them smoothly without blocking the main thread.
+
+Together, they improve responsiveness and let you prioritize urgent updates (like typing) over non-urgent ones (like fetching data).
+
+# 55. How would you architect a scalable React application?
+
+Expected Answer:
+
+Use a feature-based folder structure: each module contains its components, hooks, and styles.
+
+Implement lazy loading and route-based splitting.
+
+Use Context sparingly, prefer state management libraries (Redux Toolkit, Zustand, Jotai) for global state.
+
+Keep business logic separated from UI — use custom hooks or service layers.
+
+Enforce TypeScript + ESLint + Prettier for consistency.
+
+Maintain unit tests and component tests.
+
+Use CI/CD pipelines to ensure quality and speed.
+
+# 56. What’s the difference between Context API and Redux? When would you choose one over the other?
+
+Expected Answer:
+
+Context API is best for low-frequency global data (like theme, auth, locale).
+
+Redux (or similar) is designed for complex state logic with predictable state transitions, middlewares, and debugging (Redux DevTools).
+
+Context re-renders all consumers when value changes — Redux can optimize with connect/selectors.
+
+Choice: Use Context for simple global states, Redux or Zustand for complex, performance-critical global state.
+
+# 57. How do you handle side effects or API calls in React?
+
+Expected Answer:
+
+Using useEffect for imperative side effects like data fetching, subscriptions, etc.
+
+For cleaner architecture, wrap data fetching in custom hooks (e.g., useFetchUser).
+
+Use libraries like React Query, which handle caching, refetching, and retries automatically.
+
+Always cancel async requests during cleanup to prevent memory leaks.
+
+Example:
+
+useEffect(() => {
+  const controller = new AbortController();
+  fetchData(controller.signal);
+  return () => controller.abort();
+}, []);
+
+# 58. What are common pitfalls of useEffect and how do you avoid them?
+
+Expected Answer:
+
+Infinite loops — forgetting to specify dependencies properly.
+
+Stale closures — using outdated state inside async calls.
+
+Missing cleanup — causing memory leaks or duplicated event listeners.
+
+Best practices:
+
+Always declare dependencies explicitly.
+
+Wrap non-stateful values in useRef or useCallback.
+
+Use ESLint react-hooks/exhaustive-deps to detect issues.
+
+# 59. How would you debug a React app that’s re-rendering too often?
+
+Expected Answer:
+
+Use React Profiler to identify frequently updated components.
+
+Check props and context causing re-renders.
+
+Use React.memo or useCallback to stabilize references.
+
+Move non-UI state outside components (e.g., Redux, Zustand).
+
+Split large components into smaller ones to isolate rendering logic.
+
+# 60. How would you handle authentication and route protection in React?
+
+Expected Answer:
+
+Store auth tokens securely (HTTP-only cookies preferred).
+
+Use a ProtectedRoute component to wrap private routes.
+
+Maintain user session using global state or Context.
+
+For token expiry, implement silent refresh or redirect to login.
+
+On backend, validate tokens in each API call for security.
+
+⚡ Bonus: React 18 and Future-Ready Questions
+
+What is useTransition used for?
+
+Marks non-urgent updates (like filtering) as “transitions,” so React can keep the UI responsive while processing them.
+
+What are Server Components?
+
+They render on the server, reduce bundle size, and can access backend data directly — part of React’s push toward hybrid rendering (Next.js 13+).
+
+✅ Tips for Senior-Level Interviews
+
+Expect “how would you design” or “what’s your approach” type questions, not syntax.
+
+Use terms like reconciliation, Fiber, memoization, declarative UI, colocation, and profiling — these signal depth.
+
+Be ready to explain trade-offs — why you’d choose a certain approach, not just how.
 
 
 # AWS Practioneer Question #
