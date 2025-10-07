@@ -1,9 +1,14 @@
 function commonPrefix(data){
-    if(data.length === 0) return '';
+   /**
+ * @param {string[]} strs
+ * @return {string}
+ */
+var longestCommonPrefix = function(strs) {
+     if(strs.length === 0) return '';
     let commonData = '';
-    let commonPrefix = data[0].split('');
-    for(let i=1;i<data.length;i++){
-        let nextData = data[i].split('');
+    let commonPrefix = strs[0].split('');
+    for(let i=1;i<strs.length;i++){
+        let nextData = strs[i].split('');
         commonData = '';
         for (let [index,char] of commonPrefix.entries()) {
              for(let [nxtIndex,nxt] of nextData.entries()){
@@ -17,9 +22,11 @@ function commonPrefix(data){
 
 
         }
+        commonPrefix = commonData.split("")
 
     }
     return commonData;
+};
     
 
 }
