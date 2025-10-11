@@ -1,0 +1,290 @@
+10 practical MongoDB aggregation queries with examples that demonstrate real-world use cases:
+
+1️⃣ Group and Count Documents
+
+Count how many users belong to each city.
+
+db.users.aggregate([
+  { $group: { _id: "$city", totalUsers: { $sum: 1 } } }
+])
+
+
+🧠 Groups by city and counts users.
+
+2️⃣ Average Field Value
+
+Find the average order amount per customer.
+
+db.orders.aggregate([
+  { $group: { _id: "$customerId", avgAmount: { $avg: "$amount" } } }
+])
+
+3️⃣ Filter with $match and Group
+
+Get total sales from only “completed” orders.
+
+db.orders.aggregate([
+  { $match: { status: "completed" } },
+  { $group: { _id: null, totalSales: { $sum: "$amount" } } }
+])
+
+4️⃣ Sort Results
+
+Find top 5 customers by total purchase.
+
+db.orders.aggregate([
+  { $group: { _id: "$customerId", totalSpent: { $sum: "$amount" } } },
+  { $sort: { totalSpent: -1 } },
+  { $limit: 5 }
+])
+
+5️⃣ Project Specific Fields
+
+Show only user name and email (exclude _id).
+
+db.users.aggregate([
+  { $project: { _id: 0, name: 1, email: 1 } }
+])
+
+6️⃣ Join Collections ($lookup)
+
+Join orders with user details.
+
+db.orders.aggregate([
+  {
+    $lookup: {
+      from: "users",
+      localField: "userId",
+      foreignField: "_id",
+      as: "userDetails"
+    }
+  }
+])
+
+7️⃣ Unwind an Array
+
+Flatten the products array inside each order.
+
+db.orders.aggregate([
+  { $unwind: "$products" },
+  { $project: { _id: 1, productId: "$products.id", qty: "$products.qty" } }
+])
+
+8️⃣ Conditional Computation ($cond)
+
+Add a field marking if an order is high value.
+
+db.orders.aggregate([
+  {
+    $addFields: {
+      highValue: { $cond: [{ $gt: ["$amount", 1000] }, true, false] }
+    }
+  }
+])
+
+9️⃣ Multiple Grouping Levels
+
+Get total orders per user per month.
+
+db.orders.aggregate([
+  {
+    $group: {
+      _id: {
+        userId: "$userId",
+        month: { $month: "$createdAt" }
+      },
+      totalOrders: { $sum: 1 }
+    }
+  }
+])
+
+🔟 Pipeline Combination
+
+Filter, group, sort, and project — complete analytics flow.
+
+db.orders.aggregate([
+  { $match: { status: "completed" } },
+  { $group: { _id: "$userId", total: { $sum: "$amount" } } },
+  { $sort: { total: -1 } },
+  { $limit: 10 },
+  { $project: { userId: "$_id", total: 1, _id: 0 } }
+])
+
+
+Would you like me to generate a visual flow diagram (in Draw.io style) showing how an aggregation pipeline processes data step-by-step? It helps a lot during architectural or interview explanations.
+
+You said:
+can you provide mock data as well
+ChatGPT said:
+
+Perfect 👍 — let’s make this practical. Below you’ll find mock data + matching aggregation examples for each case, so you can copy-paste and test directly in MongoDB Compass or the shell.
+
+🧩 1. Sample Collections
+🧍‍♂️ users
+[
+  { "_id": 1, "name": "Alice", "city": "Delhi", "email": "alice@example.com" },
+  { "_id": 2, "name": "Bob", "city": "Mumbai", "email": "bob@example.com" },
+  { "_id": 3, "name": "Charlie", "city": "Delhi", "email": "charlie@example.com" },
+  { "_id": 4, "name": "David", "city": "Bangalore", "email": "david@example.com" }
+]
+
+🛒 orders
+[
+  { "_id": 101, "userId": 1, "amount": 1200, "status": "completed", "createdAt": ISODate("2025-09-10T10:00:00Z"), "products": [{ "id": "p1", "qty": 2 }, { "id": "p2", "qty": 1 }] },
+  { "_id": 102, "userId": 1, "amount": 800,  "status": "pending",   "createdAt": ISODate("2025-09-11T10:00:00Z"), "products": [{ "id": "p3", "qty": 1 }] },
+  { "_id": 103, "userId": 2, "amount": 500,  "status": "completed", "createdAt": ISODate("2025-09-09T10:00:00Z"), "products": [{ "id": "p1", "qty": 3 }] },
+  { "_id": 104, "userId": 3, "amount": 1500, "status": "completed", "createdAt": ISODate("2025-09-15T10:00:00Z"), "products": [{ "id": "p4", "qty": 2 }] },
+  { "_id": 105, "userId": 4, "amount": 2200, "status": "completed", "createdAt": ISODate("2025-09-20T10:00:00Z"), "products": [{ "id": "p2", "qty": 1 }, { "id": "p3", "qty": 2 }] }
+]
+
+🧮 2. Aggregation Examples with Output
+1️⃣ Group and Count by City
+db.users.aggregate([
+  { $group: { _id: "$city", totalUsers: { $sum: 1 } } }
+])
+
+
+📊 Output:
+
+[
+  { "_id": "Delhi", "totalUsers": 2 },
+  { "_id": "Mumbai", "totalUsers": 1 },
+  { "_id": "Bangalore", "totalUsers": 1 }
+]
+
+2️⃣ Average Order Amount per User
+db.orders.aggregate([
+  { $group: { _id: "$userId", avgAmount: { $avg: "$amount" } } }
+])
+
+
+📊 Output:
+
+[
+  { "_id": 1, "avgAmount": 1000 },
+  { "_id": 2, "avgAmount": 500 },
+  { "_id": 3, "avgAmount": 1500 },
+  { "_id": 4, "avgAmount": 2200 }
+]
+
+3️⃣ Filter + Sum
+db.orders.aggregate([
+  { $match: { status: "completed" } },
+  { $group: { _id: null, totalSales: { $sum: "$amount" } } }
+])
+
+
+📊 Output:
+
+[{ "_id": null, "totalSales": 5400 }]
+
+4️⃣ Top 2 Customers by Spend
+db.orders.aggregate([
+  { $group: { _id: "$userId", totalSpent: { $sum: "$amount" } } },
+  { $sort: { totalSpent: -1 } },
+  { $limit: 2 }
+])
+
+
+📊 Output:
+
+[
+  { "_id": 4, "totalSpent": 2200 },
+  { "_id": 3, "totalSpent": 1500 }
+]
+
+5️⃣ Projection Example
+db.users.aggregate([
+  { $project: { _id: 0, name: 1, email: 1 } }
+])
+
+
+📊 Output:
+
+[
+  { "name": "Alice", "email": "alice@example.com" },
+  { "name": "Bob", "email": "bob@example.com" },
+  { "name": "Charlie", "email": "charlie@example.com" },
+  { "name": "David", "email": "david@example.com" }
+]
+
+6️⃣ Lookup (Join Users with Orders)
+db.orders.aggregate([
+  {
+    $lookup: {
+      from: "users",
+      localField: "userId",
+      foreignField: "_id",
+      as: "userInfo"
+    }
+  },
+  { $project: { _id: 1, userId: 1, "userInfo.name": 1, amount: 1 } }
+])
+
+
+📊 Output:
+
+[
+  { "_id": 101, "userId": 1, "userInfo": [{ "name": "Alice" }], "amount": 1200 },
+  ...
+]
+
+7️⃣ Unwind Array
+db.orders.aggregate([
+  { $unwind: "$products" },
+  { $project: { _id: 1, "products.id": 1, "products.qty": 1 } }
+])
+
+
+📊 Output:
+
+[
+  { "_id": 101, "products": { "id": "p1", "qty": 2 } },
+  { "_id": 101, "products": { "id": "p2", "qty": 1 } },
+  ...
+]
+
+8️⃣ Add Computed Field
+db.orders.aggregate([
+  { $addFields: { highValue: { $cond: [{ $gt: ["$amount", 1000] }, true, false] } } }
+])
+
+
+📊 Output:
+
+[
+  { "_id": 101, "highValue": true },
+  { "_id": 102, "highValue": false },
+  ...
+]
+
+9️⃣ Group by User and Month
+db.orders.aggregate([
+  {
+    $group: {
+      _id: {
+        userId: "$userId",
+        month: { $month: "$createdAt" }
+      },
+      totalOrders: { $sum: 1 }
+    }
+  }
+])
+
+🔟 Full Pipeline (Match → Group → Sort → Project)
+db.orders.aggregate([
+  { $match: { status: "completed" } },
+  { $group: { _id: "$userId", total: { $sum: "$amount" } } },
+  { $sort: { total: -1 } },
+  { $limit: 3 },
+  { $project: { _id: 0, userId: "$_id", total: 1 } }
+])
+
+
+//📊 Output:
+
+[
+  { "userId": 4, "total": 2200 },
+  { "userId": 3, "total": 1500 },
+  { "userId": 1, "total": 1200 }
+]

@@ -1,0 +1,258 @@
+Top 30 Tricky JavaScript Questions (with explanations)
+1. console.log(+"hello")
+
+Output: NaN
+Explanation:
+
+Unary + tries to convert the operand to a number.
+
+"hello" cannot be converted → NaN.
+
+2. console.log(["a"] + ["b"])
+
+Output: "ab"
+Explanation:
+
+Arrays are converted to strings: ["a"].toString() → "a", ["b"].toString() → "b".
+
+"a" + "b" → "ab".
+
+3. console.log([] == ![])
+
+Output: true
+Explanation:
+
+![] → false
+
+[] == false → true because [] is converted to "" → 0, and false → 0.
+
+4. console.log(null == 0)
+
+Output: false
+Explanation:
+
+null only equals undefined loosely.
+
+null == 0 → false.
+
+5. console.log(null >= 0)
+
+Output: true
+Explanation:
+
+null is converted to 0 for relational comparisons.
+
+0 >= 0 → true.
+
+6. console.log(undefined == 0)
+
+Output: false
+Explanation:
+
+undefined equals only null loosely.
+
+undefined == 0 → false.
+
+7. console.log([] + {})
+
+Output: "[object Object]"
+Explanation:
+
+[] → ""
+
+{} → "[object Object]"
+
+"" + "[object Object]" → "[object Object]".
+
+8. console.log({} + [])
+
+Output: 0 (in Node.js, {} is treated as block; in browsers may vary)
+Explanation:
+
+{} at start of line interpreted as block, +[] → 0.
+
+9. console.log([] == ![])
+
+Output: true
+Explanation:
+
+Covered in #3. Often asked twice to test understanding of truthy/falsy conversion.
+
+10. console.log("5" - 3)
+
+Output: 2
+Explanation:
+
+- triggers numeric coercion. "5" → 5
+
+5 - 3 = 2.
+
+11. console.log("5" + 3)
+
+Output: "53"
+Explanation:
+
++ with string → string concatenation.
+
+12. console.log(0.1 + 0.2 == 0.3)
+
+Output: false
+Explanation:
+
+Floating point precision issue: 0.1 + 0.2 → 0.30000000000000004.
+
+13. console.log([] == 0)
+
+Output: true
+Explanation:
+
+[] → "" → 0.
+
+0 == 0 → true.
+
+14. console.log([1] == 1)
+
+Output: true
+Explanation:
+
+[1] → "1" → 1
+
+1 == 1 → true.
+
+15. console.log([1,2] == "1,2")
+
+Output: true
+Explanation:
+
+[1,2].toString() → "1,2"
+
+"1,2" == "1,2" → true.
+
+16. console.log(true + false)
+
+Output: 1
+Explanation:
+
+true → 1, false → 0
+
+1 + 0 = 1.
+
+17. console.log(!!"false")
+
+Output: true
+Explanation:
+
+"false" is non-empty string → truthy.
+
+Double negation → true.
+
+18. console.log([] + false)
+
+Output: "false"
+Explanation:
+
+[] → ""
+
+"" + "false" → "false"
+
+19. console.log([] + null)
+
+Output: "null"
+Explanation:
+
+[] → "", null → "null"
+
+"" + "null" → "null"
+
+20. console.log([1]+[2,3])
+
+Output: "12,3"
+Explanation:
+
+[1].toString() → "1", [2,3].toString() → "2,3"
+
+"1" + "2,3" → "12,3"
+
+21. console.log({} == {})
+
+Output: false
+Explanation:
+
+Objects are reference types. Different objects → false.
+
+22. console.log(NaN == NaN)
+
+Output: false
+Explanation:
+
+NaN is never equal to anything, even itself. Use Number.isNaN().
+
+23. console.log(typeof NaN)
+
+Output: "number"
+Explanation:
+
+Quirk of JS: NaN is a numeric type.
+
+24. console.log(0.1 + 0.2)
+
+Output: 0.30000000000000004
+Explanation:
+
+Floating point precision error.
+
+Use toFixed or Math.round for comparison.
+
+25. console.log(" \t\n" == 0)
+
+Output: true
+Explanation:
+
+Whitespace string coerces to 0.
+
+0 == 0 → true.
+
+26. console.log(null + 1)
+
+Output: 1
+Explanation:
+
+null → 0 in numeric context
+
+0 + 1 → 1
+
+27. console.log(undefined + 1)
+
+Output: NaN
+Explanation:
+
+undefined cannot be converted to a number → NaN.
+
+28. console.log("1"<2<3)
+
+Output: true
+Explanation:
+
+"1" < 2 → true
+
+true < 3 → 1 < 3 → true
+
+29. console.log(3>2>1)
+
+Output: false
+Explanation:
+
+3>2 → true → 1
+
+1>1 → false
+
+30. console.log([] == 0 && [] == ![])
+
+Output: true
+Explanation:
+
+Left: [] == 0 → true
+
+Right: [] == ![] → true (covered in #3)
+
+Both true → true.

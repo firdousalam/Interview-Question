@@ -1,0 +1,471 @@
+MongoDB Interview Questions & Detailed Answers (Experienced Level)
+1. Basics
+
+1. What is MongoDB and why is it used?
+MongoDB is a NoSQL document-oriented database that stores data in BSON format.
+
+Why use MongoDB:
+
+Schema-less design allows rapid development and flexibility.
+
+Scales horizontally using sharding.
+
+Handles unstructured and semi-structured data efficiently.
+
+Provides replication for high availability.
+
+Use case example: Storing user profiles, product catalogs, or log analytics where the structure can change frequently.
+
+2. Key features of MongoDB
+
+Document-oriented: Each record is a JSON-like object.
+
+Dynamic schema: No need for schema migrations for minor changes.
+
+Replication & high availability: Replica sets allow automatic failover.
+
+Horizontal scaling: Sharding distributes data across multiple nodes.
+
+Indexing: Supports secondary indexes, compound indexes, TTL, geospatial, text.
+
+Aggregation: Powerful framework for analytics.
+
+Experienced insight: Unlike SQL, MongoDB encourages denormalization for performance—embedding related data rather than using joins.
+
+3. Differences between SQL and NoSQL
+
+Feature	SQL	MongoDB (NoSQL)
+Schema	Fixed, rigid	Dynamic, flexible
+Data Storage	Tables, rows, columns	Collections, documents (JSON/BSON)
+Relationships	Joins required	Embedded documents, $lookup for joins
+Scaling	Vertical	Horizontal via sharding
+Transactions	ACID by default	ACID supported at document level (multi-document in latest versions)
+
+Experienced tip: Understanding denormalization vs normalization trade-off is key for designing MongoDB solutions.
+
+4. Collections & Documents
+
+Document: JSON-like record { name: "Alice", age: 25 }. Supports nested structures.
+
+Collection: A set of documents, similar to a table.
+
+Experience note: In production, design collections around query patterns, not just data structure.
+
+5. BSON vs JSON
+
+BSON is binary JSON, optimized for speed and storage.
+
+Supports additional types: Date, ObjectId, Decimal128, Binary.
+
+Experience tip: Use BSON types to store dates and decimals correctly for querying and aggregation.
+
+6. Primary Key
+
+_id is automatically generated if not supplied.
+
+Can use custom _id for business requirements (like UUID or hash).
+
+7. Advantages & Disadvantages
+
+Advantages: Schema flexibility, scalability, fast reads/writes, built-in replication.
+
+Disadvantages: Joins are harder, large documents (>16MB) can cause issues, write-heavy workloads need indexing strategy.
+
+Experience insight: Always balance normalization and denormalization. Use embedding for frequent reads; referencing for frequent updates.
+
+8. MongoDB vs MySQL
+
+MongoDB: Good for dynamic schema, hierarchical data, analytics.
+
+MySQL: Good for structured data, transactional consistency, relational constraints.
+
+9. Default Storage Engine
+
+WiredTiger: Provides document-level concurrency, compression, and high throughput.
+
+Experience insight: Older engines like MMAPv1 do collection-level locking, causing bottlenecks. Always use WiredTiger for production.
+
+10. MongoDB vs Cassandra/Redis
+
+Cassandra: Wide-column, optimized for write-heavy workloads, eventual consistency.
+
+Redis: In-memory, optimized for caching and fast retrieval.
+
+MongoDB: General-purpose, supports analytics, flexible schema, and secondary indexes.
+
+2. CRUD Operations (Detailed)
+
+11. Insert a document
+
+db.users.insertOne({ name: "Alice", age: 25, skills: ["MongoDB","Node.js"] });
+
+
+Inserts a single document.
+
+Experience tip: Use bulkWrite for batch inserts in high-volume scenarios for performance.
+
+12. Update a document
+
+db.users.updateOne({ name: "Alice" }, { $set: { age: 26 } });
+
+
+Only updates matching fields.
+
+Experience insight: Avoid unindexed fields for filters to prevent collection scan.
+
+13. Delete a document
+
+db.users.deleteOne({ name: "Alice" });
+
+
+Deletes the first matching document.
+
+Experience tip: For bulk deletion, archive data before deletion in production systems.
+
+14. Find with criteria
+
+db.users.find({ age: { $gt: 20 } });
+
+
+$gt, $lt, $in, $nin are common operators.
+
+Experienced note: Always project only required fields to reduce network load.
+
+15. updateOne vs updateMany vs replaceOne
+
+updateOne: Updates the first matching document.
+
+updateMany: Updates all matching documents.
+
+replaceOne: Replaces the entire document.
+
+Experience tip: Use $set to prevent overwriting existing fields accidentally.
+
+16. find() vs findOne()
+
+find(): Returns cursor for multiple docs.
+
+findOne(): Returns a single doc or null.
+
+Experienced insight: findOne() is more efficient for single-doc retrieval.
+
+17. Limit results
+
+db.users.find().limit(5);
+
+
+Reduces network payload.
+
+Combine with sort for pagination.
+
+18. Sort
+
+db.users.find().sort({ age: -1 });
+
+
+Index-supported sort is fast; sorting without an index triggers in-memory sort (slow for large collections).
+
+19. Projection
+
+db.users.find({}, { name: 1, _id: 0 });
+
+
+Always project only required fields in production queries.
+
+20. Upsert
+
+db.users.updateOne({ name: "Bob" }, { $set: { age: 30 } }, { upsert: true });
+
+
+If document exists, update it; otherwise, insert new.
+
+Experienced tip: Use for idempotent operations like caching or syncing data.
+
+3. Indexing (Detailed)
+
+21. What is an index?
+
+Data structure improving query speed.
+
+Without an index, MongoDB performs collection scan, which is expensive for large datasets.
+
+22. Index improves query performance
+
+Queries use the B-tree structure to quickly locate documents.
+
+23. Types of indexes
+
+Single-field
+
+Compound
+
+Unique
+
+Text
+
+TTL
+
+Geospatial
+
+Experienced tip: Over-indexing can hurt write performance, use analyze queries before adding indexes.
+
+24. Compound index
+
+db.users.createIndex({ name: 1, age: -1 });
+
+
+Used when queries filter/sort on multiple fields.
+
+Experienced tip: Order of fields in compound index matters: place most selective first.
+
+25. Unique index
+
+db.users.createIndex({ email: 1 }, { unique: true });
+
+
+Prevents duplicate data.
+
+Experience insight: For multi-tenant apps, combine tenantId + field to enforce uniqueness per tenant.
+
+26. Single-field vs Compound index
+
+Single-field: Only one field is indexed.
+
+Compound: Optimized for queries filtering/sorting on multiple fields.
+
+27. TTL Index
+
+db.sessions.createIndex({ createdAt: 1 }, { expireAfterSeconds: 3600 });
+
+
+Automatically deletes expired documents.
+
+Use case: Session management, cache cleanup.
+
+28. Drop index
+
+db.users.dropIndex("name_1");
+
+
+29. Impact of too many indexes
+
+Slows insert/update/delete.
+
+Takes extra disk space.
+
+Experienced developers often profile queries before creating indexes.
+
+30. Check indexes
+
+db.users.getIndexes();
+
+
+I can continue with Aggregation, Replication, Sharding, Performance & Advanced questions with the same detailed approach next.
+
+Do you want me to provide the next part with 31–50 questions in detail?
+
+You said:
+yes
+ChatGPT said:
+
+Perfect! Let’s continue with MongoDB questions 31–50, tailored for experienced developers, including detailed explanations, best practices, and real-world examples.
+
+4. Aggregation (Detailed)
+
+31. What is the aggregation framework?
+
+MongoDB’s aggregation framework is used for data processing and analytics.
+
+Works with pipelines, where each stage transforms the documents.
+
+Use case: Summarizing orders, calculating metrics, joining collections.
+
+db.orders.aggregate([
+  { $match: { status: "completed" } },
+  { $group: { _id: "$customerId", totalAmount: { $sum: "$amount" } } }
+]);
+
+
+32. aggregate() vs mapReduce()
+
+aggregate():
+
+Fast, optimized, supports pipelines.
+
+Recommended for most analytics.
+
+mapReduce():
+
+More flexible, allows custom JS functions.
+
+Slower, often replaced by aggregation.
+
+Experienced tip: Prefer aggregate() unless advanced custom processing is needed.
+
+33. Common aggregation operators
+
+$match: Filter documents
+
+$group: Group documents, calculate sum, avg, max
+
+$project: Shape the output
+
+$sort, $limit, $skip
+
+$lookup: Join collections
+
+$unwind: Flatten arrays
+
+34. $match stage
+
+Filters documents early in pipeline for efficiency.
+
+db.orders.aggregate([{ $match: { status: "completed" } }]);
+
+
+Best practice: Place $match as early as possible to reduce documents processed.
+
+35. $group stage
+
+Groups documents by key and performs aggregations.
+
+db.orders.aggregate([
+  { $group: { _id: "$customerId", totalAmount: { $sum: "$amount" }, avgAmount: { $avg: "$amount" } } }
+]);
+
+
+Experienced insight: $group can cause memory issues; consider $group after $match.
+
+36. $lookup (joins)
+
+db.orders.aggregate([
+  { $lookup: { from: "customers", localField: "customerId", foreignField: "_id", as: "customer_info" } }
+]);
+
+
+Performs left outer join.
+
+Experienced tip: Avoid $lookup on large datasets without indexes—can be slow.
+
+37. Sort & Limit in aggregation
+
+db.orders.aggregate([
+  { $sort: { amount: -1 } },
+  { $limit: 5 }
+]);
+
+
+Sorting without indexes is expensive—consider indexing fields used in $sort.
+
+38. Calculate average or sum
+
+db.orders.aggregate([
+  { $group: { _id: null, total: { $sum: "$amount" }, avg: { $avg: "$amount" } } }
+]);
+
+
+Can compute metrics efficiently in MongoDB instead of client-side.
+
+39. count() vs $count
+
+count(): Legacy method on cursor.
+
+$count: Aggregation stage, recommended for pipelines.
+
+db.orders.aggregate([{ $match: { status: "completed" } }, { $count: "totalCompleted" }]);
+
+
+40. Combining multiple stages
+
+Yes, aggregation pipelines allow multiple stages: $match, $group, $sort, $project, $limit.
+
+Experienced tip: Always filter early, project only required fields, and avoid $group on huge datasets without $match.
+
+5. Replication & Sharding (Detailed)
+
+41. Replication
+
+Copies data across multiple nodes for high availability and fault tolerance.
+
+Ensures data redundancy.
+
+Experienced insight: Always configure replica sets with odd number of nodes for quorum-based elections.
+
+42. Replica set
+
+Set of MongoDB nodes: 1 primary + 2+ secondaries.
+
+Primary handles writes, secondaries replicate data.
+
+Experience tip: Configure arbiter nodes when needed to maintain quorum.
+
+43. Primary & secondary nodes
+
+Primary: Accepts writes, replicates oplog to secondaries.
+
+Secondary: Reads (if allowed), keeps copies in sync.
+
+Failover: Automatic election promotes a secondary if primary fails.
+
+44. Replication vs Sharding
+
+Replication: High availability, copies of data.
+
+Sharding: Horizontal scaling, distributes data across multiple servers.
+
+Experienced developers must design shard keys carefully to avoid uneven distribution.
+
+45. Sharding
+
+Distributes large collections across multiple shards.
+
+Components:
+
+Shard: stores subset of data.
+
+Config server: stores metadata.
+
+Query router (mongos): routes queries to appropriate shards.
+
+Example: Partition user data by region.
+
+46. Choosing a shard key
+
+Should be high cardinality and evenly distributed.
+
+Avoid monotonically increasing keys (like _id) to prevent hot shards.
+
+Experienced tip: Test with real workload before production deployment.
+
+47. Config server
+
+Holds metadata about cluster, mapping shards and chunks.
+
+Usually 3 config servers for fault tolerance.
+
+48. Consistency in replica set
+
+Write concern: Number of nodes that must acknowledge write.
+
+Read preference: Determines which node serves read requests.
+
+Experienced practice: Critical reads use { readPreference: "primary" }.
+
+49. Write concern
+
+Guarantees acknowledgment of writes.
+
+db.collection.insertOne({ name: "Firdous" }, { writeConcern: { w: "majority" } });
+
+
+Options: w:1, w:majority, journal:true
+
+Experienced tip: Higher write concern ensures durability but slower writes.
+
+50. Read preference
+
+Controls from which node reads occur:
+
+primary (default), secondary, primaryPreferred, secondaryPreferred, nearest.
+
+db.getMongo().setReadPref("secondary");

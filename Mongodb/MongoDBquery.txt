@@ -1,0 +1,69 @@
+🔟 Top MongoDB Queries (with Examples)
+1. Find All Documents in a Collection
+db.collection.find()
+
+
+Returns all documents from the collection.
+
+2. Find with a Filter Condition
+db.users.find({ age: { $gte: 25 } })
+
+
+Find users where age is greater than or equal to 25.
+
+3. Find One Document
+db.users.findOne({ email: "test@example.com" })
+
+
+Returns the first matching document.
+
+4. Insert a Document
+db.products.insertOne({
+  name: "Laptop",
+  price: 999,
+  inStock: true
+})
+
+
+Adds a new document to the collection.
+
+5. Insert Multiple Documents
+db.products.insertMany([
+  { name: "Mouse", price: 25 },
+  { name: "Keyboard", price: 45 }
+])
+
+6. Update a Document
+db.users.updateOne(
+  { name: "Alice" },
+  { $set: { age: 30 } }
+)
+
+
+Updates the first document where name is "Alice".
+
+7. Update Multiple Documents
+db.users.updateMany(
+  { country: "USA" },
+  { $set: { isActive: true } }
+)
+
+8. Delete a Document
+db.users.deleteOne({ name: "Bob" })
+
+9. Delete Multiple Documents
+db.users.deleteMany({ isActive: false })
+
+10. Sort, Limit, and Project Fields
+db.users.find({}, { name: 1, age: 1, _id: 0 })
+  .sort({ age: -1 })
+  .limit(5)
+
+
+Find only name and age, exclude _id, sort by age descending, limit to 5 results.
+
+📝 Bonus: Aggregation Example
+db.orders.aggregate([
+  { $group: { _id: "$customerId", totalSpent: { $sum: "$amount" } } },
+  { $sort: { totalSpent: -1 } }
+])

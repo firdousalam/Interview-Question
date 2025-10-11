@@ -1,0 +1,168 @@
+🔷 What is Redux?
+
+Redux is a state management library that helps you manage the global state of your application in a predictable way.
+
+In a React app, state often lives inside individual components (via useState or useReducer).
+But when multiple components need to share or update the same state, managing it becomes complex — this is where Redux helps.
+
+🔷 Core Principles of Redux
+
+Redux is based on three main principles:
+
+Single Source of Truth
+
+The entire state of your app is stored in one central store (an object tree).
+
+This makes debugging and testing easier.
+
+State is Read-Only
+
+You cannot directly modify the state.
+
+To change it, you must dispatch an action (a plain JS object describing what happened).
+
+Changes are Made with Pure Functions (Reducers)
+
+Reducers are pure functions that take the current state and an action, and return a new state.
+
+🔷 Redux Architecture Diagram
+          ┌──────────────┐
+          │   Component  │
+          └──────┬───────┘
+                 │ dispatch(action)
+                 ▼
+          ┌──────────────┐
+          │   Action     │
+          └──────┬───────┘
+                 │
+                 ▼
+          ┌──────────────┐
+          │   Reducer    │
+          └──────┬───────┘
+                 │
+                 ▼
+          ┌──────────────┐
+          │   Store      │
+          └──────┬───────┘
+                 │
+          (state updates)
+                 │
+                 ▼
+          ┌──────────────┐
+          │ React UI     │
+          └──────────────┘
+
+🔷 Key Building Blocks
+Part	Description
+Store	Holds the global state of your app.
+Action	A plain JS object that describes what you want to do (e.g., { type: 'INCREMENT' }).
+Reducer	A pure function that updates state based on the action.
+Dispatch	A function used to send actions to the store.
+Selector	A function to read data from the store.
+🔷 Example: Simple Counter using Redux in React
+Step 1: Install dependencies
+npm install @reduxjs/toolkit react-redux
+
+
+We’ll use Redux Toolkit, the official modern way to write Redux.
+
+Step 2: Create a Redux Slice
+
+👉 src/redux/counterSlice.js
+
+import { createSlice } from '@reduxjs/toolkit';
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { value: 0 },
+  reducers: {
+    increment: (state) => {
+      state.value += 1;
+    },
+    decrement: (state) => {
+      state.value -= 1;
+    },
+    reset: (state) => {
+      state.value = 0;
+    },
+  },
+});
+
+export const { increment, decrement, reset } = counterSlice.actions;
+export default counterSlice.reducer;
+
+Step 3: Configure the Store
+
+👉 src/redux/store.js
+
+import { configureStore } from '@reduxjs/toolkit';
+import counterReducer from './counterSlice';
+
+const store = configureStore({
+  reducer: {
+    counter: counterReducer,
+  },
+});
+
+export default store;
+
+Step 4: Provide the Store to React
+
+👉 src/index.js
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import App from './App';
+import store from './redux/store';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
+
+Step 5: Use Redux State and Actions in a Component
+
+👉 src/App.js
+
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment, decrement, reset } from './redux/counterSlice';
+
+function App() {
+  const count = useSelector((state) => state.counter.value);
+  const dispatch = useDispatch();
+
+  return (
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h1>Counter: {count}</h1>
+      <button onClick={() => dispatch(increment())}>➕ Increment</button>
+      <button onClick={() => dispatch(decrement())}>➖ Decrement</button>
+      <button onClick={() => dispatch(reset())}>🔁 Reset</button>
+    </div>
+  );
+}
+
+export default App;
+
+🔷 Working Flow Explained
+
+User clicks a button → dispatch(increment())
+
+Action { type: 'counter/increment' } is sent to the store
+
+Reducer receives it and updates state (state.value + 1)
+
+Store holds new state { value: 1 }
+
+React component re-renders using updated state
+
+🔷 Why Use Redux?
+
+✅ Centralized state management
+✅ Predictable state transitions
+✅ Easy debugging with Redux DevTools
+✅ Scales well in large apps
+✅ Works with any UI framework (not just React)
