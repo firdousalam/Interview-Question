@@ -1,0 +1,234 @@
+How to Increase Node.js Performance (2025 Guide)
+
+We’ll break it down into 8 key areas:
+
+Area	Focus
+⚡ 1. Event Loop & Async Handling	Non-blocking efficiency
+🧵 2. Clustering & Load Balancing	Multi-core utilization
+💾 3. Caching Strategies	Reduce redundant I/O
+🧠 4. Efficient Database Access	Optimize queries & pooling
+📦 5. Code & Module Optimization	Reduce overhead
+🔄 6. Stream & Buffer Usage	Handle large data efficiently
+🚀 7. Production & Deployment	Optimize runtime & environment
+🧰 8. Monitoring & Profiling	Detect bottlenecks
+⚡ 1. Event Loop Optimization (Avoid Blocking Code)
+🧠 Concept:
+
+Node.js runs on a single-threaded event loop, so any blocking code freezes the whole process.
+
+✅ Use Asynchronous APIs (Always!)
+
+❌ Bad (blocking I/O):
+
+const data = fs.readFileSync('file.txt');
+
+
+✅ Good (non-blocking):
+
+fs.readFile('file.txt', (err, data) => {
+  if (err) throw err;
+});
+
+✅ Avoid CPU-heavy operations in main thread
+
+If you must do CPU-bound work (e.g., encryption, image processing):
+
+Use Worker Threads
+
+Or delegate to background microservices
+
+const { Worker } = require('worker_threads');
+new Worker('./heavyTask.js', { workerData: { input: 42 } });
+
+✅ Use setImmediate() or process.nextTick() wisely
+
+Split long loops to yield back control to event loop.
+
+function processLargeArray(items) {
+  if (items.length === 0) return;
+  setImmediate(() => processLargeArray(items.slice(1)));
+}
+
+🧵 2. Clustering & Load Balancing
+🧠 Concept:
+
+By default, Node uses only 1 CPU core.
+Use Clustering or PM2 to spawn multiple processes.
+
+✅ Built-in Cluster Module
+import cluster from 'cluster';
+import os from 'os';
+import http from 'http';
+
+if (cluster.isPrimary) {
+  os.cpus().forEach(() => cluster.fork());
+} else {
+  http.createServer((req, res) => res.end('Hello')).listen(3000);
+}
+
+
+💡 Each worker handles a portion of requests → full CPU utilization.
+
+✅ Use PM2 (Recommended)
+npm install -g pm2
+pm2 start app.js -i max
+
+
+💥 Automatically load-balances across CPU cores, restarts on crash, monitors memory.
+
+💾 3. Caching (Cut Down Expensive Calls)
+🧠 Concept:
+
+Cache frequent responses (DB queries, API responses, or computed results).
+
+✅ In-Memory Cache (e.g., Node Cache)
+import NodeCache from 'node-cache';
+const cache = new NodeCache({ stdTTL: 60 });
+
+app.get('/user/:id', async (req, res) => {
+  const { id } = req.params;
+  const cached = cache.get(id);
+  if (cached) return res.json(cached);
+
+  const user = await db.getUser(id);
+  cache.set(id, user);
+  res.json(user);
+});
+
+✅ Distributed Cache (Redis)
+import Redis from 'ioredis';
+const redis = new Redis();
+
+await redis.set('user:1', JSON.stringify(user), 'EX', 60);
+
+
+💡 Redis is ideal for caching, rate-limiting, and pub/sub.
+
+🧠 4. Database Performance Optimization
+✅ Use Connection Pooling
+
+Reusing DB connections is much faster than reconnecting for every query.
+
+import mysql from 'mysql2/promise';
+const pool = mysql.createPool({ connectionLimit: 10 });
+
+✅ Optimize Queries
+
+Use proper indexes
+
+Avoid N+1 queries
+
+Limit result sets (SELECT only needed columns)
+
+Use pagination for large data sets
+
+✅ Use Batching & Caching
+
+Instead of querying inside loops:
+
+const users = await User.find({ id: { $in: ids } });
+
+📦 5. Code & Module Optimization
+✅ Avoid Deep Nested Loops & Synchronous JSON Parsing
+
+For large JSON:
+
+import { parse } from 'JSONStream';
+fs.createReadStream('big.json').pipe(parse('*')).on('data', console.log);
+
+✅ Use Efficient Libraries
+
+Use fast-json-stringify instead of JSON.stringify
+
+Use Bunyan / Pino for fast logging
+
+Use Zod or Ajv for fast schema validation
+
+✅ Avoid Memory Leaks
+
+Remove unused event listeners
+
+Destroy streams when done
+
+Watch memory usage in PM2 or Node Inspector
+
+🔄 6. Use Streams & Buffers for Large Data
+🧠 Concept:
+
+Instead of loading large files or responses into memory, stream them.
+
+✅ File Streaming
+fs.createReadStream('big.mp4').pipe(res);
+
+
+✅ Low memory usage
+✅ Better performance for large payloads
+
+✅ HTTP Response Streaming
+app.get('/logs', (req, res) => {
+  const stream = fs.createReadStream('/var/log/app.log');
+  stream.pipe(res);
+});
+
+🚀 7. Production Optimization
+✅ Enable GZIP / Brotli Compression
+import compression from 'compression';
+app.use(compression());
+
+✅ Use Reverse Proxy (Nginx)
+
+Let Nginx handle:
+
+SSL termination
+
+Static file caching
+
+Load balancing
+So Node focuses only on app logic.
+
+✅ Use Environment Variables for Config
+
+Avoid reading config files at runtime — load once via dotenv.
+
+✅ Use Proper Node.js Flags
+node --max-old-space-size=4096 server.js
+
+
+Increase memory for high-load applications.
+
+✅ Serve Static Files via CDN
+
+Avoid serving images or assets through Node directly.
+
+🧰 8. Monitoring & Profiling
+✅ Use Profiling Tools
+Tool	Purpose
+clinic.js	Analyze CPU, memory bottlenecks
+Node.js --inspect	Debug and profile with Chrome DevTools
+PM2 Monitoring	Memory, CPU, uptime
+New Relic / Datadog	Application performance monitoring
+✅ Measure with Built-in Performance API
+const { performance } = require('perf_hooks');
+
+const start = performance.now();
+// run task
+console.log(performance.now() - start, 'ms');
+
+🧭 Summary Table
+Category	Technique	Impact
+Event Loop	Non-blocking I/O, Worker threads	⚡ High
+Clustering	PM2 / Cluster	⚙️ High
+Caching	Redis, in-memory	🚀 Very High
+Database	Pooling, indexing	⚡ High
+Code	Memoization, Async libs	⚙️ Medium
+Streams	Large data handling	🧠 Medium
+Deployment	Compression, CDN, reverse proxy	🌐 High
+Monitoring	Profilers, PM2, logs	📊 Critical
+🧠 Bonus Pro Tips
+
+✅ Use Fastify instead of Express → 2× faster routing engine
+✅ Deploy with Docker and auto-scale via Kubernetes or AWS ECS
+✅ Use HTTP/2 for multiplexed connections
+✅ Use Node 20+ for better V8 engine and native fetch support
+✅ Cache JWT verification keys or config data in memory
+✅ Minimize middlewares — each one adds latency

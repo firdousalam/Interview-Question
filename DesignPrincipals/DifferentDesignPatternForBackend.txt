@@ -1,0 +1,307 @@
+What Are Design Patterns?
+
+Design patterns are reusable solutions to common problems in software design.
+In Node.js backend, they help make your code:
+
+Scalable
+
+Maintainable
+
+Testable
+
+Easy to extend
+
+🏗️ Common Design Patterns in Node.js Backend Development
+
+We’ll break them down into categories 👇
+
+🔹 1. Module Pattern
+🧩 Concept:
+
+Encapsulate logic into independent modules to avoid polluting the global namespace.
+
+📦 Example:
+// userService.js
+const userService = (() => {
+  const users = [];
+
+  function addUser(name) {
+    users.push(name);
+  }
+
+  function getUsers() {
+    return users;
+  }
+
+  return { addUser, getUsers };
+})();
+
+module.exports = userService;
+
+✅ Benefits:
+
+Code organization
+
+Encapsulation
+
+Reusability
+
+🧠 Used everywhere in Node.js since each .js file is a module.
+
+🔹 2. Factory Pattern
+🧩 Concept:
+
+Creates objects without exposing creation logic to the client.
+
+📦 Example:
+class Developer {
+  constructor(name) {
+    this.name = name;
+    this.role = "Developer";
+  }
+}
+
+class Tester {
+  constructor(name) {
+    this.name = name;
+    this.role = "Tester";
+  }
+}
+
+function employeeFactory(name, type) {
+  switch (type) {
+    case "developer":
+      return new Developer(name);
+    case "tester":
+      return new Tester(name);
+  }
+}
+
+const emp1 = employeeFactory("Alice", "developer");
+const emp2 = employeeFactory("Bob", "tester");
+
+✅ Benefits:
+
+Centralized object creation
+
+Reduces coupling between classes
+
+🔹 3. Singleton Pattern
+🧩 Concept:
+
+Ensures only one instance of an object exists throughout the app (useful for configs, DB connections, etc.)
+
+📦 Example:
+class Database {
+  constructor() {
+    if (Database.instance) {
+      return Database.instance;
+    }
+    this.connection = this.connect();
+    Database.instance = this;
+  }
+
+  connect() {
+    console.log("Connected to DB");
+  }
+}
+
+module.exports = new Database();
+
+✅ Benefits:
+
+Single shared resource
+
+Prevent multiple DB connections
+
+🔹 4. Observer Pattern (Pub/Sub)
+🧩 Concept:
+
+An object (Publisher) maintains a list of dependents (Subscribers) and notifies them automatically of any state changes.
+
+📦 Example (EventEmitter):
+const EventEmitter = require('events');
+const emitter = new EventEmitter();
+
+emitter.on('userCreated', (user) => {
+  console.log(`Welcome email sent to ${user.name}`);
+});
+
+emitter.emit('userCreated', { name: 'John' });
+
+✅ Benefits:
+
+Decoupled components
+
+Event-driven architecture (very natural in Node.js)
+
+🧠 Used internally in Node’s core (HTTP, Streams, etc.)
+
+🔹 5. Middleware Pattern (Chain of Responsibility)
+🧩 Concept:
+
+Each middleware handles part of a request and passes it to the next one.
+
+📦 Example (Express.js style):
+app.use((req, res, next) => {
+  console.log("Request received");
+  next();
+});
+
+app.use((req, res, next) => {
+  console.log("Authentication checked");
+  next();
+});
+
+✅ Benefits:
+
+Highly extensible
+
+Clean separation of concerns
+
+🧠 Foundation of Express.js and Koa.
+
+🔹 6. Repository Pattern
+🧩 Concept:
+
+Abstracts data access logic from business logic.
+
+📦 Example:
+// userRepository.js
+class UserRepository {
+  constructor(model) {
+    this.model = model;
+  }
+
+  async getAll() {
+    return this.model.find();
+  }
+
+  async create(user) {
+    return this.model.create(user);
+  }
+}
+
+module.exports = UserRepository;
+
+✅ Benefits:
+
+Separation of data and domain logic
+
+Easier to switch between databases (Mongo, SQL, etc.)
+
+🔹 7. Strategy Pattern
+🧩 Concept:
+
+Define a family of algorithms and make them interchangeable.
+
+📦 Example:
+class PaypalPayment {
+  pay(amount) {
+    console.log(`Paid ${amount} using PayPal`);
+  }
+}
+
+class CreditCardPayment {
+  pay(amount) {
+    console.log(`Paid ${amount} using Credit Card`);
+  }
+}
+
+class PaymentContext {
+  setStrategy(strategy) {
+    this.strategy = strategy;
+  }
+
+  pay(amount) {
+    this.strategy.pay(amount);
+  }
+}
+
+const context = new PaymentContext();
+context.setStrategy(new PaypalPayment());
+context.pay(1000);
+
+✅ Benefits:
+
+Avoids complex if-else or switch logic
+
+Plug-and-play strategies
+
+🔹 8. Decorator Pattern
+🧩 Concept:
+
+Dynamically add behavior to an object without modifying its original structure.
+
+📦 Example:
+function logger(fn) {
+  return function (...args) {
+    console.log(`Calling ${fn.name} with ${args}`);
+    return fn(...args);
+  };
+}
+
+function add(a, b) {
+  return a + b;
+}
+
+const loggedAdd = logger(add);
+console.log(loggedAdd(2, 3));
+
+✅ Benefits:
+
+Adds cross-cutting features like logging or caching without touching core logic
+
+🔹 9. Proxy Pattern
+🧩 Concept:
+
+A wrapper around an object that controls access to it.
+
+📦 Example:
+const db = {
+  getData: () => "Sensitive data",
+};
+
+const proxy = new Proxy(db, {
+  get(target, prop) {
+    if (prop === "getData") {
+      console.log("Access validated");
+    }
+    return target[prop];
+  },
+});
+
+proxy.getData();
+
+✅ Benefits:
+
+Access control, caching, logging
+
+Useful for APIs or DB wrappers
+
+🔹 10. MVC / MVVM / Clean Architecture
+🧩 Concept:
+
+Architectural patterns for organizing backend code.
+
+Pattern	Description
+MVC (Model-View-Controller)	Separates logic, UI, and data
+MVVM (Model-View-ViewModel)	Used in frontend-heavy apps
+Clean Architecture	Layers like Controller → Service → Repository
+
+Example Node.js layers:
+
+Controller → Service → Repository → Database
+
+🚀 Summary Table
+Pattern	Use Case
+Module	Encapsulate functionality
+Factory	Object creation control
+Singleton	Single instance (DB, config)
+Observer	Event-driven systems
+Middleware	Request/Response pipelines
+Repository	Data abstraction
+Strategy	Algorithm switching
+Decorator	Add behavior dynamically
+Proxy	Control access to objects
+MVC/Clean Arch	Overall project structure
