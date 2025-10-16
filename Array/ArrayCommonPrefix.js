@@ -1,4 +1,4 @@
-function commonPrefix(data){
+// function commonPrefix(data){
    /**
  * @param {string[]} strs
  * @return {string}
@@ -29,5 +29,5 @@ var longestCommonPrefix = function(strs) {
 };
     
 
-}
-console.log(commonPrefix(["flower","flow","fflight"]));
+
+console.log(longestCommonPrefix(["flower","flow","flight"]));

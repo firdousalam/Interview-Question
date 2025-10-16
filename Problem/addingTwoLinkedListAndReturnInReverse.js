@@ -41,3 +41,10 @@ var addTwoNumbers = function (l1, l2) {
     }
     return head;
 };
+
+let str = "I love JavaScript";
+
+console.log(str.replace("love", "like")); 
+// "I like JavaScript"
+
+console.log(str.replace(/a/g, "AA")); 
