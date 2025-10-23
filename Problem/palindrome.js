@@ -24,8 +24,8 @@ Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
  * @param {number} x
  * @return {boolean}
  */
-var isPalindrome = function(x) {
-    console.log(x.toString().split("").reverse().join(''));
+var isPalindromeFun = function(x) {
+   
     if(x.toString() === x.toString().split("").reverse().join('')){
         return true
     }
@@ -45,6 +45,7 @@ var isPalindrome = function(x) {
 
     const src = x.toString();
     const length = src.length;
+    console.log("datat",Math.ceil(length / 2));
     for (let i = 0; i < Math.ceil(length / 2); i++) {
         if (src[i] !== src[length - 1 - i]) {
             return false;
@@ -53,7 +54,19 @@ var isPalindrome = function(x) {
 
     return true; 
 };
+console.log("by half",isPalindrome("testtset"))
+function isPalindromeNum(x) {
+    // Negative numbers or numbers ending with 0 (but not 0 itself) are not palindromes
+    if (x < 0 || (x % 10 === 0 && x !== 0)) return false;
 
-process.on("exit", () => {
-    require("fs").writeFileSync("display_runtime.txt", "0");
-});
+    let reversedHalf = 0;
+
+    // Reverse only half of the digits
+    while (x > reversedHalf) {
+        reversedHalf = reversedHalf * 10 + (x % 10);
+        x = Math.floor(x / 10);
+    }
+
+    // For odd-length numbers, drop the middle digit (reversedHalf / 10)
+    return x === reversedHalf || x === Math.floor(reversedHalf / 10);
+}
