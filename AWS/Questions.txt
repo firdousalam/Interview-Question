@@ -1,0 +1,273 @@
+Top 50 AWS Interview Questions & Answers for Backend Developers
+🟢 1. AWS Basics
+
+### 1. What is AWS?
+
+AWS (Amazon Web Services) is a cloud computing platform offering IaaS, PaaS, and SaaS — providing services like EC2, S3, RDS, Lambda, and DynamoDB.
+
+2. What are the main advantages of AWS?
+
+Scalability
+
+High Availability
+
+Pay-as-you-go pricing
+
+Security
+
+Global reach
+
+3. What are Regions and Availability Zones?
+
+Region = Geographical area (e.g., ap-south-1).
+
+Availability Zone (AZ) = Data centers inside a region, providing redundancy.
+
+4. What is the Shared Responsibility Model?
+
+AWS: Responsible for security of the cloud (hardware, network).
+
+You: Responsible for security in the cloud (data, access, encryption).
+
+5. What is Edge Location?
+
+A CDN endpoint used by services like CloudFront to deliver content with low latency.
+
+⚙️ 2. Compute Services (EC2, Lambda, Containers)
+6. What is EC2?
+
+Elastic Compute Cloud — provides virtual servers to run backend code and applications.
+
+7. What are EC2 pricing models?
+
+On-Demand
+
+Reserved
+
+Spot
+
+Dedicated Instances/Hosts
+
+8. What is the difference between EC2 and Lambda?
+
+Feature	EC2	Lambda
+Management	User-managed	Fully managed
+Pricing	Per uptime	Per request
+Scaling	Manual/auto	Automatic
+Use case	Persistent app	Event-driven tasks
+9. What is Auto Scaling?
+
+Automatically adjusts EC2 instance count based on CPU, memory, or custom metrics.
+
+10. Difference between ECS and EKS?
+
+ECS: AWS-managed container orchestration (Docker).
+
+EKS: Managed Kubernetes cluster on AWS.
+
+11. What is AWS Elastic Beanstalk?
+
+PaaS service to deploy and scale web apps (Node.js, Python, etc.) without managing infrastructure.
+
+12. What is AWS Lambda?
+
+A serverless compute service that runs your code in response to events (API call, file upload, etc.).
+
+13. What is a Lambda cold start?
+
+Delay that occurs when AWS creates a new instance of a Lambda function after being idle.
+
+14. How do you reduce cold start time in Lambda?
+
+Use provisioned concurrency
+
+Keep function small
+
+Use Node.js/Python over heavy runtimes
+
+Warm-up triggers
+
+15. When to use Lambda vs EC2?
+
+Use Lambda for event-based tasks, EC2 for long-running, stateful applications.
+
+💾 3. Storage & Databases
+16. Difference between S3 and EBS?
+Feature	S3	EBS
+Storage type	Object	Block
+Access	API	Attached to EC2
+Use case	Backup, media	Databases, OS
+17. What are S3 storage classes?
+
+Standard, Intelligent-Tiering, Standard-IA, One Zone-IA, Glacier, Deep Archive.
+
+18. How to make an S3 bucket private?
+
+Set bucket policies or block public access using IAM policies and ACLs.
+
+19. What is RDS?
+
+Relational Database Service — managed service for MySQL, PostgreSQL, Oracle, SQL Server, Aurora.
+
+20. What is DynamoDB?
+
+A fully managed NoSQL key-value and document database with auto-scaling and high throughput.
+
+21. Difference between RDS and DynamoDB?
+Feature	RDS	DynamoDB
+Type	Relational	NoSQL
+Schema	Fixed	Flexible
+Scaling	Manual	Automatic
+22. What is Aurora?
+
+A high-performance, MySQL/PostgreSQL-compatible relational database optimized by AWS.
+
+23. What is ElastiCache?
+
+In-memory caching service supporting Redis and Memcached for fast data retrieval.
+
+24. How to handle DB connection pooling in Lambda?
+
+Use RDS Proxy or connection pooling libraries to reuse connections efficiently.
+
+🌐 4. Networking & Security
+25. What is a VPC?
+
+Virtual Private Cloud — an isolated network where you can launch AWS resources securely.
+
+26. Difference between public and private subnets?
+
+Public subnet: Internet-accessible via IGW.
+
+Private subnet: Restricted, accessed via NAT Gateway.
+
+27. What is a Security Group?
+
+A virtual firewall controlling inbound/outbound traffic for EC2 instances (stateful).
+
+28. Difference between Security Group and NACL?
+Feature	SG	NACL
+Level	Instance	Subnet
+Stateful	Yes	No
+29. What is Route 53?
+
+A DNS and routing service that supports failover, latency-based, and weighted routing.
+
+30. What is CloudFront?
+
+AWS CDN service that caches content globally for faster delivery and lower latency.
+
+31. How to secure backend APIs in AWS?
+
+Use API Gateway + Lambda authorizers
+
+IAM roles & policies
+
+AWS WAF (Web Application Firewall)
+
+☁️ 5. API & Serverless
+32. What is API Gateway?
+
+A fully managed service to create, publish, secure, and monitor REST or WebSocket APIs.
+
+33. Difference between REST API and HTTP API in API Gateway?
+
+REST API: Advanced features (usage plans, caching).
+
+HTTP API: Cheaper and faster, fewer features.
+
+34. How do you handle CORS in API Gateway?
+
+Enable CORS headers (Access-Control-Allow-Origin) in API Gateway settings or Lambda response.
+
+35. What is AWS AppSync?
+
+A managed GraphQL service that connects APIs, databases, and Lambda functions.
+
+36. How do you secure API Gateway endpoints?
+
+Use Cognito authorizers, JWT validation, or Lambda custom authorizers.
+
+🧰 6. Deployment & CI/CD
+37. What is CodePipeline?
+
+A CI/CD service that automates build, test, and deploy stages.
+
+38. What is CodeBuild?
+
+A build service that compiles code, runs tests, and produces artifacts.
+
+39. What is CodeDeploy?
+
+Automates application deployment to EC2, Lambda, or ECS.
+
+40. What is the difference between CloudFormation and Terraform?
+Feature	CloudFormation	Terraform
+Owner	AWS	HashiCorp
+Language	YAML/JSON	HCL
+Multi-cloud	No	Yes
+41. What is AWS SAM?
+
+Serverless Application Model — simplifies deployment of Lambda-based apps with YAML templates.
+
+42. What is Elastic Beanstalk used for?
+
+Deploying full backend apps (Node, Java, Python) without managing infrastructure.
+
+🔐 7. Monitoring & Logging
+43. What is CloudWatch?
+
+A monitoring service that tracks metrics, logs, and triggers alarms.
+
+44. What is CloudTrail?
+
+Logs API activity for auditing and compliance.
+
+45. What is AWS X-Ray?
+
+A tool for tracing requests through distributed systems (great for debugging microservices).
+
+46. How do you monitor Lambda performance?
+
+Use CloudWatch metrics (Duration, Errors) and X-Ray traces.
+
+🧠 8. Advanced / Scenario-Based
+47. How do you design a scalable backend on AWS?
+
+Use:
+
+API Gateway + Lambda / ECS
+
+RDS or DynamoDB
+
+S3 for static files
+
+CloudFront for CDN
+
+Auto Scaling for elasticity
+
+48. How do you reduce AWS backend costs?
+
+Use Spot instances
+
+Enable Auto-scaling
+
+Use Lambda for low-traffic apps
+
+S3 lifecycle policies
+
+CloudWatch for unused resources
+
+49. What’s the difference between SQS and SNS?
+Service	Type	Use Case
+SNS	Pub/Sub	Broadcast messages
+SQS	Queue	Message queuing, decoupling services
+50. How do you secure data in AWS?
+
+Encryption at rest: S3, EBS, RDS with KMS
+
+Encryption in transit: HTTPS, TLS
+
+IAM roles/policies
+
+MFA and least privilege
