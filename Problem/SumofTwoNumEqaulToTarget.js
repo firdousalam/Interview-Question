@@ -49,3 +49,54 @@ var twoSum = function(nums, target) {
     map[num] = index; 
   }
 };
+
+/*
+time complexity O(n)
+Space Complexity O(n)
+*/
+
+let sumTwo = function(arr,target){
+  let left =0;
+  let right = arr.length-1;
+  while(right>left){
+    const sum = arr[left]+arr[right];
+    if(sum === target){
+      return [arr[left],arr[right]];
+    }else if(sum<target){
+      left++;
+    }else {
+      right--;
+    }
+  }
+  return null;
+}
+
+console.log(sumTwo([9,1,2,3,4,5,6,7,8,9,10],15))
+
+/*
+to return all pair
+
+*/
+var twoSumRet = function(nums, target) {
+  
+    if(nums.length==1) return
+  let data = [];
+  let map = {};
+  
+  for(let [index,num] of nums.entries()) {
+  
+    let diff = target - num;
+    if(typeof map[diff] != 'undefined') {
+      console.log(index,diff);
+        data.push([ map[diff],num]);
+    }
+    map[num] = num; 
+  }
+
+  return data;
+};
+console.log(JSON.stringify(twoSumRet([9,1,2,3,4,5,6,7,8,9,10],15)))
+/*
+time complexity O(n)
+Space Complexity O(n)
+*/
