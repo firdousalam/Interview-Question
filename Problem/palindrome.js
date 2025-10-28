@@ -70,3 +70,21 @@ function isPalindromeNum(x) {
     // For odd-length numbers, drop the middle digit (reversedHalf / 10)
     return x === reversedHalf || x === Math.floor(reversedHalf / 10);
 }
+
+function checkPalindrome(txt){
+    let left = 0;
+    console.log(txt)
+    let right = txt.length-1;
+    console.log(right);
+    while(right>left){
+        console.log(txt[left],"left")
+        if(txt[left] != txt[right]){
+            return false;
+        }
+
+        right--;
+        left++;
+    }
+    return true;
+}
+console.log("by half1",checkPalindrome(1234321))

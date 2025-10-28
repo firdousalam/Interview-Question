@@ -3,6 +3,7 @@ function combinationsOfThree(arr) {
 
   function combine(start, combo) {
     if (combo.length === 4) {
+      
       result.push([...combo]);
       return;
     }
