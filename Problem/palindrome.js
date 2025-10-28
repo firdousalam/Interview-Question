@@ -31,29 +31,14 @@ var isPalindromeFun = function(x) {
     }
     return false;
 };
+/*
+time Complexity O(n) linear with respect to element
+space Complexity O(n) Linear with respect to Element.
 
 
 
-/**
- * @param {number} x
- * @return {boolean}
- */
-var isPalindrome = function(x) {
-    if (x < 0) {
-        return false;
-    }
 
-    const src = x.toString();
-    const length = src.length;
-    console.log("datat",Math.ceil(length / 2));
-    for (let i = 0; i < Math.ceil(length / 2); i++) {
-        if (src[i] !== src[length - 1 - i]) {
-            return false;
-        }
-    }
-
-    return true; 
-};
+*/
 console.log("by half",isPalindrome("testtset"))
 function isPalindromeNum(x) {
     // Negative numbers or numbers ending with 0 (but not 0 itself) are not palindromes
@@ -70,7 +55,10 @@ function isPalindromeNum(x) {
     // For odd-length numbers, drop the middle digit (reversedHalf / 10)
     return x === reversedHalf || x === Math.floor(reversedHalf / 10);
 }
-
+/*
+time complexity O(log base 10 n )
+space complexity O(1)
+*/
 function checkPalindrome(txt){
     let left = 0;
     console.log(txt)
@@ -87,4 +75,8 @@ function checkPalindrome(txt){
     }
     return true;
 }
-console.log("by half1",checkPalindrome(1234321))
+/*
+time complexity O(log base 10 n )
+space complexity O(1)
+*/
+console.log("by half1",isPalindromeNum(1234321))
