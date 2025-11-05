@@ -271,3 +271,288 @@ Encryption in transit: HTTPS, TLS
 IAM roles/policies
 
 MFA and least privilege
+
+
+# 50.  what are the best practices for serverless application ?
+
+🧠 1. Architecture and Design
+
+Event-driven design:
+Build loosely coupled components triggered by events (e.g., API Gateway → Lambda → DynamoDB → SNS).
+Use pub/sub or queues (SNS, SQS) to decouple services.
+
+Single Responsibility Principle:
+Each function should perform one specific task. This improves maintainability and scalability.
+
+Use microservice boundaries:
+Don’t put everything in one Lambda; separate functions by domain (e.g., user-service, order-service).
+
+⚙️ 2. Performance and Cold Start Optimization
+
+Keep functions lightweight:
+Import only necessary modules. Avoid heavy SDKs or large dependencies.
+
+Use appropriate runtime:
+Newer runtimes (like Node.js 20 or Python 3.11) have faster cold starts and better performance.
+
+Provisioned concurrency (AWS Lambda):
+For critical APIs, enable provisioned concurrency to eliminate cold starts.
+
+Warm-up strategies:
+Use CloudWatch events or external warmers to invoke critical Lambdas periodically.
+
+💰 3. Cost Optimization
+
+Avoid unnecessary invocations:
+Filter events before invoking functions (e.g., use S3 event filters, DynamoDB stream filters).
+
+Batch processing:
+For queue-based workloads, process multiple records in a single Lambda execution.
+
+Use right timeout and memory:
+Test and tune the memory vs execution time — higher memory can actually lower total cost.
+
+Monitor cost anomalies:
+Use AWS Budgets and CloudWatch metrics to detect unexpected usage.
+
+🔒 4. Security Best Practices
+
+Least privilege IAM roles:
+Each function should have a dedicated IAM role with only required permissions.
+
+Environment variables:
+Use AWS Secrets Manager or Parameter Store for sensitive config data.
+
+Validate inputs:
+Don’t trust external triggers (API Gateway, S3, DynamoDB Streams). Validate everything.
+
+Enable encryption:
+Encrypt data at rest (S3, DynamoDB) and in transit (HTTPS).
+
+🧩 5. Observability and Debugging
+
+Structured logging:
+Use JSON logs and include trace IDs for correlation.
+
+Distributed tracing:
+Use AWS X-Ray or OpenTelemetry to track end-to-end requests.
+
+Metrics and alarms:
+Publish custom metrics to CloudWatch (e.g., execution time, error count).
+
+Centralized monitoring:
+Aggregate logs with CloudWatch Logs Insights or third-party tools (Datadog, New Relic).
+
+🚀 6. Deployment and CI/CD
+
+Infrastructure as Code (IaC):
+Use AWS SAM, Serverless Framework, or Terraform for versioned, repeatable deployments.
+
+Stage isolation:
+Separate environments (dev, test, prod) with distinct accounts or prefixes.
+
+Versioning and aliasing:
+Deploy Lambda versions with aliases like dev, prod for safe rollbacks.
+
+Automated testing:
+Include unit, integration, and load tests in your CI/CD pipeline.
+
+🧮 7. Data and State Management
+
+Use managed databases:
+DynamoDB, Aurora Serverless, or S3 depending on use case.
+
+Avoid long-running Lambdas:
+Offload long tasks to Step Functions or queues.
+
+Idempotent operations:
+Ensure retry-safe operations — especially for APIs, event handlers, and streams.
+
+🔄 8. Scalability and Reliability
+
+Use asynchronous patterns:
+Queue or event-based invocation for resilience and scalability.
+
+Handle retries gracefully:
+Configure DLQs (Dead Letter Queues) or On-Failure destinations for error handling.
+
+Limit concurrency:
+Control Lambda concurrency to protect downstream systems (like databases).
+
+📦 9. Testing and Local Development
+
+Use local emulators:
+Tools like AWS SAM CLI, LocalStack, or Serverless Offline help simulate cloud behavior.
+
+Mock external services:
+For faster feedback and lower cost during testing.
+
+🧰 10. Documentation and Governance
+
+Document triggers and data flow:
+Maintain diagrams and trigger-source mapping.
+
+Tag all resources:
+For cost tracking, ownership, and governance.
+
+Enforce policies:
+Use AWS Config or Service Control Policies (SCPs) for compliance.
+
+Would you like me to tailor these best practices specifically for AWS Lambda + API Gateway + DynamoDB (a typical serverless stack)?
+That version would include concrete examples and recommended AWS settings.
+
+# 51 What is CORS?
+
+CORS (Cross-Origin Resource Sharing) is a browser security mechanism that controls whether a web app running on one domain can make requests to a different domain.
+
+By default, browsers block such cross-origin requests for security.
+CORS provides a way for servers to safely allow or restrict these requests.
+
+Example
+
+Your frontend runs at:
+
+https://frontend.example.com
+
+
+Your backend API runs at:
+
+https://api.example.com
+
+
+When the frontend calls the API using fetch() or axios, the browser checks whether api.example.com allows requests from frontend.example.com.
+
+🚦 CORS Flow in Simple Terms
+1️⃣ Simple Request
+
+If it’s a simple GET or POST with safe headers, the browser just sends it with an Origin header:
+
+Origin: https://frontend.example.com
+
+
+If the server replies with:
+
+Access-Control-Allow-Origin: https://frontend.example.com
+
+
+→ ✅ The browser allows the response to be visible to your JavaScript code.
+
+2️⃣ Preflight Request (OPTIONS)
+
+For non-simple requests (e.g., custom headers, PUT, DELETE, JSON body),
+the browser sends an HTTP OPTIONS request first — called a preflight.
+
+Example:
+
+OPTIONS /api/data
+Origin: https://frontend.example.com
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: Content-Type
+
+
+Server must respond with:
+
+Access-Control-Allow-Origin: https://frontend.example.com
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE
+Access-Control-Allow-Headers: Content-Type, Authorization
+Access-Control-Max-Age: 3600
+
+
+Only if this succeeds, the browser will send the actual POST request.
+
+⚙️ Setting Up CORS in AWS API Gateway (for Lambda)
+🪜 Option 1: Enable via AWS Console
+
+Open API Gateway → select your API.
+
+Choose your resource (e.g., /users) and each method (GET, POST, etc.).
+
+Click “Enable CORS” in the Actions menu.
+
+It automatically adds:
+
+OPTIONS method
+
+CORS headers in method responses
+
+Headers added:
+
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET,POST,OPTIONS
+Access-Control-Allow-Headers: Content-Type,Authorization
+
+
+Then Deploy API to apply changes.
+
+⚙️ Option 2: In Lambda Response (if using Lambda Proxy Integration)
+
+If API Gateway is using Lambda Proxy Integration,
+you must include CORS headers in your Lambda’s response:
+
+export const handler = async (event) => {
+  return {
+    statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",  // or your domain
+      "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type,Authorization",
+    },
+    body: JSON.stringify({ message: "CORS works!" }),
+  };
+};
+
+
+For preflight (OPTIONS) requests:
+
+if (event.httpMethod === "OPTIONS") {
+  return {
+    statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type,Authorization",
+    },
+    body: "",
+  };
+}
+
+⚙️ Option 3: Serverless Framework Example
+functions:
+  api:
+    handler: handler.main
+    events:
+      - http:
+          path: /users
+          method: get
+          cors:
+            origin: 'https://frontend.example.com'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+🔒 Best Practices
+Best Practice	Why It Matters
+✅ Use specific origins (not *) in production	Prevents other sites from abusing your API
+✅ Allow only required methods	e.g., only GET and POST if no updates are needed
+✅ Allow only necessary headers	Avoid exposing sensitive headers
+✅ Use HTTPS	CORS doesn’t protect against MITM; HTTPS does
+✅ Cache preflight responses	Use Access-Control-Max-Age for faster performance
+
+Example:
+
+Access-Control-Max-Age: 86400  # 1 day cache
+
+🧩 When Sharing APIs Between Frontend & Backend
+
+For public APIs, Access-Control-Allow-Origin: * is okay.
+
+For authenticated APIs, always specify:
+
+Access-Control-Allow-Origin: https://your-frontend.com
+Access-Control-Allow-Credentials: true
+
+
+and include cookies or auth headers with:
+
+fetch(url, { credentials: 'include' })
