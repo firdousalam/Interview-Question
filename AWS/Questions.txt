@@ -55,6 +55,7 @@ Management	User-managed	Fully managed
 Pricing	Per uptime	Per request
 Scaling	Manual/auto	Automatic
 Use case	Persistent app	Event-driven tasks
+
 9. What is Auto Scaling?
 
 Automatically adjusts EC2 instance count based on CPU, memory, or custom metrics.
@@ -97,6 +98,7 @@ Feature	S3	EBS
 Storage type	Object	Block
 Access	API	Attached to EC2
 Use case	Backup, media	Databases, OS
+
 17. What are S3 storage classes?
 
 Standard, Intelligent-Tiering, Standard-IA, One Zone-IA, Glacier, Deep Archive.
@@ -114,6 +116,7 @@ Relational Database Service — managed service for MySQL, PostgreSQL, Oracle, S
 A fully managed NoSQL key-value and document database with auto-scaling and high throughput.
 
 21. Difference between RDS and DynamoDB?
+
 Feature	RDS	DynamoDB
 Type	Relational	NoSQL
 Schema	Fixed	Flexible
@@ -126,11 +129,13 @@ A high-performance, MySQL/PostgreSQL-compatible relational database optimized by
 
 In-memory caching service supporting Redis and Memcached for fast data retrieval.
 
+
 24. How to handle DB connection pooling in Lambda?
 
 Use RDS Proxy or connection pooling libraries to reuse connections efficiently.
 
 🌐 4. Networking & Security
+
 25. What is a VPC?
 
 Virtual Private Cloud — an isolated network where you can launch AWS resources securely.
@@ -146,6 +151,7 @@ Private subnet: Restricted, accessed via NAT Gateway.
 A virtual firewall controlling inbound/outbound traffic for EC2 instances (stateful).
 
 28. Difference between Security Group and NACL?
+
 Feature	SG	NACL
 Level	Instance	Subnet
 Stateful	Yes	No
@@ -168,7 +174,9 @@ AWS WAF (Web Application Firewall)
 ☁️ 5. API & Serverless
 32. What is API Gateway?
 
+
 A fully managed service to create, publish, secure, and monitor REST or WebSocket APIs.
+
 
 33. Difference between REST API and HTTP API in API Gateway?
 
@@ -259,6 +267,7 @@ S3 lifecycle policies
 CloudWatch for unused resources
 
 49. What’s the difference between SQS and SNS?
+
 Service	Type	Use Case
 SNS	Pub/Sub	Broadcast messages
 SQS	Queue	Message queuing, decoupling services
@@ -632,7 +641,8 @@ API Gateways are indispensable in modern microservice architectures, providing a
 
 Architecture for Custom Domain Assignment and Mapping to an AWS Lambda Function
 
-To assign a custom domain to an AWS Lambda function and map it effectively, you can use Amazon API Gateway or AWS Lambda Function URLs combined with services like Amazon CloudFront. Below is a high-level architecture:
+To assign a custom domain to an AWS Lambda function and map it effectively, you can use Amazon API Gateway 
+or AWS Lambda Function URLs combined with services like Amazon CloudFront. Below is a high-level architecture:
 
 1. Using API Gateway with Custom Domain
 This is the most common and flexible approach.
@@ -648,7 +658,8 @@ Create a CNAME or Alias record in Route 53 to point your custom domain to the AP
 Flow:
 User → Custom Domain (e.g., https://api.example.com) → API Gateway → Lambda Function.
 2. Using Lambda Function URLs with CloudFront
-If you prefer not to use API Gateway, you can use Lambda Function URLs (introduced in 2022) and front them with CloudFront for custom domain support.
+If you prefer not to use API Gateway,
+ you can use Lambda Function URLs (introduced in 2022) and front them with CloudFront for custom domain support.
 
 Architecture Overview:
 Lambda Function URL: Enable the Function URL feature for your Lambda function.
@@ -959,7 +970,8 @@ Without you, Monday isn’t worthwhile!”
 
 What Is Agentic AI
 
-Agentic AI refers to AI systems that can act autonomously — meaning they don’t just respond to prompts, but can think, plan, and take actions on their own to achieve a goal.
+Agentic AI refers to AI systems that can act autonomously — meaning they don’t just respond to prompts, 
+but can think, plan, and take actions on their own to achieve a goal.
 
 In simple words:
 🔹 Traditional AI → answers questions

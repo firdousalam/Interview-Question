@@ -185,3 +185,44 @@ console.log(intersection([1,2,3], [2,3,4])); // [2,3]
  eventEmitter.on("greet", (name) => { console.log("Hello", name); });
  eventEmitter.emit("greet", "Firdous");
 
+
+/*
+
+ Hi Team,
+
+My name is Firdous Alam, and I have 12.5 years of experience in software development.
+Throughout my career, I have worked on a diverse range of projects and teams
+— from web and mobile app development to product engineering and microservices-based API development.
+In my current role as a Senior Software Engineer, 
+I extensively work with the MERN stack to manage both frontend and backend services.
+My responsibilities include overseeing all Node.js-based backend services, implementing frontend development and enhancements, 
+and resolving production issues to ensure seamless application performance.
+I had the opportunity to lead a small team and currently serve as a Node.js Module Lead for backend services
+at Tata Consultancy Services (TCS).
+I also hold silver certificate for mentorship from TCS for helping  Developing skill to junior.
+Additional to this i had done certification on AWS cloud CLF-02 and Azure az-900
+
+
+About My Last Project
+
+
+In my last project, I was involved in the development and maintenance of an application for a client in the insurance sector.
+The entire project was divided into multiple modules (Micro Frontend) such as Public Facing, Advisor, Contact Section, Calculators, and several others,
+each handled by different teams.
+My primary role was that of a Senior Full Stack Developer, where I was responsible for end-to-end development using 
+React.js for the frontend and Node.js for the backend. 
+I worked closely with the business and technical teams to translate client requirements into functional user stories.
+We followed an Agile methodology, and in each Program Increment (PI) of three months, 
+we would define and plan stories based on the client’s requirements. 
+
+Each story was then broken down into smaller, manageable tasks to ensure timely delivery within the sprint deadlines.
+My responsibilities also included:
+Designing and implementing scalable UI components and RESTful APIs.
+Collaborating with cross-functional teams to ensure smooth integration between modules.
+Conducting code reviews, ensuring best coding practices, and maintaining code quality.
+Actively participating in sprint planning, retrospectives, and daily standups.
+Providing production support and resolving bugs to maintain system stability and performance.
+
+tell us a recent challenges you faced in your projects
+
+*/
