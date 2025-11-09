@@ -24,3 +24,20 @@ let arr = [12, 11, 13, 5, 6];
 
 console.log(insertionSort(arr));
 
+function insertSortPrac(arr){
+    for(let i=1;i<arr.length;i++){
+        let ins = arr[i];
+        let j=i-1;
+        while(j>=0 && arr[j]>ins){
+            arr[j+1] = arr[j];
+            j--;
+        }
+        console.log(i,j)
+        arr[j+1] = ins;
+        console.log(arr);
+    }
+
+    return arr;
+}
+let arrNew = [12, 11, 13, 5, 6];
+console.log("new insert",insertSortPrac(arrNew));

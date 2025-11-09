@@ -5,14 +5,10 @@ function swap(arr,xp,yp){
 
 // Function to implement selection
 function selectionSort(arr){
-
-    // To get length of array
     let n = arr.length;
     
     // Variable to store index of smallest value
     let min;
-    
-    // variables to iterate the array
     let i , j;
   
     for( i = 0; i < n-1;++i){
@@ -20,13 +16,8 @@ function selectionSort(arr){
         for(j = i+1; j < n; j++){
             if(arr[j]<arr[min]) min = j;
         }
-        
-        // Swap if both index are different
         if(min!=i){
-       // swap(arr,min,i);
-                // temp = arr[min];
-                // arr[min] = arr[i];
-                // arr[i] = temp;
+
                 [arr[i],arr[min]] = [arr[min],arr[i]]
         }
     }
@@ -43,3 +34,17 @@ selectionSort(arr);
 
 // Display output
 console.log("After sorting: " +arr);
+
+function selectionSortPrac(arr){
+    for(let i=0;i<arr.length-1;i++){
+        let min =i;
+        for(let j=i+1;j<arr.length;j++){
+            if(arr[min]>arr[j])  min =j;
+        }
+        if(min != i) [arr[i],arr[min]] = [arr[min],arr[i]]
+    }
+    return arr;
+}
+const arrPrac = [7,64,25,12,22,11];
+
+console.log("sort",selectionSortPrac(arrPrac))
